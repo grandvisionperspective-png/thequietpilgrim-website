@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Engine • Moon & Spoon Kitchen</title>
+  <style>
+    :root {
+      --cream: #F5F1E8;
+      --charcoal: #2C2C2C;
+      --gold: #B8956A;
+      --brown: #8B7355;
+      --sage: #9CAF88;
+      --stone: #C4BBAF;
+      --white: #FFFFFF;
+      --red: #E86452;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    .header {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--stone);
+    }
+
+    .page-title {
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--brown);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--stone);
+      padding: 30px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      color: var(--brown);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--stone);
+      background: var(--white);
+      font-size: 14px;
+      color: var(--charcoal);
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--charcoal);
+      color: var(--white);
+      border: none;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .btn:hover {
+      background: var(--gold);
+    }
+
+    .btn:disabled {
+      background: var(--stone);
+      cursor: not-allowed;
+    }
+
+    .price-hero {
+      background: var(--sage);
+      color: var(--white);
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .price-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .price-value {
+      font-size: 56px;
+      font-weight: 300;
+      letter-spacing: -2px;
+      margin-bottom: 8px;
+    }
+
+    .price-per-person {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .margin-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+
+    .breakdown-section {
+      margin-bottom: 30px;
+    }
+
+    .breakdown-title {
+      font-size: 12px;
+      color: var(--brown);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--stone);
+    }
+
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--stone);
+      font-size: 14px;
+    }
+
+    .breakdown-label {
+      color: var(--brown);
+    }
+
+    .breakdown-value {
+      color: var(--charcoal);
+      font-weight: 500;
+    }
+
+    .breakdown-value.highlight {
+      color: var(--gold);
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .insights-section {
+      background: var(--cream);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .insight-item {
+      padding: 12px 0;
+      font-size: 13px;
+      color: var(--charcoal);
+      border-bottom: 1px dashed var(--stone);
+    }
+
+    .insight-item:last-child {
+      border-bottom: none;
+    }
+
+    .warning-item {
+      color: var(--red);
+    }
+
+    .profitability-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .profitability-excellent {
+      background: var(--sage);
+      color: var(--white);
+    }
+
+    .profitability-good {
+      background: #9CAF88;
+      color: var(--white);
+    }
+
+    .profitability-fair {
+      background: #F0AD4E;
+      color: var(--white);
+    }
+
+    .profitability-poor {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .session-selector {
+      background: var(--cream);
+      padding: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--stone);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--brown);
+    }
+
+    .results-area {
+      display: none;
+    }
+
+    .results-area.active {
+      display: block;
+    }
+
+    @media (max-width: 1024px) {
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="page-title">Pricing Engine</h1>
+      <p class="page-subtitle">Moon & Spoon Kitchen • AI-Powered Event Pricing</p>
+    </div>
+
+    <div class="two-column">
+      <!-- LEFT: Input Form -->
+      <div>
+        <!-- Session Selector -->
+        <div class="session-selector">
+          <label class="form-label">Quick Start: Load from Session (Optional)</label>
+          <select id="session-select" class="form-control" onchange="loadSessionData()">
+            <option value="">Manual Entry</option>
+            <!-- Sessions loaded dynamically -->
+          </select>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Event Configuration</h2>
+
+          <form id="pricing-form">
+            <!-- Service Type -->
+            <div class="form-group">
+              <label class="form-label">Service Type</label>
+              <select class="form-control" name="service_type" required>
+                <option value="">Select...</option>
+                <option value="Full Service">Full Service (Chef + Team)</option>
+                <option value="Drop-off Buffet">Drop-off Buffet</option>
+                <option value="Setup Meal">Setup Meal</option>
+                <option value="Plated Service">Plated Service</option>
+                <option value="Delivery Only">Delivery Only</option>
+              </select>
+            </div>
+
+            <!-- Event Type -->
+            <div class="form-group">
+              <label class="form-label">Event Type</label>
+              <select class="form-control" name="event_type" required>
+                <option value="">Select...</option>
+                <option value="Weekly Menu">Weekly Menu</option>
+                <option value="Family Meal">Family Meal</option>
+                <option value="Villa Dinner">Villa Dinner</option>
+                <option value="Retreat Lunch">Retreat Lunch</option>
+                <option value="Retreat Dinner">Retreat Dinner</option>
+                <option value="Boutique Event">Boutique Event</option>
+                <option value="Corporate Event">Corporate Event</option>
+              </select>
+            </div>
+
+            <!-- Guests & Base COGS -->
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Number of Guests</label>
+                <input type="number" class="form-control" name="guests" min="1" required placeholder="12">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Base COGS (IDR)</label>
+                <input type="number" class="form-control" name="base_cogs" min="0" placeholder="1200000">
+                <div style="font-size: 11px; color: var(--brown); margin-top: 4px;">Ingredient costs from receipts</div>
+              </div>
+            </div>
+
+            <!-- Staffing Model -->
+            <div class="form-group">
+              <label class="form-label">Staffing Model</label>
+              <select class="form-control" name="staff_model" required>
+                <option value="">Select...</option>
+                <option value="Chef Only">Chef Only</option>
+                <option value="Chef + 1 Assistant">Chef + 1 Assistant</option>
+                <option value="Chef + 2 Assistants">Chef + 2 Assistants</option>
+                <option value="Full Service Team">Full Service Team</option>
+              </select>
+            </div>
+
+            <!-- Sourcing & Complexity -->
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Ingredient Sourcing</label>
+                <select class="form-control" name="sourcing" required>
+                  <option value="">Select...</option>
+                  <option value="Wholesale">Wholesale</option>
+                  <option value="Retail">Retail</option>
+                  <option value="Mixed">Mixed</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Complexity Level</label>
+                <select class="form-control" name="complexity" required>
+                  <option value="">Select...</option>
+                  <option value="Simple">Simple</option>
+                  <option value="Standard">Standard</option>
+                  <option value="Complex">Complex</option>
+                  <option value="Luxury">Luxury</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Hours -->
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Prep Hours</label>
+                <input type="number" class="form-control" name="prep_hours" step="0.5" value="3.0" placeholder="3.0">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Service Hours</label>
+                <input type="number" class="form-control" name="service_hours" step="0.5" value="4.0" placeholder="4.0">
+              </div>
+            </div>
+
+            <!-- Target Margin -->
+            <div class="form-group">
+              <label class="form-label">Target Margin %</label>
+              <input type="number" class="form-control" name="target_margin_percent" min="0" max="100" value="55" placeholder="55">
+              <div style="font-size: 11px; color: var(--brown); margin-top: 4px;">Typical: 50-60%</div>
+            </div>
+
+            <button type="submit" class="btn">Calculate Pricing</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- RIGHT: Results -->
+      <div>
+        <div class="empty-state" id="empty-state">
+          <div style="font-size: 48px; margin-bottom: 16px;">💰</div>
+          <div>Fill in event details and click Calculate</div>
+        </div>
+
+        <div class="results-area" id="results-area">
+          <!-- Price Hero -->
+          <div class="price-hero">
+            <div class="price-label">Recommended Event Price</div>
+            <div class="price-value" id="event-price">—</div>
+            <div class="price-per-person" id="per-person-price">— per person</div>
+            <div class="margin-badge">
+              <span id="margin-percent">—</span>% Margin •
+              <span id="profitability-badge"></span>
+            </div>
+          </div>
+
+          <!-- Insights & Warnings -->
+          <div class="insights-section" id="insights-section">
+            <!-- Dynamic insights -->
+          </div>
+
+          <!-- Cost Breakdown -->
+          <div class="card">
+            <div class="breakdown-section">
+              <div class="breakdown-title">Cost Breakdown</div>
+
+              <div class="breakdown-item">
+                <span class="breakdown-label">Base COGS (Ingredients)</span>
+                <span class="breakdown-value" id="bd-cogs">—</span>
+              </div>
+
+              <div class="breakdown-item">
+                <span class="breakdown-label">Transport Fee</span>
+                <span class="breakdown-value" id="bd-transport">—</span>
+              </div>
+
+              <div class="breakdown-item">
+                <span class="breakdown-label">Consumables</span>
+                <span class="breakdown-value" id="bd-consumables">—</span>
+              </div>
+
+              <div class="breakdown-item">
+                <span class="breakdown-label">Labor Cost</span>
+                <span class="breakdown-value" id="bd-labor">—</span>
+              </div>
+
+              <div class="breakdown-item">
+                <span class="breakdown-label">Overhead</span>
+                <span class="breakdown-value" id="bd-overhead">—</span>
+              </div>
+
+              <div class="breakdown-item">
+                <span class="breakdown-label">Contingency Buffer</span>
+                <span class="breakdown-value" id="bd-contingency">—</span>
+              </div>
+
+              <div class="breakdown-item" style="border-top: 2px solid var(--charcoal); margin-top: 8px; padding-top: 16px;">
+                <span class="breakdown-label" style="font-weight: 600;">Total Cost</span>
+                <span class="breakdown-value highlight" id="bd-total-cost">—</span>
+              </div>
+
+              <div class="breakdown-item" style="background: var(--cream); margin: 16px -12px -12px; padding: 16px 12px;">
+                <span class="breakdown-label" style="font-weight: 600;">Target Margin</span>
+                <span class="breakdown-value highlight" id="bd-margin">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '/api';
+
+    // Form submission
+    document.getElementById('pricing-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = {
+        service_type: formData.get('service_type'),
+        event_type: formData.get('event_type'),
+        guests: parseInt(formData.get('guests')),
+        base_cogs: parseFloat(formData.get('base_cogs')) || 0,
+        staff_model: formData.get('staff_model'),
+        sourcing: formData.get('sourcing'),
+        complexity: formData.get('complexity'),
+        prep_hours: parseFloat(formData.get('prep_hours')),
+        service_hours: parseFloat(formData.get('service_hours')),
+        target_margin_percent: parseFloat(formData.get('target_margin_percent'))
+      };
+
+      try {
+        const response = await fetch(`${API_BASE}/pricing/calculate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          displayResults(result);
+        } else {
+          alert('Error: ' + (result.detail || 'Calculation failed'));
+        }
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error calculating pricing: ' + error.message);
+      }
+    });
+
+    // Display results
+    function displayResults(result) {
+      document.getElementById('empty-state').style.display = 'none';
+      document.getElementById('results-area').classList.add('active');
+
+      const bd = result.breakdown;
+
+      // Price Hero
+      document.getElementById('event-price').textContent = formatIDR(bd.recommended_event_price);
+      document.getElementById('per-person-price').textContent = formatIDR(bd.recommended_per_person_price) + ' per person';
+      document.getElementById('margin-percent').textContent = bd.actual_margin_percent.toFixed(1);
+
+      // Profitability badge
+      const badge = document.getElementById('profitability-badge');
+      badge.textContent = bd.profitability_rating;
+      badge.className = 'profitability-badge profitability-' + bd.profitability_rating.toLowerCase();
+
+      // Breakdown
+      document.getElementById('bd-cogs').textContent = formatIDR(bd.base_cogs);
+      document.getElementById('bd-transport').textContent = formatIDR(bd.transport_fee);
+      document.getElementById('bd-consumables').textContent = formatIDR(bd.consumables_cost);
+      document.getElementById('bd-labor').textContent = formatIDR(bd.labor_cost);
+      document.getElementById('bd-overhead').textContent = formatIDR(bd.overhead_cost);
+      document.getElementById('bd-contingency').textContent = formatIDR(bd.contingency_cost);
+      document.getElementById('bd-total-cost').textContent = formatIDR(bd.total_cost);
+      document.getElementById('bd-margin').textContent = formatIDR(bd.target_margin_amount);
+
+      // Insights & Warnings
+      const insightsHtml = [
+        ...result.insights.map(i => `<div class="insight-item">${i}</div>`),
+        ...result.warnings.map(w => `<div class="insight-item warning-item">${w}</div>`)
+      ].join('');
+
+      document.getElementById('insights-section').innerHTML = insightsHtml || '<div class="insight-item">No insights available</div>';
+    }
+
+    // Load sessions
+    async function loadSessions() {
+      try {
+        const response = await fetch(`${API_BASE}/sessions?status=all&limit=20`);
+        const data = await response.json();
+        const sessions = data.sessions || [];
+
+        const select = document.getElementById('session-select');
+        sessions.forEach(s => {
+          const option = document.createElement('option');
+          option.value = s.session_id;
+          option.dataset.cogs = s.total_amount || 0;
+          option.dataset.guests = s.guests || 0;
+          option.textContent = `${s.session_id} - ${s.client || 'No client'} (COGS: ${formatIDR(s.total_amount || 0)})`;
+          select.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error loading sessions:', error);
+      }
+    }
+
+    // Load session data
+    function loadSessionData() {
+      const select = document.getElementById('session-select');
+      const option = select.selectedOptions[0];
+
+      if (option && option.value) {
+        const cogs = parseFloat(option.dataset.cogs) || 0;
+        const guests = parseInt(option.dataset.guests) || 0;
+
+        document.querySelector('[name="base_cogs"]').value = cogs;
+        if (guests > 0) {
+          document.querySelector('[name="guests"]').value = guests;
+        }
+      }
+    }
+
+    // Format IDR
+    function formatIDR(num) {
+      return 'IDR ' + new Intl.NumberFormat('id-ID').format(Math.round(num || 0));
+    }
+
+    // Load sessions on page load
+    loadSessions();
+  </script>
+</body>
+</html>

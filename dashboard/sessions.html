@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sessions Management - Moon & Spoon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            background-color: #F5F1E8;
+            color: #2C2C2C;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #2C2C2C 0%, #3a3a3a 100%);
+            padding: 30px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background-color: #F5F1E8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #B8956A;
+            box-shadow: 0 4px 15px rgba(184, 149, 106, 0.3);
+        }
+
+        h1 {
+            color: #F5F1E8;
+            font-size: 2.2em;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #B8956A 0%, #9d7d54 100%);
+            color: #F5F1E8;
+            box-shadow: 0 4px 15px rgba(184, 149, 106, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #9d7d54 0%, #B8956A 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(184, 149, 106, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #F5F1E8;
+            border: 2px solid #F5F1E8;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F5F1E8;
+            color: #2C2C2C;
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c9302c;
+        }
+
+        .btn-success {
+            background-color: #9CAF88;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #8a9c78;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(184, 149, 106, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #F5F1E8;
+        }
+
+        .card-title {
+            font-size: 1.8em;
+            color: #2C2C2C;
+            font-weight: 400;
+        }
+
+        /* Sessions List */
+        .sessions-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .session-item {
+            background: #F5F1E8;
+            padding: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: grid;
+            grid-template-columns: auto 1fr auto auto auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .session-item:hover {
+            border-color: #B8956A;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .session-id {
+            font-weight: bold;
+            color: #B8956A;
+            font-size: 0.9em;
+        }
+
+        .session-client {
+            font-size: 1.1em;
+            color: #2C2C2C;
+            font-weight: 500;
+        }
+
+        .session-date {
+            color: #8B7355;
+            font-size: 0.95em;
+        }
+
+        .session-total {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2C2C2C;
+        }
+
+        .session-status {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background-color: #9CAF88;
+            color: white;
+        }
+
+        .status-closed {
+            background-color: #8B7355;
+            color: white;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8B7355;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state-text {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            border: 4px solid #F5F1E8;
+            border-top: 4px solid #B8956A;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(44, 44, 44, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #F5F1E8;
+        }
+
+        .modal-title {
+            font-size: 1.8em;
+            color: #2C2C2C;
+        }
+
+        .close {
+            font-size: 2em;
+            font-weight: bold;
+            color: #8B7355;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #2C2C2C;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2C2C2C;
+            font-weight: 500;
+            font-size: 1.05em;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #F5F1E8;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+            transition: border-color 0.3s;
+            background-color: #F5F1E8;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #B8956A;
+            background-color: white;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        /* Session Details */
+        .detail-section {
+            margin-bottom: 30px;
+        }
+
+        .detail-header {
+            font-size: 1.3em;
+            color: #2C2C2C;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #F5F1E8;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            background: #F5F1E8;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            color: #8B7355;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1em;
+            color: #2C2C2C;
+            font-weight: 500;
+        }
+
+        .receipts-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .receipt-item {
+            background: #F5F1E8;
+            padding: 15px;
+            border-radius: 6px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .receipt-date {
+            color: #8B7355;
+            font-size: 0.9em;
+        }
+
+        .receipt-description {
+            color: #2C2C2C;
+        }
+
+        .receipt-amount {
+            font-weight: bold;
+            color: #B8956A;
+            font-size: 1.1em;
+        }
+
+        .total-summary {
+            background: linear-gradient(135deg, #B8956A 0%, #9d7d54 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .total-label {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .total-amount {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        /* Error Message */
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            .session-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 25px;
+                width: 95%;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">M&S</div>
+                <h1>Sessions Management</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="openNewSessionModal()">
+                    + New Session
+                </button>
+                <a href="/dashboard" class="btn btn-secondary">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Active Sessions</h2>
+                    <button class="btn btn-success" onclick="loadSessions()">
+                        ↻ Refresh
+                    </button>
+                </div>
+                <div id="sessionsContainer">
+                    <!-- Sessions will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Session Modal -->
+    <div id="newSessionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Session</h2>
+                <span class="close" onclick="closeNewSessionModal()">&times;</span>
+            </div>
+            <div id="newSessionError"></div>
+            <form id="newSessionForm" onsubmit="createNewSession(event)">
+                <div class="form-group">
+                    <label for="clientName">Client Name *</label>
+                    <input type="text" id="clientName" required placeholder="Enter client name">
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Event Date *</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="serviceType">Service Type *</label>
+                    <select id="serviceType" required>
+                        <option value="">Select service type</option>
+                        <option value="Private Chef">Private Chef</option>
+                        <option value="Food Delivery">Food Delivery</option>
+                        <option value="Events">Events</option>
+                        <option value="Catering">Catering</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeNewSessionModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Create Session
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Session Details Modal -->
+    <div id="sessionDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Session Details</h2>
+                <span class="close" onclick="closeSessionDetailsModal()">&times;</span>
+            </div>
+            <div id="sessionDetailsContent">
+                <!-- Session details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://77.42.37.42:3000/api';
+
+        // Load sessions on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSessions();
+        });
+
+        // Load all sessions
+        async function loadSessions() {
+            const container = document.getElementById('sessionsContainer');
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading sessions...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/sessions`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const sessions = await response.json();
+
+                if (!sessions || sessions.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <div class="empty-state-text">No sessions found</div>
+                            <p>Create your first session to get started</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="sessions-list">
+                        ${sessions.map(session => `
+                            <div class="session-item" onclick="viewSessionDetails('${session.id}')">
+                                <div class="session-id">#${session.id}</div>
+                                <div class="session-client">${escapeHtml(session.client_name || 'Unknown Client')}</div>
+                                <div class="session-date">${formatDate(session.event_date)}</div>
+                                <div class="session-total">${formatCurrency(session.total_cost || 0)}</div>
+                                <div class="session-status status-${session.status || 'active'}">
+                                    ${session.status || 'Active'}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading sessions:', error);
+                container.innerHTML = `
+                    <div class="error-message">
+                        Failed to load sessions. Please check your connection and try again.
+                        <br><small>Error: ${error.message}</small>
+                    </div>
+                `;
+            }
+        }
+
+        // Open new session modal
+        function openNewSessionModal() {
+            document.getElementById('newSessionModal').classList.add('active');
+            document.getElementById('newSessionForm').reset();
+            document.getElementById('newSessionError').innerHTML = '';
+
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('eventDate').value = today;
+        }
+
+        // Close new session modal
+        function closeNewSessionModal() {
+            document.getElementById('newSessionModal').classList.remove('active');
+        }
+
+        // Create new session
+        async function createNewSession(event) {
+            event.preventDefault();
+
+            const errorDiv = document.getElementById('newSessionError');
+            errorDiv.innerHTML = '';
+
+            const sessionData = {
+                client_name: document.getElementById('clientName').value.trim(),
+                event_date: document.getElementById('eventDate').value,
+                service_type: document.getElementById('serviceType').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/sessions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sessionData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                // Show success message
+                errorDiv.innerHTML = `
+                    <div class="success-message">
+                        Session created successfully! ID: ${result.session_id || result.id}
+                    </div>
+                `;
+
+                // Reload sessions after a short delay
+                setTimeout(() => {
+                    closeNewSessionModal();
+                    loadSessions();
+                }, 1500);
+
+            } catch (error) {
+                console.error('Error creating session:', error);
+                errorDiv.innerHTML = `
+                    <div class="error-message">
+                        Failed to create session. ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // View session details
+        async function viewSessionDetails(sessionId) {
+            const modal = document.getElementById('sessionDetailsModal');
+            const content = document.getElementById('sessionDetailsContent');
+
+            modal.classList.add('active');
+            content.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading session details...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/sessions/${sessionId}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const session = await response.json();
+
+                content.innerHTML = `
+                    <div class="detail-section">
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Session ID</div>
+                                <div class="detail-value">#${session.id}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value">
+                                    <span class="session-status status-${session.status || 'active'}">
+                                        ${session.status || 'Active'}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Client Name</div>
+                                <div class="detail-value">${escapeHtml(session.client_name || 'N/A')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Event Date</div>
+                                <div class="detail-value">${formatDate(session.event_date)}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Service Type</div>
+                                <div class="detail-value">${escapeHtml(session.service_type || 'N/A')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Created</div>
+                                <div class="detail-value">${formatDateTime(session.created_at)}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-header">Receipts & Expenses</div>
+                        <div class="receipts-list">
+                            ${session.receipts && session.receipts.length > 0
+                                ? session.receipts.map(receipt => `
+                                    <div class="receipt-item">
+                                        <div class="receipt-date">${formatDate(receipt.date)}</div>
+                                        <div class="receipt-description">${escapeHtml(receipt.description || 'No description')}</div>
+                                        <div class="receipt-amount">${formatCurrency(receipt.amount)}</div>
+                                    </div>
+                                `).join('')
+                                : '<div class="empty-state"><p>No receipts added yet</p></div>'
+                            }
+                        </div>
+                    </div>
+
+                    <div class="total-summary">
+                        <div class="total-label">Total Session Cost</div>
+                        <div class="total-amount">${formatCurrency(session.total_cost || 0)}</div>
+                    </div>
+
+                    <div class="form-actions" style="margin-top: 30px;">
+                        ${session.status !== 'closed' ? `
+                            <button class="btn btn-danger" onclick="closeSession('${session.id}')">
+                                Close Session
+                            </button>
+                        ` : ''}
+                        <button class="btn btn-secondary" onclick="closeSessionDetailsModal()">
+                            Close
+                        </button>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading session details:', error);
+                content.innerHTML = `
+                    <div class="error-message">
+                        Failed to load session details. ${error.message}
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-secondary" onclick="closeSessionDetailsModal()">
+                            Close
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Close session details modal
+        function closeSessionDetailsModal() {
+            document.getElementById('sessionDetailsModal').classList.remove('active');
+        }
+
+        // Close a session
+        async function closeSession(sessionId) {
+            if (!confirm('Are you sure you want to close this session? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/sessions/${sessionId}/close`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                alert('Session closed successfully!');
+                closeSessionDetailsModal();
+                loadSessions();
+            } catch (error) {
+                console.error('Error closing session:', error);
+                alert(`Failed to close session: ${error.message}`);
+            }
+        }
+
+        // Utility functions
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function formatDateTime(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

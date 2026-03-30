@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Coupler_io__list-dataflows",
+      "Bash(xargs wc:*)",
+      "Bash(grep:*)",
+      "Bash(xargs ls:*)",
+      "Bash(ls:*)",
+      "Bash(mv:*)"
+    ]
+  }
+}

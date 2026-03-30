@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Quiet Pilgrim — Bespoke villa services and curated journeys in Ubud, Bali. Private dining, wellness, cultural experiences.">
+<meta name="keywords" content="Ubud villa services, Bali private chef, villa wellness, cultural experiences Bali, The Quiet Pilgrim">
+<meta property="og:title" content="The Quiet Pilgrim — Bespoke Villa Services | Ubud, Bali">
+<meta property="og:description" content="Curated villa services. Private dining, wellness, cultural journeys. Hand-picked people. Hand-picked experiences.">
+<meta property="og:type" content="website">
+<title>The Quiet Pilgrim — Bespoke Villa Services | Ubud, Bali</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,700&display=swap');
+
+  :root {
+    --cream: #faf8f5;
+    --gold-light: #f0ebe0;
+    --gold: #d4c5a9;
+    --gold-dark: #a09070;
+    --brown: #6b5d3e;
+    --brown-dark: #4a3f2a;
+    --text: #5a5a5a;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 300;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.6;
+  }
+
+  /* HERO — Full viewport */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    background: linear-gradient(rgba(74,63,42,0.35), rgba(74,63,42,0.55)),
+                url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=80') center/cover no-repeat;
+  }
+
+  .hero-content {
+    max-width: 700px;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 8vw, 72px);
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+
+  .hero .pilgrim {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 3vw, 24px);
+    color: var(--gold);
+    letter-spacing: 4px;
+    margin-top: 8px;
+  }
+
+  .hero .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(15px, 2vw, 18px);
+    color: rgba(250,248,245,0.9);
+    margin-top: 28px;
+    line-height: 1.7;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero .scroll-hint {
+    margin-top: 50px;
+    font-size: 11px;
+    color: rgba(250,248,245,0.6);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    text-align: center;
+  }
+
+  .philosophy h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--brown);
+    margin-bottom: 20px;
+  }
+
+  .philosophy p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  /* SERVICES */
+  .services {
+    background: var(--gold-light);
+    padding: 80px 24px;
+  }
+
+  .services-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .services h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--brown);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .services .sub {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--gold-dark);
+    margin-bottom: 40px;
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .service-card {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: block;
+    border: 1px solid var(--gold);
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(107,93,62,0.12);
+  }
+
+  .service-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .service-card .card-body {
+    padding: 24px;
+  }
+
+  .service-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--brown);
+    margin-bottom: 8px;
+  }
+
+  .service-card p {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .service-card .status {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .status-live {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .status-soon {
+    background: var(--gold-light);
+    color: var(--gold-dark);
+    border: 1px solid var(--gold);
+  }
+
+  /* VILLA PARTNERS */
+  .partners {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    text-align: center;
+  }
+
+  .partners h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--brown);
+    margin-bottom: 12px;
+  }
+
+  .partners p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto 24px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #c9a84c 0%, #f0d77b 25%, #c9a84c 50%, #a07c2a 75%, #c9a84c 100%);
+    background-size: 200% 200%;
+    color: #3a2a0a;
+    font-weight: 700;
+    border: 1px solid #c9a84c;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+    box-shadow: 0 2px 8px rgba(169,136,58,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+
+  .btn-gold:hover {
+    background-position: 100% 100%;
+    box-shadow: 0 4px 16px rgba(169,136,58,0.45), inset 0 1px 0 rgba(255,255,255,0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background: var(--brown);
+    color: var(--cream);
+  }
+
+  .btn-primary:hover {
+    background: var(--brown-dark);
+  }
+
+  /* CONTACT */
+  .contact {
+    background: var(--brown-dark);
+    color: var(--cream);
+    padding: 60px 24px;
+    text-align: center;
+  }
+
+  .contact h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .contact p {
+    font-size: 14px;
+    color: var(--gold);
+    line-height: 1.7;
+  }
+
+  .contact a {
+    color: var(--cream);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+  }
+
+  .contact .social {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .contact .social a {
+    font-size: 11px;
+    color: var(--gold);
+    padding: 8px 20px;
+    border: 1px solid rgba(212,197,169,0.3);
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+
+  .contact .social a:hover {
+    background: rgba(212,197,169,0.1);
+    border-color: var(--gold);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 20px 24px;
+    font-size: 11px;
+    color: var(--gold-dark);
+    background: var(--cream);
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .service-grid { grid-template-columns: 1fr; }
+    .hero { min-height: 85vh; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>The Quiet Pilgrim</h1>
+    <div class="pilgrim">Bespoke Villa Services & Curated Journeys</div>
+    <p class="tagline">Hand-picked people. Hand-picked experiences. Everything your guests need, delivered with quiet excellence to villas across Ubud and Bali.</p>
+    <div class="scroll-hint">Discover our services &darr;</div>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<div class="philosophy">
+  <h2>The Quiet Path</h2>
+  <p>We believe the best travel experiences are the ones you don't have to think about. The Quiet Pilgrim brings together a curated family of services — each one designed to remove friction, elevate comfort, and let your guests settle into the rhythm of Bali without effort or compromise.</p>
+  <p style="margin-top:16px;">Every person we work with is hand-picked. Every experience is intentional. Nothing is loud. Everything is felt.</p>
+</div>
+
+<!-- SERVICES -->
+<div class="services">
+  <div class="services-inner">
+    <h2>Our Services</h2>
+    <div class="sub">A growing family of curated villa experiences</div>
+
+    <div class="service-grid">
+
+      <a class="service-card" href="kitchen/">
+        <img src="images/balinese-spread.jpg" alt="Moon & Spoon Kitchen">
+        <div class="card-body">
+          <h3>Moon & Spoon Kitchen</h3>
+          <p>Private in-villa dining experiences. From floating breakfasts to five-day culinary journeys. Chef-prepared, seasonally sourced, effortlessly served.</p>
+          <span class="status status-live">Live Now</span>
+        </div>
+      </a>
+
+      <a class="service-card" href="wellness/">
+        <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=600&q=80" alt="Wellness & Spa">
+        <div class="card-body">
+          <h3>Wellness & Healing</h3>
+          <p>In-villa massage therapy, beauty treatments, home spa experiences, and holistic wellness. Restore body and mind without leaving your sanctuary.</p>
+          <span class="status status-live">Live Now</span>
+        </div>
+      </a>
+
+      <a class="service-card" href="journeys/">
+        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80" alt="Cultural Journeys">
+        <div class="card-body">
+          <h3>Cultural Journeys</h3>
+          <p>Curated tours, adventures, and authentic experiences led by local guides. Temples, waterfalls, sunrise treks, rice terraces, and hidden Bali.</p>
+          <span class="status status-live">Live Now</span>
+        </div>
+      </a>
+
+      <a class="service-card" href="transport/">
+        <img src="images/private-transport.png" alt="Private Transport">
+        <div class="card-body">
+          <h3>Private Transport</h3>
+          <p>Professional private drivers for airport transfers, day trips, and on-call villa transport. Premium comfort, local knowledge, always on time.</p>
+          <span class="status status-live">Live Now</span>
+        </div>
+      </a>
+
+      <div class="service-card" style="cursor:default;">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" alt="Villa Care">
+        <div class="card-body">
+          <h3>Villa Care</h3>
+          <p>Professional cleaning, laundry, and villa maintenance services. Consistent, discreet, thorough — so your property always feels its best.</p>
+          <span class="status status-soon">Coming Soon</span>
+        </div>
+      </div>
+
+      <div class="service-card" style="cursor:default;">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80" alt="Healthy Delivery">
+        <div class="card-body">
+          <h3>Healthy Meal Delivery</h3>
+          <p>Fresh organic meals prepared and delivered to your villa daily. Balanced, nourishing, and designed for guests who want to eat well simply.</p>
+          <span class="status status-live">Live Now</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- VILLA PARTNERS -->
+<div class="partners">
+  <h2>Villa Partners</h2>
+  <p>We work with independent villas and management companies across Ubud and Bali. Earn 10% commission per service with zero effort from your team.</p>
+  <a href="https://wa.me/6285337954136?text=Hi%2C%20I%27m%20a%20villa%20manager%20and%20I%27d%20like%20to%20discuss%20a%20partnership%20with%20The%20Quiet%20Pilgrim" class="btn btn-gold" target="_blank">Partner With Us</a>
+</div>
+
+<!-- CONTACT -->
+<div class="contact">
+  <h2>Get In Touch</h2>
+  <p><strong>WhatsApp:</strong> <a href="https://wa.me/6285337954136">+62 853 3795 4136</a></p>
+  <p><strong>Location:</strong> Ubud, Bali, Indonesia</p>
+  <div class="social">
+    <a href="https://www.instagram.com/moon_spoonkitchen" target="_blank">Instagram</a>
+    <a href="https://wa.me/6285337954136" target="_blank">WhatsApp</a>
+  </div>
+</div>
+
+<footer>
+  <p>The Quiet Pilgrim &mdash; Bespoke Villa Services & Curated Journeys &mdash; Ubud, Bali</p>
+</footer>
+
+</body>
+</html>

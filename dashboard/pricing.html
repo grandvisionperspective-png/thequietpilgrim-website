@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Calculator - Moon & Spoon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            background-color: #F5F1E8;
+            color: #2C2C2C;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #2C2C2C 0%, #3a3a3a 100%);
+            padding: 30px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background-color: #F5F1E8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #B8956A;
+            box-shadow: 0 4px 15px rgba(184, 149, 106, 0.3);
+        }
+
+        h1 {
+            color: #F5F1E8;
+            font-size: 2.2em;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #B8956A 0%, #9d7d54 100%);
+            color: #F5F1E8;
+            box-shadow: 0 4px 15px rgba(184, 149, 106, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #9d7d54 0%, #B8956A 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(184, 149, 106, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #F5F1E8;
+            border: 2px solid #F5F1E8;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F5F1E8;
+            color: #2C2C2C;
+        }
+
+        .btn-success {
+            background-color: #9CAF88;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #8a9c78;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(184, 149, 106, 0.1);
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #F5F1E8;
+        }
+
+        .card-title {
+            font-size: 1.8em;
+            color: #2C2C2C;
+            font-weight: 400;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2C2C2C;
+            font-weight: 500;
+            font-size: 1.05em;
+        }
+
+        input[type="number"],
+        input[type="range"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #F5F1E8;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+            transition: border-color 0.3s;
+            background-color: #F5F1E8;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #B8956A;
+            background-color: white;
+        }
+
+        /* Range Slider */
+        .range-container {
+            margin-top: 10px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: #F5F1E8;
+            border-radius: 5px;
+            outline: none;
+            padding: 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #B8956A;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(184, 149, 106, 0.4);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #B8956A;
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 2px 8px rgba(184, 149, 106, 0.4);
+        }
+
+        .range-value {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #B8956A;
+            font-weight: bold;
+        }
+
+        /* Checkboxes */
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #F5F1E8;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkbox-item:hover {
+            background: #e8e4d8;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #B8956A;
+        }
+
+        .checkbox-label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .price-display {
+            background: linear-gradient(135deg, #B8956A 0%, #9d7d54 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(184, 149, 106, 0.3);
+        }
+
+        .price-label {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            opacity: 0.95;
+            letter-spacing: 1px;
+        }
+
+        .price-amount {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .price-per-person {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Breakdown Table */
+        .breakdown-table {
+            margin-bottom: 30px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: #F5F1E8;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            align-items: center;
+        }
+
+        .breakdown-row.total {
+            background: #2C2C2C;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .breakdown-label {
+            font-weight: 500;
+        }
+
+        .breakdown-value {
+            font-weight: bold;
+            color: #B8956A;
+        }
+
+        .breakdown-row.total .breakdown-value {
+            color: #B8956A;
+        }
+
+        /* Pricing Tiers */
+        .pricing-tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .tier-card {
+            background: #F5F1E8;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tier-card:hover {
+            border-color: #B8956A;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .tier-card.recommended {
+            background: linear-gradient(135deg, #9CAF88 0%, #8a9c78 100%);
+            color: white;
+            border-color: #9CAF88;
+        }
+
+        .tier-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tier-price {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #B8956A;
+        }
+
+        .tier-card.recommended .tier-price {
+            color: white;
+        }
+
+        .tier-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .tier-badge {
+            display: inline-block;
+            background: #B8956A;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8B7355;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state-text {
+            font-size: 1.2em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-tiers {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .price-amount {
+                font-size: 2em;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">M&S</div>
+                <h1>Pricing Calculator</h1>
+            </div>
+            <div class="header-actions">
+                <a href="/dashboard" class="btn btn-secondary">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Input Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Service Details</h2>
+                </div>
+                <form id="pricingForm">
+                    <div class="form-group">
+                        <label for="serviceType">Service Type *</label>
+                        <select id="serviceType" required onchange="updateCalculation()">
+                            <option value="">Select service type</option>
+                            <option value="Private Chef">Private Chef</option>
+                            <option value="Food Delivery">Food Delivery</option>
+                            <option value="Events">Events</option>
+                            <option value="Catering">Catering</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numGuests">Number of Guests *</label>
+                        <input type="number" id="numGuests" min="1" max="500" value="10" required onchange="updateCalculation()">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complexity">Service Complexity</label>
+                        <div class="range-container">
+                            <input type="range" id="complexity" min="0" max="3" value="1" step="1" oninput="updateComplexityLabel(); updateCalculation();">
+                            <div class="range-value" id="complexityLabel">Standard</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Staffing Required</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="staffChef" value="Chef" onchange="updateCalculation()">
+                                <label for="staffChef" class="checkbox-label">Chef</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="staffSousChef" value="Sous Chef" onchange="updateCalculation()">
+                                <label for="staffSousChef" class="checkbox-label">Sous Chef</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="staffServer" value="Server" onchange="updateCalculation()">
+                                <label for="staffServer" class="checkbox-label">Server</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="staffHelper" value="Helper" onchange="updateCalculation()">
+                                <label for="staffHelper" class="checkbox-label">Kitchen Helper</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration">Event Duration (hours) *</label>
+                        <input type="number" id="duration" min="1" max="24" value="4" step="0.5" required onchange="updateCalculation()">
+                    </div>
+
+                    <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1.1em;" onclick="calculatePricing()">
+                        Calculate Pricing
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="card results-section" id="resultsSection">
+                <div class="card-header">
+                    <h2 class="card-title">Pricing Results</h2>
+                </div>
+
+                <div class="price-display">
+                    <div class="price-label">RECOMMENDED PRICE</div>
+                    <div class="price-amount" id="totalPrice">Rp 0</div>
+                    <div class="price-per-person" id="pricePerPerson">Rp 0 per person</div>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: #2C2C2C;">Cost Breakdown</h3>
+                <div class="breakdown-table" id="breakdownTable">
+                    <!-- Breakdown will be inserted here -->
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: #2C2C2C;">Pricing Tiers</h3>
+                <div class="pricing-tiers" id="pricingTiers">
+                    <!-- Tiers will be inserted here -->
+                </div>
+
+                <div style="margin-top: 30px; display: flex; gap: 15px;">
+                    <button class="btn btn-success" onclick="saveQuote()" style="flex: 1; justify-content: center;">
+                        💾 Save Quote
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetForm()" style="flex: 1; justify-content: center;">
+                        ↻ Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty State (shown initially) -->
+            <div class="card results-section active" id="emptyState">
+                <div class="empty-state">
+                    <div class="empty-state-icon">💰</div>
+                    <div class="empty-state-text">Fill out the form to calculate pricing</div>
+                    <p>Enter service details and click "Calculate Pricing" to see results</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pricing Configuration
+        const BASE_RATES = {
+            'Private Chef': 150000,
+            'Food Delivery': 100000,
+            'Events': 200000,
+            'Catering': 180000
+        };
+
+        const COMPLEXITY_MULTIPLIERS = {
+            0: { name: 'Simple', multiplier: 1.0 },
+            1: { name: 'Standard', multiplier: 1.3 },
+            2: { name: 'Complex', multiplier: 1.6 },
+            3: { name: 'Premium', multiplier: 2.0 }
+        };
+
+        const STAFFING_COSTS = {
+            'Chef': 150000,
+            'Sous Chef': 100000,
+            'Server': 75000,
+            'Helper': 50000
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateComplexityLabel();
+        });
+
+        // Update complexity label
+        function updateComplexityLabel() {
+            const complexity = document.getElementById('complexity').value;
+            const label = COMPLEXITY_MULTIPLIERS[complexity].name;
+            document.getElementById('complexityLabel').textContent = label;
+        }
+
+        // Auto-calculate on change
+        function updateCalculation() {
+            const serviceType = document.getElementById('serviceType').value;
+            if (serviceType && document.getElementById('resultsSection').classList.contains('active')) {
+                calculatePricing();
+            }
+        }
+
+        // Main calculation function
+        function calculatePricing() {
+            const serviceType = document.getElementById('serviceType').value;
+            const numGuests = parseInt(document.getElementById('numGuests').value);
+            const complexityLevel = parseInt(document.getElementById('complexity').value);
+            const duration = parseFloat(document.getElementById('duration').value);
+
+            if (!serviceType || !numGuests || !duration) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Get selected staffing
+            const staffing = [];
+            if (document.getElementById('staffChef').checked) staffing.push('Chef');
+            if (document.getElementById('staffSousChef').checked) staffing.push('Sous Chef');
+            if (document.getElementById('staffServer').checked) staffing.push('Server');
+            if (document.getElementById('staffHelper').checked) staffing.push('Helper');
+
+            // Calculate base food cost
+            const baseRate = BASE_RATES[serviceType];
+            const complexityMultiplier = COMPLEXITY_MULTIPLIERS[complexityLevel].multiplier;
+            const foodCost = baseRate * numGuests * complexityMultiplier;
+
+            // Calculate labor cost
+            let laborCost = 0;
+            staffing.forEach(staff => {
+                laborCost += STAFFING_COSTS[staff] * duration;
+            });
+
+            // Calculate overhead (20% of food + labor)
+            const overhead = (foodCost + laborCost) * 0.20;
+
+            // Calculate profit margin (25% of total cost)
+            const totalCost = foodCost + laborCost + overhead;
+            const profitMargin = totalCost * 0.25;
+
+            // Calculate final price
+            const recommendedPrice = totalCost + profitMargin;
+            const pricePerPerson = recommendedPrice / numGuests;
+
+            // Display results
+            displayResults({
+                total: recommendedPrice,
+                perPerson: pricePerPerson,
+                foodCost: foodCost,
+                laborCost: laborCost,
+                overhead: overhead,
+                profitMargin: profitMargin,
+                numGuests: numGuests
+            });
+
+            // Show results section
+            document.getElementById('emptyState').classList.remove('active');
+            document.getElementById('resultsSection').classList.add('active');
+        }
+
+        // Display results
+        function displayResults(results) {
+            // Update main price display
+            document.getElementById('totalPrice').textContent = formatCurrency(results.total);
+            document.getElementById('pricePerPerson').textContent = formatCurrency(results.perPerson) + ' per person';
+
+            // Update breakdown
+            const breakdownTable = document.getElementById('breakdownTable');
+            breakdownTable.innerHTML = `
+                <div class="breakdown-row">
+                    <div class="breakdown-label">Food Cost (${results.numGuests} guests)</div>
+                    <div class="breakdown-value">${formatCurrency(results.foodCost)}</div>
+                </div>
+                <div class="breakdown-row">
+                    <div class="breakdown-label">Labor Cost</div>
+                    <div class="breakdown-value">${formatCurrency(results.laborCost)}</div>
+                </div>
+                <div class="breakdown-row">
+                    <div class="breakdown-label">Overhead (20%)</div>
+                    <div class="breakdown-value">${formatCurrency(results.overhead)}</div>
+                </div>
+                <div class="breakdown-row">
+                    <div class="breakdown-label">Profit Margin (25%)</div>
+                    <div class="breakdown-value">${formatCurrency(results.profitMargin)}</div>
+                </div>
+                <div class="breakdown-row total">
+                    <div class="breakdown-label">TOTAL PRICE</div>
+                    <div class="breakdown-value">${formatCurrency(results.total)}</div>
+                </div>
+            `;
+
+            // Update pricing tiers
+            const standardPrice = results.total;
+            const premiumPrice = results.total * 1.3;
+            const luxuryPrice = results.total * 1.6;
+
+            const pricingTiers = document.getElementById('pricingTiers');
+            pricingTiers.innerHTML = `
+                <div class="tier-card">
+                    <div class="tier-name">Standard</div>
+                    <div class="tier-price">${formatCurrency(standardPrice)}</div>
+                    <div class="tier-description">Basic service package</div>
+                </div>
+                <div class="tier-card recommended">
+                    <div class="tier-badge">RECOMMENDED</div>
+                    <div class="tier-name">Premium</div>
+                    <div class="tier-price">${formatCurrency(premiumPrice)}</div>
+                    <div class="tier-description">Enhanced service with extras</div>
+                </div>
+                <div class="tier-card">
+                    <div class="tier-name">Luxury</div>
+                    <div class="tier-price">${formatCurrency(luxuryPrice)}</div>
+                    <div class="tier-description">Full premium experience</div>
+                </div>
+            `;
+        }
+
+        // Save quote
+        function saveQuote() {
+            const serviceType = document.getElementById('serviceType').value;
+            const numGuests = document.getElementById('numGuests').value;
+            const complexity = COMPLEXITY_MULTIPLIERS[document.getElementById('complexity').value].name;
+            const duration = document.getElementById('duration').value;
+            const totalPrice = document.getElementById('totalPrice').textContent;
+
+            const quoteData = {
+                serviceType,
+                numGuests,
+                complexity,
+                duration,
+                totalPrice,
+                date: new Date().toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            };
+
+            // Create downloadable quote
+            const quoteText = `
+MOON & SPOON - PRICING QUOTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Date: ${quoteData.date}
+
+SERVICE DETAILS:
+• Service Type: ${quoteData.serviceType}
+• Number of Guests: ${quoteData.numGuests}
+• Complexity: ${quoteData.complexity}
+• Duration: ${quoteData.duration} hours
+
+RECOMMENDED PRICE: ${quoteData.totalPrice}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This quote is valid for 30 days.
+Contact us to confirm your booking.
+
+Moon & Spoon - Bali's Premier Private Chef Service
+            `.trim();
+
+            // Download as text file
+            const blob = new Blob([quoteText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Moon_Spoon_Quote_${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            alert('Quote saved successfully!');
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('pricingForm').reset();
+            document.getElementById('serviceType').value = '';
+            document.getElementById('numGuests').value = '10';
+            document.getElementById('complexity').value = '1';
+            document.getElementById('duration').value = '4';
+            updateComplexityLabel();
+
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('emptyState').classList.add('active');
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+    </script>
+</body>
+</html>

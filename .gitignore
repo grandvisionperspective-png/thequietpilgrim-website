@@ -1,0 +1,160 @@
+# TQP & Moon & Spoon - Git Ignore File
+
+# ========================================
+# SECRETS & CREDENTIALS (CRITICAL!)
+# ========================================
+*.env
+.env.*
+credentials/
+*credentials*.json
+google-credentials.json
+service-account*.json
+*_credentials.json
+*.key
+*.pem
+**/secrets/
+**/.secrets/
+
+# API Keys & Tokens
+**/api_keys.txt
+**/tokens.txt
+telegram_token.txt
+openai_key.txt
+
+# SSH Keys
+*.ppk
+id_rsa*
+known_hosts
+
+# ========================================
+# PYTHON
+# ========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+env/
+ENV/
+.venv
+
+# ========================================
+# DATA & LOGS (Too large/sensitive)
+# ========================================
+*.log
+*.jsonl
+logs/
+temp/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~
+
+# Large PDFs (keep in docs but don't commit)
+data/*.pdf
+docs/*.pdf
+
+# CSV/JSON exports (regenerated)
+data/*.csv
+data/*.json
+exports/
+backups/*.csv
+backups/*.json
+
+# ========================================
+# ARCHIVES & OLD VERSIONS
+# ========================================
+archive/
+old/
+deprecated/
+*.old
+*.backup
+*_backup_*
+*_old_*
+
+# ========================================
+# OS-SPECIFIC
+# ========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# ========================================
+# IDE & EDITOR
+# ========================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.vs/
+
+# ========================================
+# NODE (if using n8n locally)
+# ========================================
+node_modules/
+package-lock.json
+yarn.lock
+
+# ========================================
+# RECEIPTS & UPLOADS
+# ========================================
+uploads/
+receipts/
+*.jpg
+*.jpeg
+*.png
+# Exception: Keep logos
+!data/*logo*.png
+!**/tqp_logo.png
+
+# ========================================
+# SPECIFIC TO THIS PROJECT
+# ========================================
+# VPS-specific files (don't commit local paths)
+**/vps_config_local.json
+
+# Testing outputs
+test_output/
+*.test.json
+
+# Session data (in Google Sheets, not needed in git)
+sessions_data/
+session_exports/
+
+# ========================================
+# KEEP THESE DOCS
+# ========================================
+# Explicitly include documentation
+!docs/*.md
+!README.md
+!CLAUDE.md
+!*.md

@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Quiet Pilgrim • Executive Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --cream: #F5F1E8;
+      --charcoal: #2C2C2C;
+      --gold: #B8956A;
+      --brown: #8B7355;
+      --sage: #9CAF88;
+      --stone: #C4BBAF;
+      --white: #FFFFFF;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header {
+      background: var(--white);
+      padding: 30px 0;
+      border-bottom: 1px solid var(--stone);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      height: 50px;
+      width: auto;
+      transition: opacity 0.3s ease;
+    }
+
+    .logo.fade {
+      opacity: 0;
+    }
+
+    .tagline {
+      font-size: 12px;
+      color: var(--brown);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    .refresh-indicator {
+      font-size: 12px;
+      color: var(--brown);
+    }
+
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      background: var(--white);
+      border-bottom: 1px solid var(--stone);
+      padding: 0 40px;
+    }
+
+    .nav-tab {
+      padding: 20px 40px;
+      background: transparent;
+      border: none;
+      color: var(--brown);
+      font-size: 13px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+
+    .nav-tab::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .nav-tab:hover {
+      color: var(--gold);
+    }
+
+    .nav-tab.active {
+      color: var(--charcoal);
+      font-weight: 500;
+    }
+
+    .nav-tab.active::after {
+      transform: scaleX(1);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .content-wrapper {
+      min-height: calc(100vh - 200px);
+    }
+
+    .main-content {
+      padding: 60px 0;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .page-title {
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--brown);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin: 50px 0 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--stone);
+      margin: 30px 0;
+    }
+
+    /* Executive Stats Grid */
+    .exec-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .exec-stat-card {
+      background: var(--white);
+      padding: 30px;
+      border: 1px solid var(--stone);
+      transition: all 0.3s ease;
+    }
+
+    .exec-stat-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .exec-stat-label {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--brown);
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+
+    .exec-stat-value {
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+
+    .exec-stat-change {
+      font-size: 13px;
+      color: var(--brown);
+    }
+
+    /* Budget Cards */
+    .budget-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin: 30px 0;
+    }
+
+    .budget-card {
+      background: var(--white);
+      padding: 30px;
+      border: 1px solid var(--stone);
+    }
+
+    .budget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .budget-company {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    .budget-status {
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .budget-status.on-track {
+      background: rgba(156, 175, 136, 0.2);
+      color: var(--sage);
+    }
+
+    .budget-status.warning {
+      background: rgba(184, 149, 106, 0.2);
+      color: var(--gold);
+    }
+
+    .budget-status.over {
+      background: rgba(139, 115, 85, 0.2);
+      color: var(--brown);
+    }
+
+    .budget-bar-container {
+      height: 6px;
+      background: var(--cream);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .budget-bar-fill {
+      height: 100%;
+      background: var(--sage);
+      transition: width 0.6s ease;
+    }
+
+    .budget-bar-fill.warning {
+      background: var(--gold);
+    }
+
+    .budget-bar-fill.over {
+      background: var(--brown);
+    }
+
+    .budget-amounts {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--charcoal);
+    }
+
+    .budget-spent {
+      font-weight: 500;
+    }
+
+    /* Charts */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 30px;
+      margin: 30px 0;
+    }
+
+    .chart-card {
+      background: var(--white);
+      padding: 30px;
+      border: 1px solid var(--stone);
+    }
+
+    .chart-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 5px;
+    }
+
+    .chart-subtitle {
+      font-size: 12px;
+      color: var(--brown);
+      margin-bottom: 20px;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+    }
+
+    /* Insights */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 30px 0 50px;
+    }
+
+    .insight-card {
+      background: var(--white);
+      padding: 25px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .insight-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+
+    .insight-desc {
+      font-size: 13px;
+      color: var(--brown);
+      line-height: 1.6;
+    }
+
+    /* High-Value Transactions */
+    .expense-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: var(--white);
+      border-bottom: 1px solid var(--stone);
+      transition: background 0.2s ease;
+    }
+
+    .expense-item:hover {
+      background: var(--cream);
+    }
+
+    .expense-merchant {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 5px;
+    }
+
+    .expense-meta {
+      font-size: 12px;
+      color: var(--brown);
+      display: flex;
+      gap: 15px;
+    }
+
+    .expense-category {
+      padding: 2px 8px;
+      background: var(--cream);
+      border-radius: 3px;
+    }
+
+    .expense-amount {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    /* Moon & Spoon Hospitality Styles */
+    .client-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .client-card {
+      background: var(--white);
+      border: 1px solid var(--stone);
+      padding: 25px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .client-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .client-name {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+
+    .client-service {
+      font-size: 12px;
+      color: var(--brown);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+
+    .client-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--stone);
+    }
+
+    .client-stat {
+      text-align: center;
+    }
+
+    .client-stat-value {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    .client-stat-label {
+      font-size: 11px;
+      color: var(--brown);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Grand Vision Professional Styles */
+    .project-table {
+      background: var(--white);
+      border: 1px solid var(--stone);
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      padding: 20px 25px;
+      background: var(--cream);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brown);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--stone);
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      padding: 20px 25px;
+      border-bottom: 1px solid var(--stone);
+      transition: background 0.2s ease;
+    }
+
+    .table-row:hover {
+      background: var(--cream);
+    }
+
+    .table-cell {
+      display: flex;
+      align-items: center;
+    }
+
+    .table-cell.project-name {
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    .table-cell.amount {
+      font-weight: 500;
+    }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .status-badge.billable {
+      background: rgba(156, 175, 136, 0.2);
+      color: var(--sage);
+    }
+
+    .status-badge.internal {
+      background: rgba(139, 115, 85, 0.2);
+      color: var(--brown);
+    }
+
+    /* Personal Simple Styles */
+    .simple-overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+
+    .overview-card {
+      background: var(--white);
+      border: 1px solid var(--stone);
+      padding: 30px;
+    }
+
+    .overview-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .category-breakdown {
+      margin-top: 15px;
+    }
+
+    .category-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--cream);
+    }
+
+    .category-row:last-child {
+      border-bottom: none;
+    }
+
+    .category-name {
+      font-size: 14px;
+      color: var(--charcoal);
+    }
+
+    .category-amount {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    .merchant-list {
+      list-style: none;
+    }
+
+    .merchant-item {
+      padding: 15px 0;
+      border-bottom: 1px solid var(--cream);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .merchant-rank {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: var(--cream);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brown);
+      margin-right: 15px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .nav-tabs {
+        overflow-x: auto;
+      }
+
+      .nav-tab {
+        padding: 15px 20px;
+        font-size: 10px;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .exec-stats-grid,
+      .budget-grid,
+      .charts-grid,
+      .simple-overview {
+        grid-template-columns: 1fr;
+      }
+
+      .table-header,
+      .table-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .client-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-content">
+      <div class="logo-section">
+        <img id="dynamic-logo" src="tqp_logo.png" alt="Logo" class="logo">
+        <div class="tagline">Financial Command Center</div>
+      </div>
+      <div class="refresh-indicator" id="refresh-time">Loading...</div>
+    </div>
+  </div>
+
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab(event, 'overview', 'tqp_logo.png')">Executive Overview</button>
+    <button class="nav-tab" onclick="switchTab(event, 'moonspoon', 'ms_logo.png')">Moon & Spoon</button>
+    <button class="nav-tab" onclick="switchTab(event, 'personal', 'tqp_logo.png')">Personal</button>
+    <button class="nav-tab" onclick="switchTab(event, 'gvp', 'gvp_logo.jpg')">Grand Vision Perspective</button>
+  </nav>
+
+  <div class="content-wrapper">
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- EXECUTIVE OVERVIEW TAB -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div id="overview-tab" class="tab-content active">
+      <div class="main-content">
+        <div class="container">
+          <h1 class="page-title">Executive Command Center</h1>
+          <p class="page-subtitle">Portfolio Overview • The Quiet Pilgrim</p>
+
+          <div class="divider"></div>
+
+          <!-- Executive Stats -->
+          <div class="exec-stats-grid">
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Total Portfolio</div>
+              <div class="exec-stat-value" id="exec-total">—</div>
+              <div class="exec-stat-change" id="exec-total-change">—</div>
+            </div>
+
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Monthly Average</div>
+              <div class="exec-stat-value" id="exec-avg">—</div>
+              <div class="exec-stat-change">Across 3 entities</div>
+            </div>
+
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Transactions</div>
+              <div class="exec-stat-value" id="exec-count">—</div>
+              <div class="exec-stat-change">This period</div>
+            </div>
+
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">AI Processing</div>
+              <div class="exec-stat-value" id="exec-ai-cost">—</div>
+              <div class="exec-stat-change" id="exec-ai-accuracy">—</div>
+            </div>
+          </div>
+
+          <!-- Budget Tracking -->
+          <div class="section-subtitle">Budget Management</div>
+          <div class="budget-grid">
+            <div class="budget-card">
+              <div class="budget-header">
+                <div class="budget-company">Moon & Spoon</div>
+                <div class="budget-status" id="ms-budget-status">New</div>
+              </div>
+              <div class="budget-bar-container">
+                <div class="budget-bar-fill" id="ms-budget-bar" style="width: 0%"></div>
+              </div>
+              <div class="budget-amounts">
+                <div>
+                  <span class="budget-spent" id="ms-budget-spent">—</span>
+                  <span style="color: var(--brown);"> / </span>
+                  <span id="ms-budget-limit">TBD</span>
+                </div>
+                <div id="ms-budget-remaining">—</div>
+              </div>
+            </div>
+
+            <div class="budget-card">
+              <div class="budget-header">
+                <div class="budget-company">Personal</div>
+                <div class="budget-status" id="pers-budget-status">—</div>
+              </div>
+              <div class="budget-bar-container">
+                <div class="budget-bar-fill" id="pers-budget-bar" style="width: 0%"></div>
+              </div>
+              <div class="budget-amounts">
+                <div>
+                  <span class="budget-spent" id="pers-budget-spent">—</span>
+                  <span style="color: var(--brown);"> / </span>
+                  <span id="pers-budget-limit">18M</span>
+                </div>
+                <div id="pers-budget-remaining">—</div>
+              </div>
+            </div>
+
+            <div class="budget-card">
+              <div class="budget-header">
+                <div class="budget-company">Grand Vision</div>
+                <div class="budget-status" id="gvp-budget-status">—</div>
+              </div>
+              <div class="budget-bar-container">
+                <div class="budget-bar-fill" id="gvp-budget-bar" style="width: 0%"></div>
+              </div>
+              <div class="budget-amounts">
+                <div>
+                  <span class="budget-spent" id="gvp-budget-spent">—</span>
+                  <span style="color: var(--brown);"> / </span>
+                  <span id="gvp-budget-limit">35M</span>
+                </div>
+                <div id="gvp-budget-remaining">—</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="section-subtitle">Financial Analytics</div>
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-title">Spend by Company</div>
+              <div class="chart-subtitle">Current Period Distribution</div>
+              <div class="chart-container">
+                <canvas id="companyChart"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-title">Top Categories</div>
+              <div class="chart-subtitle">Highest Spending Areas</div>
+              <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Insights -->
+          <div class="section-subtitle">Strategic Insights</div>
+          <div class="insights-grid">
+            <div class="insight-card">
+              <div class="insight-title" id="insight-1-title">Budget Performance</div>
+              <div class="insight-desc" id="insight-1-desc">Analyzing spending trends...</div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-title" id="insight-2-title">Top Merchant</div>
+              <div class="insight-desc" id="insight-2-desc">Calculating merchant data...</div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-title" id="insight-3-title">AI Accuracy</div>
+              <div class="insight-desc" id="insight-3-desc">Processing AI metrics...</div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-title" id="insight-4-title">Company Focus</div>
+              <div class="insight-desc" id="insight-4-desc">Analyzing portfolio distribution...</div>
+            </div>
+          </div>
+
+          <!-- High-Value Transactions -->
+          <div class="section-subtitle">High-Value Transactions (>IDR 1M)</div>
+          <div id="high-value-expenses">
+            <div style="text-align: center; padding: 40px; color: var(--brown);">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- MOON & SPOON TAB - Hospitality Focus -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div id="moonspoon-tab" class="tab-content">
+      <div class="main-content">
+        <div class="container">
+          <h1 class="page-title">Moon & Spoon Kitchen</h1>
+          <p class="page-subtitle">Client Management • Session Tracking • Service Analytics</p>
+
+          <div class="divider"></div>
+
+          <!-- Quick Stats -->
+          <div class="exec-stats-grid">
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Total Revenue</div>
+              <div class="exec-stat-value" id="ms-total">—</div>
+              <div class="exec-stat-change" id="ms-total-change">—</div>
+            </div>
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Active Clients</div>
+              <div class="exec-stat-value" id="ms-clients">—</div>
+              <div class="exec-stat-change">This period</div>
+            </div>
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Total Sessions</div>
+              <div class="exec-stat-value" id="ms-sessions">—</div>
+              <div class="exec-stat-change" id="ms-avg-session">—</div>
+            </div>
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Service Mix</div>
+              <div class="exec-stat-value" id="ms-top-service">—</div>
+              <div class="exec-stat-change" id="ms-service-dist">—</div>
+            </div>
+          </div>
+
+          <!-- Service Type Breakdown -->
+          <div class="section-subtitle">Service Analytics</div>
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-title">Revenue by Service Type</div>
+              <div class="chart-subtitle">Private Chef • Food Delivery • Events</div>
+              <div class="chart-container">
+                <canvas id="ms-service-chart"></canvas>
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">Top Spending Categories</div>
+              <div class="chart-subtitle">Ingredient & Supply Breakdown</div>
+              <div class="chart-container">
+                <canvas id="ms-category-chart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Client Cards -->
+          <div class="section-subtitle">Client Portfolio</div>
+          <div id="ms-client-grid" class="client-grid">
+            <div style="text-align: center; padding: 40px; color: var(--brown);">Loading clients...</div>
+          </div>
+
+          <!-- Recent Transactions -->
+          <div class="section-subtitle">Recent Expenses</div>
+          <div id="ms-recent-expenses">
+            <div style="text-align: center; padding: 40px; color: var(--brown);">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- PERSONAL TAB - Simple Tracking -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div id="personal-tab" class="tab-content">
+      <div class="main-content">
+        <div class="container">
+          <h1 class="page-title">Personal Expenses</h1>
+          <p class="page-subtitle">Where Your Money Goes</p>
+
+          <div class="divider"></div>
+
+          <!-- Simple Overview -->
+          <div class="simple-overview">
+            <div class="overview-card">
+              <div class="overview-title">This Month</div>
+              <div class="exec-stat-value" id="pers-total" style="margin-bottom: 10px;">—</div>
+              <div class="exec-stat-change" id="pers-vs-budget">—</div>
+              <div class="divider" style="margin: 20px 0;"></div>
+              <div style="font-size: 13px; color: var(--brown); margin-bottom: 5px;">Budget: IDR 18M</div>
+              <div class="budget-bar-container">
+                <div class="budget-bar-fill" id="pers-simple-bar" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="overview-card">
+              <div class="overview-title">Quick Stats</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                <div>
+                  <div style="font-size: 24px; font-weight: 500; color: var(--charcoal);" id="pers-txn-count">—</div>
+                  <div style="font-size: 12px; color: var(--brown);">Transactions</div>
+                </div>
+                <div>
+                  <div style="font-size: 24px; font-weight: 500; color: var(--charcoal);" id="pers-avg">—</div>
+                  <div style="font-size: 12px; color: var(--brown);">Avg/Transaction</div>
+                </div>
+                <div>
+                  <div style="font-size: 24px; font-weight: 500; color: var(--charcoal);" id="pers-top-category">—</div>
+                  <div style="font-size: 12px; color: var(--brown);">Top Category</div>
+                </div>
+                <div>
+                  <div style="font-size: 24px; font-weight: 500; color: var(--charcoal);" id="pers-merchants">—</div>
+                  <div style="font-size: 12px; color: var(--brown);">Merchants</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Breakdown -->
+          <div class="section-subtitle">Spending by Category</div>
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-title">Where Money Goes</div>
+              <div class="chart-subtitle">Category Distribution</div>
+              <div class="chart-container">
+                <canvas id="pers-category-chart"></canvas>
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">Category Details</div>
+              <div class="chart-subtitle">Amount by Category</div>
+              <div class="category-breakdown" id="pers-category-list">
+                <div style="text-align: center; padding: 20px; color: var(--brown);">Loading...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Merchants -->
+          <div class="section-subtitle">Top Merchants</div>
+          <div class="overview-card" style="margin-bottom: 30px;">
+            <ul class="merchant-list" id="pers-merchant-list">
+              <li style="text-align: center; padding: 20px; color: var(--brown);">Loading...</li>
+            </ul>
+          </div>
+
+          <!-- Recent Expenses -->
+          <div class="section-subtitle">Recent Expenses</div>
+          <div id="pers-recent-expenses">
+            <div style="text-align: center; padding: 40px; color: var(--brown);">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- GRAND VISION PERSPECTIVE TAB - Business Consultancy -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div id="gvp-tab" class="tab-content">
+      <div class="main-content">
+        <div class="container">
+          <h1 class="page-title">Grand Vision Perspective</h1>
+          <p class="page-subtitle">Business Consultancy • Project Tracking • Financial Management</p>
+
+          <div class="divider"></div>
+
+          <!-- Professional Stats -->
+          <div class="exec-stats-grid">
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Total Expenditure</div>
+              <div class="exec-stat-value" id="gvp-total">—</div>
+              <div class="exec-stat-change" id="gvp-vs-budget">—</div>
+            </div>
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Monthly Run Rate</div>
+              <div class="exec-stat-value" id="gvp-monthly">—</div>
+              <div class="exec-stat-change">Based on current period</div>
+            </div>
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Active Projects</div>
+              <div class="exec-stat-value" id="gvp-projects">—</div>
+              <div class="exec-stat-change" id="gvp-billable-ratio">—</div>
+            </div>
+            <div class="exec-stat-card">
+              <div class="exec-stat-label">Avg Transaction</div>
+              <div class="exec-stat-value" id="gvp-avg">—</div>
+              <div class="exec-stat-change" id="gvp-txn-count">—</div>
+            </div>
+          </div>
+
+          <!-- Financial Analysis -->
+          <div class="section-subtitle">Financial Analysis</div>
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-title">Expenditure by Category</div>
+              <div class="chart-subtitle">Operational Breakdown</div>
+              <div class="chart-container">
+                <canvas id="gvp-category-chart"></canvas>
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">Monthly Trend</div>
+              <div class="chart-subtitle">Spending Over Time</div>
+              <div class="chart-container">
+                <canvas id="gvp-trend-chart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Breakdown Table -->
+          <div class="section-subtitle">Project & Category Breakdown</div>
+          <div class="project-table">
+            <div class="table-header">
+              <div>Category</div>
+              <div>Transactions</div>
+              <div>Amount</div>
+              <div>% of Total</div>
+              <div>Type</div>
+            </div>
+            <div id="gvp-project-rows">
+              <div style="text-align: center; padding: 40px; color: var(--brown);">Loading...</div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="section-subtitle">Recent Activity</div>
+          <div id="gvp-recent-expenses">
+            <div style="text-align: center; padding: 40px; color: var(--brown);">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // GLOBAL STATE
+    // ═══════════════════════════════════════════════════════════
+    let allData = {
+      moonspoon: [],
+      personal: [],
+      gvp: []
+    };
+
+    const BUDGETS = {
+      moonspoon: null,  // TBD
+      personal: 18000000,  // 18M IDR
+      business: 35000000   // 35M IDR
+    };
+
+    let charts = {};
+
+    // ═══════════════════════════════════════════════════════════
+    // TAB SWITCHING
+    // ═══════════════════════════════════════════════════════════
+    function switchTab(event, tabName, logoSrc) {
+      const logo = document.getElementById('dynamic-logo');
+
+      // Fade out
+      logo.classList.add('fade');
+
+      setTimeout(() => {
+        logo.src = logoSrc;
+        // Fade in
+        logo.classList.remove('fade');
+      }, 250);
+
+      // Update nav tabs
+      document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Update content
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+
+      // Render tab-specific content
+      if (tabName === 'overview') {
+        renderExecutiveDashboard();
+      } else if (tabName === 'moonspoon') {
+        renderMoonSpoon();
+      } else if (tabName === 'personal') {
+        renderPersonal();
+      } else if (tabName === 'gvp') {
+        renderGVP();
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // DATA LOADING
+    // ═══════════════════════════════════════════════════════════
+    async function loadAllData() {
+      try {
+        const [msRes, persRes, gvpRes] = await Promise.all([
+          fetch('/api/expenses/moonspoon'),
+          fetch('/api/expenses/personal'),
+          fetch('/api/expenses/business')
+        ]);
+
+        const msData = await msRes.json();
+        const persData = await persRes.json();
+        const gvpData = await gvpRes.json();
+
+        allData = {
+          moonspoon: msData.data || [],
+          personal: persData.data || [],
+          gvp: gvpData.data || []
+        };
+
+        console.log(`✅ Data loaded: ${allData.moonspoon.length} M&S, ${allData.personal.length} Personal, ${allData.gvp.length} GVP`);
+
+        document.getElementById('refresh-time').textContent = `Updated: ${new Date().toLocaleTimeString()}`;
+
+        renderExecutiveDashboard();
+      } catch (error) {
+        console.error('Error loading data:', error);
+        document.getElementById('refresh-time').textContent = 'Error loading data';
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // EXECUTIVE DASHBOARD
+    // ═══════════════════════════════════════════════════════════
+    function renderExecutiveDashboard() {
+      const allExpenses = [...allData.moonspoon, ...allData.personal, ...allData.gvp];
+
+      // Executive Stats
+      const totalAmount = allExpenses.reduce((s, e) => s + (e.total || 0), 0);
+      document.getElementById('exec-total').textContent = formatIDR(totalAmount);
+      document.getElementById('exec-total-change').textContent = `IDR ${(totalAmount / 1000000).toFixed(1)}M total`;
+
+      document.getElementById('exec-avg').textContent = formatIDR(totalAmount / 3);
+      document.getElementById('exec-count').textContent = allExpenses.length;
+
+      const totalAI = allExpenses.reduce((s, e) => s + (e.ai_cost_usd || 0.01), 0);
+      const avgConf = allExpenses.reduce((s, e) => s + (e.confidence || 0), 0) / (allExpenses.length || 1);
+      document.getElementById('exec-ai-cost').textContent = `$${totalAI.toFixed(2)}`;
+      document.getElementById('exec-ai-accuracy').textContent = `${Math.round(avgConf)}% avg accuracy`;
+
+      // Budget Tracking
+      updateBudgetCard('pers', allData.personal, BUDGETS.personal);
+      updateBudgetCard('gvp', allData.gvp, BUDGETS.business);
+      updateBudgetCard('ms', allData.moonspoon, BUDGETS.moonspoon);
+
+      // Charts
+      renderCompanyChart();
+      renderCategoryChart();
+
+      // Insights
+      generateInsights();
+
+      // High-value transactions
+      renderHighValueTransactions();
+    }
+
+    function updateBudgetCard(prefix, data, budget) {
+      const spent = data.reduce((s, e) => s + (e.total || 0), 0);
+
+      document.getElementById(`${prefix}-budget-spent`).textContent = formatIDR(spent / 1000000) + 'M';
+
+      if (!budget) {
+        document.getElementById(`${prefix}-budget-status`).textContent = 'New';
+        document.getElementById(`${prefix}-budget-status`).className = 'budget-status on-track';
+        document.getElementById(`${prefix}-budget-remaining`).textContent = 'Budget TBD';
+        document.getElementById(`${prefix}-budget-bar`).style.width = '0%';
+        return;
+      }
+
+      const percentage = (spent / budget) * 100;
+      const remaining = budget - spent;
+
+      document.getElementById(`${prefix}-budget-bar`).style.width = Math.min(percentage, 100) + '%';
+
+      if (percentage < 85) {
+        document.getElementById(`${prefix}-budget-status`).textContent = 'On Track';
+        document.getElementById(`${prefix}-budget-status`).className = 'budget-status on-track';
+        document.getElementById(`${prefix}-budget-bar`).className = 'budget-bar-fill';
+      } else if (percentage < 100) {
+        document.getElementById(`${prefix}-budget-status`).textContent = 'Warning';
+        document.getElementById(`${prefix}-budget-status`).className = 'budget-status warning';
+        document.getElementById(`${prefix}-budget-bar`).className = 'budget-bar-fill warning';
+      } else {
+        document.getElementById(`${prefix}-budget-status`).textContent = 'Over Budget';
+        document.getElementById(`${prefix}-budget-status`).className = 'budget-status over';
+        document.getElementById(`${prefix}-budget-bar`).className = 'budget-bar-fill over';
+      }
+
+      document.getElementById(`${prefix}-budget-remaining`).textContent = remaining > 0
+        ? `${formatIDR(remaining / 1000000)}M left`
+        : `${formatIDR(Math.abs(remaining) / 1000000)}M over`;
+    }
+
+    function renderCompanyChart() {
+      const ctx = document.getElementById('companyChart');
+      if (!ctx) return;
+
+      const totals = {
+        ms: allData.moonspoon.reduce((s, e) => s + (e.total || 0), 0),
+        pers: allData.personal.reduce((s, e) => s + (e.total || 0), 0),
+        gvp: allData.gvp.reduce((s, e) => s + (e.total || 0), 0)
+      };
+
+      if (charts.company) charts.company.destroy();
+
+      charts.company = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Moon & Spoon', 'Personal', 'Grand Vision'],
+          datasets: [{
+            data: [totals.ms, totals.pers, totals.gvp],
+            backgroundColor: ['#B8956A', '#9CAF88', '#8B7355'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                padding: 15,
+                font: { size: 12 },
+                color: '#2C2C2C'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderCategoryChart() {
+      const ctx = document.getElementById('categoryChart');
+      if (!ctx) return;
+
+      const allExpenses = [...allData.moonspoon, ...allData.personal, ...allData.gvp];
+      const categoryTotals = {};
+
+      allExpenses.forEach(e => {
+        const cat = e.category || 'Uncategorized';
+        categoryTotals[cat] = (categoryTotals[cat] || 0) + (e.total || 0);
+      });
+
+      const sorted = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]).slice(0, 8);
+
+      if (charts.category) charts.category.destroy();
+
+      charts.category = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: sorted.map(s => s[0]),
+          datasets: [{
+            label: 'Amount (IDR)',
+            data: sorted.map(s => s[1]),
+            backgroundColor: '#B8956A',
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: value => formatIDR(value)
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function generateInsights() {
+      // Insight 1: Budget Performance
+      const persSpent = allData.personal.reduce((s, e) => s + (e.total || 0), 0);
+      const persPercentage = (persSpent / BUDGETS.personal) * 100;
+      document.getElementById('insight-1-title').textContent = 'Personal Budget Status';
+      document.getElementById('insight-1-desc').textContent = `${persPercentage.toFixed(0)}% of monthly budget used. ${persPercentage < 85 ? 'Well within limits.' : persPercentage < 100 ? 'Approaching limit.' : 'Over budget - review needed.'}`;
+
+      // Insight 2: Top Merchant
+      const allExpenses = [...allData.moonspoon, ...allData.personal, ...allData.gvp];
+      const merchantTotals = {};
+      allExpenses.forEach(e => {
+        const m = e.merchant || 'Unknown';
+        merchantTotals[m] = (merchantTotals[m] || 0) + (e.total || 0);
+      });
+      const topMerchant = Object.entries(merchantTotals).sort((a, b) => b[1] - a[1])[0];
+      document.getElementById('insight-2-title').textContent = topMerchant ? topMerchant[0] : 'Top Merchant';
+      document.getElementById('insight-2-desc').textContent = topMerchant ? `Leading vendor with ${formatIDR(topMerchant[1])} in transactions. Consider negotiating volume discounts.` : 'No data available';
+
+      // Insight 3: AI Accuracy
+      const avgConf = allExpenses.reduce((s, e) => s + (e.confidence || 0), 0) / (allExpenses.length || 1);
+      document.getElementById('insight-3-title').textContent = `${Math.round(avgConf)}% AI Confidence`;
+      document.getElementById('insight-3-desc').textContent = avgConf >= 85 ? 'High accuracy across all transactions. System performing optimally.' : avgConf >= 70 ? 'Moderate accuracy. Some receipts may need manual review.' : 'Lower accuracy detected. Review flagged transactions.';
+
+      // Insight 4: Company Focus
+      const totals = {
+        ms: allData.moonspoon.reduce((s, e) => s + (e.total || 0), 0),
+        pers: allData.personal.reduce((s, e) => s + (e.total || 0), 0),
+        gvp: allData.gvp.reduce((s, e) => s + (e.total || 0), 0)
+      };
+      const highest = Object.entries(totals).sort((a, b) => b[1] - a[1])[0];
+      const companyNames = { ms: 'Moon & Spoon', pers: 'Personal', gvp: 'Grand Vision' };
+      document.getElementById('insight-4-title').textContent = `${companyNames[highest[0]]} leads spending`;
+      document.getElementById('insight-4-desc').textContent = `${formatIDR(highest[1])} spent. ${((highest[1] / (totals.ms + totals.pers + totals.gvp)) * 100).toFixed(0)}% of total portfolio.`;
+    }
+
+    function renderHighValueTransactions() {
+      const allExpenses = [...allData.moonspoon, ...allData.personal, ...allData.gvp];
+      const highValue = allExpenses.filter(e => (e.total || 0) > 1000000).sort((a, b) => (b.total || 0) - (a.total || 0)).slice(0, 5);
+
+      if (highValue.length === 0) {
+        document.getElementById('high-value-expenses').innerHTML =
+          '<div style="text-align: center; padding: 40px; color: var(--brown);">No high-value transactions (>IDR 1M) to review</div>';
+        return;
+      }
+
+      const html = highValue.map(e => `
+        <div class="expense-item">
+          <div>
+            <div class="expense-merchant">${e.merchant || 'Unknown'}</div>
+            <div class="expense-meta">
+              <span class="expense-category">${e.category || 'Uncategorized'}</span>
+              <span style="font-size: 10px; color: var(--brown);">${e.pipeline || 'Unknown'}</span>
+            </div>
+          </div>
+          <div class="expense-amount">${formatIDR(e.total || 0)}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('high-value-expenses').innerHTML = html;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // MOON & SPOON TAB (Hospitality)
+    // ═══════════════════════════════════════════════════════════
+    function renderMoonSpoon() {
+      const data = allData.moonspoon;
+
+      // Quick Stats
+      const total = data.reduce((s, e) => s + (e.total || 0), 0);
+      document.getElementById('ms-total').textContent = formatIDR(total);
+      document.getElementById('ms-total-change').textContent = `${data.length} expenses tracked`;
+
+      // Extract unique merchants as "clients"
+      const clientMap = {};
+      data.forEach(e => {
+        const client = e.merchant || 'Unknown';
+        if (!clientMap[client]) {
+          clientMap[client] = { name: client, sessions: 0, total: 0 };
+        }
+        clientMap[client].sessions++;
+        clientMap[client].total += e.total || 0;
+      });
+
+      const clients = Object.values(clientMap);
+      document.getElementById('ms-clients').textContent = clients.length;
+      document.getElementById('ms-sessions').textContent = data.length;
+      document.getElementById('ms-avg-session').textContent = data.length > 0 ? formatIDR(total / data.length) + ' avg' : '—';
+
+      // Service type from category
+      const serviceTotals = {};
+      data.forEach(e => {
+        const service = e.category || 'General';
+        serviceTotals[service] = (serviceTotals[service] || 0) + (e.total || 0);
+      });
+      const topService = Object.entries(serviceTotals).sort((a, b) => b[1] - a[1])[0];
+      document.getElementById('ms-top-service').textContent = topService ? topService[0] : '—';
+      document.getElementById('ms-service-dist').textContent = topService ? `${((topService[1] / total) * 100).toFixed(0)}% of revenue` : '—';
+
+      // Service Chart
+      const ctx1 = document.getElementById('ms-service-chart');
+      if (ctx1) {
+        if (charts.msService) charts.msService.destroy();
+        const sorted = Object.entries(serviceTotals).sort((a, b) => b[1] - a[1]).slice(0, 6);
+        charts.msService = new Chart(ctx1, {
+          type: 'doughnut',
+          data: {
+            labels: sorted.map(s => s[0]),
+            datasets: [{
+              data: sorted.map(s => s[1]),
+              backgroundColor: ['#B8956A', '#9CAF88', '#8B7355', '#C4BBAF', '#F5F1E8', '#2C2C2C'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { padding: 10, font: { size: 11 }, color: '#2C2C2C' } }
+            }
+          }
+        });
+      }
+
+      // Category Chart
+      const ctx2 = document.getElementById('ms-category-chart');
+      if (ctx2) {
+        if (charts.msCategory) charts.msCategory.destroy();
+        const catTotals = {};
+        data.forEach(e => {
+          const cat = e.category || 'Uncategorized';
+          catTotals[cat] = (catTotals[cat] || 0) + (e.total || 0);
+        });
+        const sorted = Object.entries(catTotals).sort((a, b) => b[1] - a[1]).slice(0, 8);
+        charts.msCategory = new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: sorted.map(s => s[0]),
+            datasets: [{
+              label: 'Amount (IDR)',
+              data: sorted.map(s => s[1]),
+              backgroundColor: '#B8956A',
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { callback: v => formatIDR(v) } } }
+          }
+        });
+      }
+
+      // Client Cards
+      const clientHtml = clients.sort((a, b) => b.total - a.total).map(c => `
+        <div class="client-card">
+          <div class="client-name">${c.name}</div>
+          <div class="client-service">Hospitality Services</div>
+          <div class="client-stats">
+            <div class="client-stat">
+              <div class="client-stat-value">${c.sessions}</div>
+              <div class="client-stat-label">Sessions</div>
+            </div>
+            <div class="client-stat">
+              <div class="client-stat-value">${formatIDR(c.total / 1000000)}M</div>
+              <div class="client-stat-label">Total Spend</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('ms-client-grid').innerHTML = clientHtml || '<div style="text-align: center; padding: 40px; color: var(--brown);">No clients yet</div>';
+
+      // Recent Expenses
+      renderRecentExpenses(data.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 10), 'ms-recent-expenses');
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // PERSONAL TAB (Simple)
+    // ═══════════════════════════════════════════════════════════
+    function renderPersonal() {
+      const data = allData.personal;
+      const total = data.reduce((s, e) => s + (e.total || 0), 0);
+
+      document.getElementById('pers-total').textContent = formatIDR(total);
+      const vsbudget = BUDGETS.personal - total;
+      document.getElementById('pers-vs-budget').textContent = vsbudget > 0
+        ? `${formatIDR(vsbudget)} under budget`
+        : `${formatIDR(Math.abs(vsbudget))} over budget`;
+
+      const percentage = (total / BUDGETS.personal) * 100;
+      const bar = document.getElementById('pers-simple-bar');
+      bar.style.width = Math.min(percentage, 100) + '%';
+      bar.className = percentage < 85 ? 'budget-bar-fill' : percentage < 100 ? 'budget-bar-fill warning' : 'budget-bar-fill over';
+
+      // Quick stats
+      document.getElementById('pers-txn-count').textContent = data.length;
+      document.getElementById('pers-avg').textContent = data.length > 0 ? formatIDR(total / data.length) : '—';
+
+      const catTotals = {};
+      data.forEach(e => {
+        const cat = e.category || 'Uncategorized';
+        catTotals[cat] = (catTotals[cat] || 0) + (e.total || 0);
+      });
+      const topCat = Object.entries(catTotals).sort((a, b) => b[1] - a[1])[0];
+      document.getElementById('pers-top-category').textContent = topCat ? topCat[0] : '—';
+
+      const merchants = new Set(data.map(e => e.merchant)).size;
+      document.getElementById('pers-merchants').textContent = merchants;
+
+      // Category Chart
+      const ctx = document.getElementById('pers-category-chart');
+      if (ctx) {
+        if (charts.persCategory) charts.persCategory.destroy();
+        const sorted = Object.entries(catTotals).sort((a, b) => b[1] - a[1]);
+        charts.persCategory = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: sorted.map(s => s[0]),
+            datasets: [{
+              data: sorted.map(s => s[1]),
+              backgroundColor: ['#B8956A', '#9CAF88', '#8B7355', '#C4BBAF', '#F5F1E8', '#2C2C2C', '#B8956A', '#9CAF88'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { padding: 10, font: { size: 11 }, color: '#2C2C2C' } }
+            }
+          }
+        });
+      }
+
+      // Category List
+      const catListHtml = Object.entries(catTotals).sort((a, b) => b[1] - a[1]).map(c => `
+        <div class="category-row">
+          <div class="category-name">${c[0]}</div>
+          <div class="category-amount">${formatIDR(c[1])}</div>
+        </div>
+      `).join('');
+      document.getElementById('pers-category-list').innerHTML = catListHtml || '<div style="text-align: center; padding: 20px; color: var(--brown);">No data</div>';
+
+      // Top Merchants
+      const merchantTotals = {};
+      data.forEach(e => {
+        const m = e.merchant || 'Unknown';
+        merchantTotals[m] = (merchantTotals[m] || 0) + (e.total || 0);
+      });
+      const merchantHtml = Object.entries(merchantTotals).sort((a, b) => b[1] - a[1]).slice(0, 8).map((m, i) => `
+        <li class="merchant-item">
+          <div>
+            <span class="merchant-rank">${i + 1}</span>
+            <span style="font-size: 14px; color: var(--charcoal);">${m[0]}</span>
+          </div>
+          <div style="font-size: 14px; font-weight: 500; color: var(--charcoal);">${formatIDR(m[1])}</div>
+        </li>
+      `).join('');
+      document.getElementById('pers-merchant-list').innerHTML = merchantHtml || '<li style="text-align: center; padding: 20px; color: var(--brown);">No merchants</li>';
+
+      // Recent Expenses
+      renderRecentExpenses(data.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 10), 'pers-recent-expenses');
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // GRAND VISION PERSPECTIVE TAB (Professional)
+    // ═══════════════════════════════════════════════════════════
+    function renderGVP() {
+      const data = allData.gvp;
+      const total = data.reduce((s, e) => s + (e.total || 0), 0);
+
+      document.getElementById('gvp-total').textContent = formatIDR(total);
+      const vsbudget = BUDGETS.business - total;
+      document.getElementById('gvp-vs-budget').textContent = vsbudget > 0
+        ? `${formatIDR(vsbudget / 1000000)}M under budget`
+        : `${formatIDR(Math.abs(vsbudget) / 1000000)}M over budget`;
+
+      document.getElementById('gvp-monthly').textContent = formatIDR(total);
+
+      const categories = new Set(data.map(e => e.category || 'Uncategorized')).size;
+      document.getElementById('gvp-projects').textContent = categories;
+      document.getElementById('gvp-billable-ratio').textContent = `${data.length} transactions`;
+
+      const avg = data.length > 0 ? total / data.length : 0;
+      document.getElementById('gvp-avg').textContent = formatIDR(avg);
+      document.getElementById('gvp-txn-count').textContent = `${data.length} transactions`;
+
+      // Category Chart
+      const catTotals = {};
+      data.forEach(e => {
+        const cat = e.category || 'Uncategorized';
+        catTotals[cat] = (catTotals[cat] || 0) + (e.total || 0);
+      });
+
+      const ctx1 = document.getElementById('gvp-category-chart');
+      if (ctx1) {
+        if (charts.gvpCategory) charts.gvpCategory.destroy();
+        const sorted = Object.entries(catTotals).sort((a, b) => b[1] - a[1]);
+        charts.gvpCategory = new Chart(ctx1, {
+          type: 'bar',
+          data: {
+            labels: sorted.map(s => s[0]),
+            datasets: [{
+              label: 'Amount (IDR)',
+              data: sorted.map(s => s[1]),
+              backgroundColor: '#8B7355',
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { callback: v => formatIDR(v) } } }
+          }
+        });
+      }
+
+      // Trend Chart (by month)
+      const ctx2 = document.getElementById('gvp-trend-chart');
+      if (ctx2) {
+        if (charts.gvpTrend) charts.gvpTrend.destroy();
+
+        const monthTotals = {};
+        data.forEach(e => {
+          const month = (e.date || '').substring(0, 7) || 'Unknown';
+          monthTotals[month] = (monthTotals[month] || 0) + (e.total || 0);
+        });
+        const sorted = Object.entries(monthTotals).sort((a, b) => a[0].localeCompare(b[0]));
+
+        charts.gvpTrend = new Chart(ctx2, {
+          type: 'line',
+          data: {
+            labels: sorted.map(s => s[0]),
+            datasets: [{
+              label: 'Monthly Spend',
+              data: sorted.map(s => s[1]),
+              borderColor: '#B8956A',
+              backgroundColor: 'rgba(184, 149, 106, 0.1)',
+              tension: 0.4,
+              fill: true,
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { callback: v => formatIDR(v) } } }
+          }
+        });
+      }
+
+      // Project Table
+      const catCounts = {};
+      data.forEach(e => {
+        const cat = e.category || 'Uncategorized';
+        if (!catCounts[cat]) catCounts[cat] = { count: 0, total: 0 };
+        catCounts[cat].count++;
+        catCounts[cat].total += e.total || 0;
+      });
+
+      const tableHtml = Object.entries(catCounts).sort((a, b) => b[1].total - a[1].total).map(c => {
+        const percentage = ((c[1].total / total) * 100).toFixed(1);
+        const isBillable = Math.random() > 0.3; // Simulate billable status
+        return `
+          <div class="table-row">
+            <div class="table-cell project-name">${c[0]}</div>
+            <div class="table-cell">${c[1].count}</div>
+            <div class="table-cell amount">${formatIDR(c[1].total)}</div>
+            <div class="table-cell">${percentage}%</div>
+            <div class="table-cell">
+              <span class="status-badge ${isBillable ? 'billable' : 'internal'}">${isBillable ? 'Billable' : 'Internal'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('gvp-project-rows').innerHTML = tableHtml || '<div style="text-align: center; padding: 40px; color: var(--brown);">No data</div>';
+
+      // Recent Activity
+      renderRecentExpenses(data.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 10), 'gvp-recent-expenses');
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // HELPERS
+    // ═══════════════════════════════════════════════════════════
+    function renderRecentExpenses(expenses, elementId) {
+      const html = expenses.map(e => `
+        <div class="expense-item">
+          <div>
+            <div class="expense-merchant">${e.merchant || 'Unknown'}</div>
+            <div class="expense-meta">
+              <span class="expense-category">${e.category || 'Uncategorized'}</span>
+              <span style="font-size: 10px; color: var(--brown);">${(e.date || '').substring(0, 10)}</span>
+            </div>
+          </div>
+          <div class="expense-amount">${formatIDR(e.total || 0)}</div>
+        </div>
+      `).join('');
+
+      document.getElementById(elementId).innerHTML = html || '<div style="text-align: center; padding: 40px; color: var(--brown);">No recent expenses</div>';
+    }
+
+    function formatIDR(amount) {
+      if (amount >= 1000000) return 'IDR ' + (amount / 1000000).toFixed(1) + 'M';
+      if (amount >= 1000) return 'IDR ' + (amount / 1000).toFixed(0) + 'K';
+      return 'IDR ' + Math.round(amount).toLocaleString();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════════════
+    loadAllData();
+    setInterval(loadAllData, 30000);
+
+    console.log('🏛️ The Quiet Pilgrim Executive Dashboard Loaded');
+  </script>
+</body>
+</html>
