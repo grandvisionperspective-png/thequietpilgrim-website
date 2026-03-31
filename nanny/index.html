@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Quiet Pilgrim Nanny Services — Trusted, experienced in-villa childcare in Ubud, Bali. English-speaking nannies so parents can relax and explore.">
+<title>Nanny Services — The Quiet Pilgrim | Ubud, Bali</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,700&display=swap');
+
+  :root {
+    --cream: #faf8f5;
+    --gold-light: #f0ebe0;
+    --gold: #d4c5a9;
+    --gold-dark: #a09070;
+    --brown: #6b5d3e;
+    --brown-dark: #4a3f2a;
+    --text: #5a5a5a;
+    --white: #ffffff;
+    --soft-blue: #7a8fa0;
+    --soft-blue-light: #e8edf2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 300;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.6;
+  }
+
+  nav {
+    position: fixed; top: 0; width: 100%;
+    background: rgba(250,248,245,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gold);
+    z-index: 100; padding: 12px 0;
+  }
+
+  nav .inner {
+    max-width: 1000px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 24px;
+  }
+
+  nav .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--brown); text-decoration: none;
+  }
+
+  nav .links a {
+    font-size: 11px; color: var(--gold-dark); text-decoration: none;
+    margin-left: 24px; letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  nav .links a:hover { color: var(--brown); }
+
+  .hero {
+    min-height: 70vh;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    padding: 100px 24px 60px;
+    background: linear-gradient(rgba(250,248,245,0.4), rgba(232,237,242,0.6)),
+                url('https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=1400&q=80') center/cover no-repeat;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 300; color: var(--brown-dark); letter-spacing: 2px;
+  }
+
+  .hero .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: clamp(15px, 2vw, 18px);
+    color: var(--brown); margin-top: 16px; max-width: 480px; margin-left: auto; margin-right: auto;
+  }
+
+  section {
+    max-width: 900px; margin: 0 auto; padding: 70px 24px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 400; color: var(--brown); text-align: center; margin-bottom: 8px;
+  }
+
+  .section-sub {
+    text-align: center; font-size: 13px; color: var(--gold-dark);
+    margin-bottom: 36px; font-style: italic; font-family: 'Cormorant Garamond', serif;
+  }
+
+  .about-text {
+    max-width: 620px; margin: 0 auto; text-align: center;
+    font-size: 15px; line-height: 1.8;
+  }
+
+  /* Services */
+  .category-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; color: var(--brown); margin: 32px 0 12px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--gold);
+  }
+
+  .treatment-grid {
+    display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px;
+  }
+
+  .treatment {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 14px 20px; background: var(--white); border: 1px solid var(--gold);
+    border-radius: 6px; transition: all 0.2s;
+  }
+
+  .treatment:hover {
+    background: var(--gold-light); transform: translateX(4px);
+  }
+
+  .treatment-info h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; color: var(--brown); font-weight: 500;
+  }
+
+  .treatment-info p {
+    font-size: 11px; color: var(--text); margin-top: 2px; line-height: 1.4;
+  }
+
+  .treatment-price {
+    text-align: right; min-width: 130px;
+  }
+
+  .treatment-price .price {
+    font-size: 15px; font-weight: 600; color: var(--brown);
+  }
+
+  .treatment-price .duration {
+    font-size: 10px; color: var(--gold-dark);
+  }
+
+  /* How it works */
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px; margin-top: 24px;
+  }
+
+  .step {
+    text-align: center; padding: 24px 16px;
+    background: var(--white); border: 1px solid var(--gold); border-radius: 10px;
+  }
+
+  .step-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 300; color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .step h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; color: var(--brown); margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 12px; color: var(--text); line-height: 1.5;
+  }
+
+  .note {
+    text-align: center; font-size: 12px; color: var(--gold-dark);
+    margin-top: 20px; font-style: italic;
+  }
+
+  .btn {
+    display: inline-block; padding: 14px 32px; border-radius: 4px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none; transition: all 0.3s;
+  }
+
+  .btn-primary { background: var(--brown); color: var(--cream); }
+  .btn-primary:hover { background: var(--brown-dark); }
+
+  .btn-wa { background: #25D366; color: white; }
+  .btn-wa:hover { background: #1da851; }
+
+  .cta-section {
+    text-align: center; padding: 60px 24px;
+    background: var(--soft-blue-light);
+  }
+
+  .cta-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; color: var(--brown); margin-bottom: 12px;
+  }
+
+  .cta-section p {
+    font-size: 14px; color: var(--text); margin-bottom: 24px;
+    max-width: 450px; margin-left: auto; margin-right: auto;
+  }
+
+  .cta-section .btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  footer {
+    text-align: center; padding: 24px;
+    border-top: 1px solid var(--gold); font-size: 11px; color: var(--gold-dark);
+  }
+
+  footer a { color: var(--brown); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .treatment { flex-direction: column; gap: 6px; }
+    .treatment-price { text-align: left; }
+    .steps-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="../" class="brand">The Quiet Pilgrim</a>
+    <div class="links">
+      <a href="#services">Services</a>
+      <a href="#how">How It Works</a>
+      <a href="#book">Book Now</a>
+      <a href="../kitchen/">Kitchen</a>
+      <a href="../wellness/">Wellness</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div>
+    <h1>Nanny Services</h1>
+    <p class="tagline">Trusted, experienced childcare at your villa. So you can enjoy a dinner, explore Ubud, or simply take a moment for yourself.</p>
+  </div>
+</div>
+
+<section>
+  <h2 class="section-title">Childcare You Can Trust</h2>
+  <p class="section-sub">Experienced local nannies who love what they do</p>
+  <p class="about-text">
+    Our nannies are experienced local caregivers who have looked after children from families around the world. They are warm, patient, and attentive. We match the right nanny to your family, and they come to your villa whenever you need them.
+  </p>
+</section>
+
+<section id="services">
+  <h2 class="section-title">Our Services</h2>
+  <p class="section-sub">Flexible childcare, tailored to your stay</p>
+
+  <div class="category-title">Babysitting</div>
+  <div class="treatment-grid">
+    <div class="treatment">
+      <div class="treatment-info">
+        <h4>Evening Babysitting</h4>
+        <p>Head out for a romantic dinner or sunset drinks while your little ones are looked after at the villa. Games, stories, bath time, and bedtime routines.</p>
+      </div>
+      <div class="treatment-price">
+        <div class="price">Rp 200,000</div>
+        <div class="duration">per hour / 4hr min</div>
+      </div>
+    </div>
+    <div class="treatment">
+      <div class="treatment-info">
+        <h4>Daytime Babysitting</h4>
+        <p>A few hours of freedom while you enjoy a spa treatment, explore the rice terraces, or visit a temple. Your nanny keeps the children happy and safe at the villa.</p>
+      </div>
+      <div class="treatment-price">
+        <div class="price">Rp 200,000</div>
+        <div class="duration">per hour / 4hr min</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-title">Full Day Nanny</div>
+  <div class="treatment-grid">
+    <div class="treatment">
+      <div class="treatment-info">
+        <h4>Holiday Nanny</h4>
+        <p>The same nanny for your entire stay. She gets to know your children, their routines, and their favourites. Continuity and comfort for everyone.</p>
+      </div>
+      <div class="treatment-price">
+        <div class="price">Rp 1,200,000</div>
+        <div class="duration">full day / 8 hours</div>
+      </div>
+    </div>
+    <div class="treatment">
+      <div class="treatment-info">
+        <h4>Multi-Day Booking</h4>
+        <p>Book your nanny for three or more consecutive days. Same trusted face every morning. Children settle, parents relax.</p>
+      </div>
+      <div class="treatment-price">
+        <div class="price">Rp 1,000,000</div>
+        <div class="duration">per day / 3-day min</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-title">Night Nanny</div>
+  <div class="treatment-grid">
+    <div class="treatment">
+      <div class="treatment-info">
+        <h4>Overnight Care</h4>
+        <p>Your nanny stays through the night, handling feeds, settles, and early morning wake-ups. You sleep. She takes care of everything until morning.</p>
+      </div>
+      <div class="treatment-price">
+        <div class="price">Rp 1,500,000</div>
+        <div class="duration">evening to 8am</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">All prices are for 1-2 children. Additional children by arrangement. Nanny transport to your villa is included.</p>
+</section>
+
+<section id="how" style="background:var(--soft-blue-light); max-width:100%; padding-left:0; padding-right:0;">
+  <div style="max-width:900px; margin:0 auto; padding:0 24px;">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">Simple, personal, no fuss</p>
+
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h4>Tell Us What You Need</h4>
+        <p>Message us with your dates, children's ages, and what you have planned. Evening out? Full day? A few hours by the pool?</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h4>We Match Your Nanny</h4>
+        <p>We select an experienced nanny suited to your children's ages and your preferences. You will know who is coming before she arrives.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h4>She Comes to You</h4>
+        <p>Your nanny arrives at your villa at the agreed time. She brings warmth, patience, and experience. You head out with peace of mind.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section" id="book">
+  <h2>Book a Nanny</h2>
+  <p>Message us with your dates and we will arrange everything. We recommend booking at least 24 hours in advance, especially during peak season.</p>
+  <div class="btns">
+    <a href="https://wa.me/6285337954136?text=Hi%2C%20I%27d%20like%20to%20arrange%20a%20nanny%20for%20our%20villa%20stay" class="btn btn-wa" target="_blank">Book via WhatsApp</a>
+    <a href="../wellness/" class="btn btn-primary">Explore Wellness</a>
+  </div>
+</div>
+
+<footer>
+  <p><a href="../">The Quiet Pilgrim</a> &mdash; Nanny Services &mdash; Ubud, Bali</p>
+</footer>
+
+</body>
+</html>
