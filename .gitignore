@@ -132,9 +132,11 @@ receipts/
 *.jpg
 *.jpeg
 *.png
-# Exception: Keep logos
+# Exception: Keep logos and website images
 !data/*logo*.png
 !**/tqp_logo.png
+!nanny/hero-kids-crafting.jpg
+!images/nanny-card.jpg
 
 # ========================================
 # SPECIFIC TO THIS PROJECT
