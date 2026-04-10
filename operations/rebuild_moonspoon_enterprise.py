@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Rebuild Moon & Spoon tab - Enterprise level"""
+
 import paramiko
 import sys
 import io
 import re
 
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
-print('REBUILDING MOON & SPOON - ENTERPRISE LEVEL')
-print('='*70)
+print("REBUILDING MOON & SPOON - ENTERPRISE LEVEL")
+print("=" * 70)
 
-with open('dashboard_labeling_fixed.html', 'r', encoding='utf-8') as f:
+with open("dashboard_labeling_fixed.html", "r", encoding="utf-8") as f:
     html = f.read()
 
 # Find and replace renderMoonSpoon function
-old_function_pattern = r'function renderMoonSpoon\(\) \{.*?// Recent Expenses\s+renderRecentExpenses.*?\n    \}'
+old_function_pattern = r"function renderMoonSpoon\(\) \{.*?// Recent Expenses\s+renderRecentExpenses.*?\n    \}"
 
-new_function = '''function renderMoonSpoon() {
+new_function = """function renderMoonSpoon() {
       const data = allData.moonspoon;
       const msCategories = categorizeMoonSpoon(data);
       const total = data.reduce((s, e) => s + (e.total || 0), 0);
@@ -199,48 +200,49 @@ new_function = '''function renderMoonSpoon() {
 
       // Recent Expenses
       renderRecentExpenses(data.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 10), 'ms-recent-expenses');
-    }'''
+    }"""
 
 match = re.search(old_function_pattern, html, re.DOTALL)
 if match:
     html = html.replace(match.group(0), new_function)
-    print('✓ renderMoonSpoon function rebuilt')
+    print("✓ renderMoonSpoon function rebuilt")
 else:
-    print('❌ Could not find renderMoonSpoon function')
+    print("❌ Could not find renderMoonSpoon function")
 
 # Save
-with open('dashboard_enterprise_ms.html', 'w', encoding='utf-8') as f:
+with open("dashboard_enterprise_ms.html", "w", encoding="utf-8") as f:
     f.write(html)
-print('✓ Saved')
+print("✓ Saved")
 
 # Upload
-print('\nUploading...')
+print("\nUploading...")
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect('77.42.37.42', username='helm', password='MosesHappy182!')
+ssh.connect("77.42.37.42", username="helm", password="MosesHappy182!")
 
 sftp = ssh.open_sftp()
-sftp.put('dashboard_enterprise_ms.html', '/home/helm/expense-tracker/expense_dashboard.html')
+sftp.put("dashboard_enterprise_ms.html", "/home/helm/expense-tracker/expense_dashboard.html")
 sftp.close()
 
-print('✓ Uploaded')
+print("✓ Uploaded")
 
-stdin, stdout, stderr = ssh.exec_command('pm2 restart expense-dashboard')
+stdin, stdout, stderr = ssh.exec_command("pm2 restart expense-dashboard")
 stdout.read()
 
 import time
+
 time.sleep(3)
 
-print('✓ Restarted')
+print("✓ Restarted")
 ssh.close()
 
-print('\n' + '='*70)
-print('MOON & SPOON REBUILT - ENTERPRISE FEATURES')
-print('='*70)
-print('\nNow displays:')
-print('  ✓ Client Portfolio (with COGS totals)')
-print('  ✓ COGS Category Breakdown with chart')
-print('  ✓ Timeline Analysis (monthly trends)')
-print('  ✓ Service Analytics (Service Types)')
-print('  ✓ Recent Expenses')
-print('\n🌐 Test: http://77.42.37.42:3000/')
+print("\n" + "=" * 70)
+print("MOON & SPOON REBUILT - ENTERPRISE FEATURES")
+print("=" * 70)
+print("\nNow displays:")
+print("  ✓ Client Portfolio (with COGS totals)")
+print("  ✓ COGS Category Breakdown with chart")
+print("  ✓ Timeline Analysis (monthly trends)")
+print("  ✓ Service Analytics (Service Types)")
+print("  ✓ Recent Expenses")
+print("\n🌐 Test: http://77.42.37.42:3000/")
