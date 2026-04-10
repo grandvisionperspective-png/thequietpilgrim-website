@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Deploy corrected ingredient names with automatic backup"""
+
 import paramiko
 import getpass
 import os
@@ -15,11 +16,17 @@ password = getpass.getpass(f"Enter SSH password for {VPS_USER}@{VPS_HOST}: ")
 try:
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(VPS_HOST, username=VPS_USER, password=password, look_for_keys=False, allow_agent=False)
+    ssh.connect(
+        VPS_HOST,
+        username=VPS_USER,
+        password=password,
+        look_for_keys=False,
+        allow_agent=False,
+    )
 
-    print("="*70)
+    print("=" * 70)
     print("DEPLOYING CORRECTED INGREDIENT NAMES")
-    print("="*70)
+    print("=" * 70)
 
     # Step 1: Create backup
     print("\n1. Creating backup...")
@@ -70,9 +77,9 @@ try:
 
     ssh.close()
 
-    print("\n" + "="*70)
+    print("\n" + "=" * 70)
     print("DEPLOYMENT COMPLETE!")
-    print("="*70)
+    print("=" * 70)
     print("\n🎯 Ingredient Name Corrections Applied:")
     print("   - Salmon → Salmon Fillet")
     print("   - Butter → Butter (Unsalted)")
@@ -89,4 +96,5 @@ try:
 except Exception as e:
     print(f"\nError: {e}")
     import traceback
+
     traceback.print_exc()
