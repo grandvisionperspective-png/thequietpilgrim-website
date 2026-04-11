@@ -1,34 +1,35 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Update Moon & Spoon to show actual clients, not merchants"""
+
 import paramiko
 import sys
 import io
 import re
 
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
-print('🍴 UPDATING MOON & SPOON TO SHOW REAL CLIENTS')
-print('='*70)
+print("🍴 UPDATING MOON & SPOON TO SHOW REAL CLIENTS")
+print("=" * 70)
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect('77.42.37.42', username='helm', password='MosesHappy182!')
+ssh.connect("77.42.37.42", username="helm", password="MosesHappy182!")
 
 sftp = ssh.open_sftp()
-sftp.get('/home/helm/expense-tracker/expense_dashboard.html', 'dashboard_current.html')
+sftp.get("/home/helm/expense-tracker/expense_dashboard.html", "dashboard_current.html")
 sftp.close()
 
-with open('dashboard_current.html', 'r', encoding='utf-8') as f:
+with open("dashboard_current.html", "r", encoding="utf-8") as f:
     html = f.read()
 
-print('\n1️⃣  UPDATING RENDERMOONSPOON TO SHOW CLIENTS')
-print('-'*70)
+print("\n1️⃣  UPDATING RENDERMOONSPOON TO SHOW CLIENTS")
+print("-" * 70)
 
 # Find renderMoonSpoon function
-func_match = re.search(r'(function renderMoonSpoon\(\) \{.*?)(?=\n    function )', html, re.DOTALL)
+func_match = re.search(r"(function renderMoonSpoon\(\) \{.*?)(?=\n    function )", html, re.DOTALL)
 
 if func_match:
     old_func = func_match.group(0)
@@ -37,7 +38,7 @@ if func_match:
     # Old: Extract merchants as "clients"
     # New: Extract actual clients from client/place fields
 
-    new_client_logic = '''
+    new_client_logic = """
       // ACTUAL CLIENTS - People and Villas (not merchants!)
       const clientData = {};
       const sessionData = {};
@@ -120,19 +121,19 @@ if func_match:
       `).join('');
 
       document.getElementById('ms-client-grid').innerHTML = clientHtml || '<div style="text-align: center; padding: 40px; color: var(--brown);">No clients yet</div>';
-'''
+"""
 
     # Find where the old client extraction is and replace it
     # Look for the pattern "const clientMap = {};"
-    client_map_pos = old_func.find('const clientMap = {};')
+    client_map_pos = old_func.find("const clientMap = {};")
 
     if client_map_pos > 0:
         # Find the end of the client extraction (where client cards are built)
-        client_end = old_func.find('document.getElementById(\'ms-client-grid\').innerHTML', client_map_pos)
+        client_end = old_func.find("document.getElementById('ms-client-grid').innerHTML", client_map_pos)
 
         if client_end > 0:
             # Find the end of that statement
-            statement_end = old_func.find(';', client_end) + 1
+            statement_end = old_func.find(";", client_end) + 1
 
             # Replace the entire client extraction logic
             before = old_func[:client_map_pos]
@@ -142,47 +143,51 @@ if func_match:
 
             html = html.replace(old_func, new_func)
 
-            print('  ✅ Updated client display logic')
+            print("  ✅ Updated client display logic")
         else:
-            print('  ⚠️  Could not find client grid update')
+            print("  ⚠️  Could not find client grid update")
     else:
-        print('  ⚠️  Could not find clientMap')
+        print("  ⚠️  Could not find clientMap")
 
 else:
-    print('  ❌ renderMoonSpoon function not found')
+    print("  ❌ renderMoonSpoon function not found")
 
-print('\n2️⃣  UPLOADING')
-print('-'*70)
+print("\n2️⃣  UPLOADING")
+print("-" * 70)
 
-with open('dashboard_with_real_clients.html', 'w', encoding='utf-8') as f:
+with open("dashboard_with_real_clients.html", "w", encoding="utf-8") as f:
     f.write(html)
 
 sftp = ssh.open_sftp()
-sftp.put('dashboard_with_real_clients.html', '/home/helm/expense-tracker/expense_dashboard.html')
+sftp.put(
+    "dashboard_with_real_clients.html",
+    "/home/helm/expense-tracker/expense_dashboard.html",
+)
 sftp.close()
 
-print('  ✅ Uploaded')
+print("  ✅ Uploaded")
 
 # Restart
-stdin, stdout, stderr = ssh.exec_command('pm2 restart expense-dashboard')
+stdin, stdout, stderr = ssh.exec_command("pm2 restart expense-dashboard")
 stdout.read()
 
 import time
+
 time.sleep(3)
 
-print('  ✅ Restarted')
+print("  ✅ Restarted")
 
 ssh.close()
 
-print('\n' + '='*70)
-print('✅ MOON & SPOON NOW SHOWS REAL CLIENTS')
-print('='*70)
-print('\n📊 Dashboard now displays:')
-print('  • Clients: Dan, Sem (not merchants!)')
-print('  • Villas: Villa Lou Tirta Tawar, etc.')
-print('  • Sessions: Grouped catering events')
-print('  • Revenue per client')
-print('  • Sessions per client')
+print("\n" + "=" * 70)
+print("✅ MOON & SPOON NOW SHOWS REAL CLIENTS")
+print("=" * 70)
+print("\n📊 Dashboard now displays:")
+print("  • Clients: Dan, Sem (not merchants!)")
+print("  • Villas: Villa Lou Tirta Tawar, etc.")
+print("  • Sessions: Grouped catering events")
+print("  • Revenue per client")
+print("  • Sessions per client")
 print()
-print('🌐 Test: http://77.42.37.42:3000/')
+print("🌐 Test: http://77.42.37.42:3000/")
 print()

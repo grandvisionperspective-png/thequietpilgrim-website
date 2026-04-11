@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Deploy Sessions and Pricing pages to VPS"""
+
 import paramiko
 import getpass
 
@@ -11,11 +12,17 @@ password = getpass.getpass(f"Enter SSH password for {VPS_USER}@{VPS_HOST}: ")
 try:
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(VPS_HOST, username=VPS_USER, password=password, look_for_keys=False, allow_agent=False)
+    ssh.connect(
+        VPS_HOST,
+        username=VPS_USER,
+        password=password,
+        look_for_keys=False,
+        allow_agent=False,
+    )
 
-    print("="*70)
+    print("=" * 70)
     print("DEPLOYING SESSIONS & PRICING PAGES")
-    print("="*70)
+    print("=" * 70)
 
     # Step 1: Upload HTML files
     print("\n1. Uploading HTML files...")
@@ -32,8 +39,11 @@ try:
     # Step 2: Backup production_api.py
     print("\n2. Backing up production_api.py...")
     from datetime import datetime
+
     backup_name = f"production_api_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.py"
-    stdin, stdout, stderr = ssh.exec_command(f"cp /home/helm/moonspoon-api/production_api.py /home/helm/moonspoon-api/{backup_name}")
+    stdin, stdout, stderr = ssh.exec_command(
+        f"cp /home/helm/moonspoon-api/production_api.py /home/helm/moonspoon-api/{backup_name}"
+    )
     stdout.channel.recv_exit_status()
     print(f"   ✅ Backup: {backup_name}")
 
@@ -97,9 +107,12 @@ PYTHON_SCRIPT
     stdout.channel.recv_exit_status()
 
     import time
+
     time.sleep(2)
 
-    stdin, stdout, stderr = ssh.exec_command("cd /home/helm/moonspoon-api && nohup python3 production_api.py > /tmp/api.log 2>&1 &")
+    stdin, stdout, stderr = ssh.exec_command(
+        "cd /home/helm/moonspoon-api && nohup python3 production_api.py > /tmp/api.log 2>&1 &"
+    )
     stdout.channel.recv_exit_status()
     print("   ✅ API restarted")
 
@@ -116,9 +129,9 @@ PYTHON_SCRIPT
 
     ssh.close()
 
-    print("\n" + "="*70)
+    print("\n" + "=" * 70)
     print("DEPLOYMENT COMPLETE!")
-    print("="*70)
+    print("=" * 70)
     print("\n✅ Sessions Management: http://77.42.37.42:3000/sessions")
     print("✅ Pricing Calculator: http://77.42.37.42:3000/pricing")
     print("\nTest both pages from the dashboard!")
@@ -126,4 +139,5 @@ PYTHON_SCRIPT
 except Exception as e:
     print(f"\nError: {e}")
     import traceback
+
     traceback.print_exc()

@@ -8,7 +8,7 @@ Add this to main.py after line 672 (before expenses endpoint)
 """
 
 from pydantic import BaseModel
-from typing import Optional, List, Dict
+from typing import Optional
 from datetime import datetime
 import uuid
 
@@ -16,8 +16,10 @@ import uuid
 # PYDANTIC MODELS
 # ============================================
 
+
 class SessionCreate(BaseModel):
     """Request model for creating a new session"""
+
     entity: str  # personal, moonspoon, business
     name: str  # Event name or project name
     client: str
@@ -25,29 +27,35 @@ class SessionCreate(BaseModel):
     guests: Optional[int] = None
     notes: Optional[str] = None
 
+
 class SessionUpdate(BaseModel):
     """Request model for updating session"""
+
     name: Optional[str] = None
     status: Optional[str] = None  # open, closed, paid
     notes: Optional[str] = None
 
+
 class SessionClose(BaseModel):
     """Request model for closing a session"""
+
     final_price: Optional[float] = None
     payment_status: Optional[str] = "Unpaid"  # Unpaid, Deposit Paid, Paid
     deposit_amount: Optional[float] = None
     notes: Optional[str] = None
 
+
 # ============================================
 # SESSION ENDPOINTS
 # ============================================
+
 
 @app.get("/api/sessions")
 async def list_all_sessions(
     entity: Optional[str] = None,
     status: Optional[str] = None,  # open, closed, all
     client: Optional[str] = None,
-    limit: int = 50
+    limit: int = 50,
 ):
     """
     List all sessions across entities or for specific entity
@@ -63,20 +71,17 @@ async def list_all_sessions(
         import gspread
         from google.oauth2.service_account import Credentials
 
-        SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-        creds = Credentials.from_service_account_file(
-            settings.GOOGLE_SHEETS_CREDENTIALS_FILE,
-            scopes=SCOPES
-        )
+        SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+        creds = Credentials.from_service_account_file(settings.GOOGLE_SHEETS_CREDENTIALS_FILE, scopes=SCOPES)
         gc = gspread.authorize(creds)
 
         # Determine which entities to query
         if entity:
-            if entity not in ['personal', 'moonspoon', 'business']:
+            if entity not in ["personal", "moonspoon", "business"]:
                 raise HTTPException(400, f"Invalid entity: {entity}")
             entities_to_query = [entity]
         else:
-            entities_to_query = ['personal', 'moonspoon', 'business']
+            entities_to_query = ["personal", "moonspoon", "business"]
 
         # Collect all sessions across entities
         all_sessions = {}
@@ -85,13 +90,13 @@ async def list_all_sessions(
             sheet_ids = {
                 "personal": settings.PERSONAL_SHEET_ID,
                 "moonspoon": settings.MOONSPOON_SHEET_ID,
-                "business": settings.BUSINESS_SHEET_ID
+                "business": settings.BUSINESS_SHEET_ID,
             }
 
             tab_mapping = {
                 settings.PERSONAL_SHEET_ID: "Master Sheet",
                 settings.MOONSPOON_SHEET_ID: "Master Sheet",
-                settings.BUSINESS_SHEET_ID: "Business"
+                settings.BUSINESS_SHEET_ID: "Business",
             }
 
             sheet_id = sheet_ids[ent]
@@ -103,54 +108,56 @@ async def list_all_sessions(
 
                 # Group by session_id
                 for record in records:
-                    sid = record.get('session_id', '').strip()
+                    sid = record.get("session_id", "").strip()
                     if not sid:
                         continue
 
                     # Apply client filter if specified
-                    if client and record.get('client', '').lower() != client.lower():
+                    if client and record.get("client", "").lower() != client.lower():
                         continue
 
                     # Apply status filter if specified
-                    rec_status = record.get('session_status', 'open').lower()
-                    if status and status != 'all' and rec_status != status.lower():
+                    rec_status = record.get("session_status", "open").lower()
+                    if status and status != "all" and rec_status != status.lower():
                         continue
 
                     if sid not in all_sessions:
                         all_sessions[sid] = {
-                            'session_id': sid,
-                            'entity': ent,
-                            'client': record.get('client', ''),
-                            'status': rec_status,
-                            'receipts': [],
-                            'total_amount': 0,
-                            'currency': record.get('currency', 'IDR'),
-                            'dates': [],
-                            'drive_folder_url': record.get('session_drive_folder_url', ''),
-                            'payment_status': record.get('Payment Status', ''),
-                            'guests': record.get('Guests', ''),
-                            'service_type': record.get('Service Type', ''),
-                            'event_type': record.get('Event Type', '')
+                            "session_id": sid,
+                            "entity": ent,
+                            "client": record.get("client", ""),
+                            "status": rec_status,
+                            "receipts": [],
+                            "total_amount": 0,
+                            "currency": record.get("currency", "IDR"),
+                            "dates": [],
+                            "drive_folder_url": record.get("session_drive_folder_url", ""),
+                            "payment_status": record.get("Payment Status", ""),
+                            "guests": record.get("Guests", ""),
+                            "service_type": record.get("Service Type", ""),
+                            "event_type": record.get("Event Type", ""),
                         }
 
                     # Add receipt to session
-                    all_sessions[sid]['receipts'].append({
-                        'receipt_id': record.get('receipt_id', ''),
-                        'date': record.get('date', ''),
-                        'merchant': record.get('merchant', ''),
-                        'total': record.get('total', 0),
-                        'category': record.get('category', ''),
-                        'drive_url': record.get('drive_file_url', '')
-                    })
+                    all_sessions[sid]["receipts"].append(
+                        {
+                            "receipt_id": record.get("receipt_id", ""),
+                            "date": record.get("date", ""),
+                            "merchant": record.get("merchant", ""),
+                            "total": record.get("total", 0),
+                            "category": record.get("category", ""),
+                            "drive_url": record.get("drive_file_url", ""),
+                        }
+                    )
 
                     # Track dates
-                    if record.get('date'):
-                        all_sessions[sid]['dates'].append(record.get('date'))
+                    if record.get("date"):
+                        all_sessions[sid]["dates"].append(record.get("date"))
 
                     # Add to total
                     try:
-                        amount = float(record.get('total', 0) or 0)
-                        all_sessions[sid]['total_amount'] += amount
+                        amount = float(record.get("total", 0) or 0)
+                        all_sessions[sid]["total_amount"] += amount
                     except:
                         pass
 
@@ -162,34 +169,31 @@ async def list_all_sessions(
         session_list = []
         for sid, data in all_sessions.items():
             # Sort dates to get first and last
-            dates = sorted([d for d in data['dates'] if d])
+            dates = sorted([d for d in data["dates"] if d])
 
             session_summary = {
-                'session_id': sid,
-                'entity': data['entity'],
-                'client': data['client'],
-                'status': data['status'],
-                'receipt_count': len(data['receipts']),
-                'total_amount': round(data['total_amount'], 2),
-                'currency': data['currency'],
-                'first_date': dates[0] if dates else None,
-                'last_date': dates[-1] if dates else None,
-                'drive_folder_url': data['drive_folder_url'],
-                'payment_status': data['payment_status'],
-                'guests': data['guests'],
-                'service_type': data['service_type'],
-                'event_type': data['event_type']
+                "session_id": sid,
+                "entity": data["entity"],
+                "client": data["client"],
+                "status": data["status"],
+                "receipt_count": len(data["receipts"]),
+                "total_amount": round(data["total_amount"], 2),
+                "currency": data["currency"],
+                "first_date": dates[0] if dates else None,
+                "last_date": dates[-1] if dates else None,
+                "drive_folder_url": data["drive_folder_url"],
+                "payment_status": data["payment_status"],
+                "guests": data["guests"],
+                "service_type": data["service_type"],
+                "event_type": data["event_type"],
             }
 
             session_list.append(session_summary)
 
         # Sort by session_id (most recent first)
-        session_list.sort(key=lambda x: x['session_id'], reverse=True)
+        session_list.sort(key=lambda x: x["session_id"], reverse=True)
 
-        return {
-            "count": len(session_list),
-            "sessions": session_list[:limit]
-        }
+        return {"count": len(session_list), "sessions": session_list[:limit]}
 
     except HTTPException:
         raise
@@ -211,27 +215,24 @@ async def get_session_details(session_id: str):
         import gspread
         from google.oauth2.service_account import Credentials
 
-        SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-        creds = Credentials.from_service_account_file(
-            settings.GOOGLE_SHEETS_CREDENTIALS_FILE,
-            scopes=SCOPES
-        )
+        SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+        creds = Credentials.from_service_account_file(settings.GOOGLE_SHEETS_CREDENTIALS_FILE, scopes=SCOPES)
         gc = gspread.authorize(creds)
 
         # Search all sheets for this session_id
         session_data = None
 
-        for entity in ['personal', 'moonspoon', 'business']:
+        for entity in ["personal", "moonspoon", "business"]:
             sheet_ids = {
                 "personal": settings.PERSONAL_SHEET_ID,
                 "moonspoon": settings.MOONSPOON_SHEET_ID,
-                "business": settings.BUSINESS_SHEET_ID
+                "business": settings.BUSINESS_SHEET_ID,
             }
 
             tab_mapping = {
                 settings.PERSONAL_SHEET_ID: "Master Sheet",
                 settings.MOONSPOON_SHEET_ID: "Master Sheet",
-                settings.BUSINESS_SHEET_ID: "Business"
+                settings.BUSINESS_SHEET_ID: "Business",
             }
 
             sheet_id = sheet_ids[entity]
@@ -242,7 +243,7 @@ async def get_session_details(session_id: str):
                 records = sheet.get_all_records()
 
                 # Find records with this session_id
-                session_receipts = [r for r in records if r.get('session_id', '').strip() == session_id]
+                session_receipts = [r for r in records if r.get("session_id", "").strip() == session_id]
 
                 if session_receipts:
                     # Calculate totals by category
@@ -251,55 +252,56 @@ async def get_session_details(session_id: str):
 
                     receipts_list = []
                     for r in session_receipts:
-                        cat = r.get('category', 'Uncategorized')
-                        amount = float(r.get('total', 0) or 0)
+                        cat = r.get("category", "Uncategorized")
+                        amount = float(r.get("total", 0) or 0)
 
                         if cat not in category_totals:
                             category_totals[cat] = 0
                         category_totals[cat] += amount
                         total_amount += amount
 
-                        receipts_list.append({
-                            'receipt_id': r.get('receipt_id', ''),
-                            'date': r.get('date', ''),
-                            'merchant': r.get('merchant', ''),
-                            'total': r.get('total', 0),
-                            'currency': r.get('currency', 'IDR'),
-                            'category': cat,
-                            'drive_url': r.get('drive_file_url', ''),
-                            'ocr_confidence': r.get('confidence', ''),
-                            'notes': r.get('ai_notes', '') or r.get('Caption', '')
-                        })
+                        receipts_list.append(
+                            {
+                                "receipt_id": r.get("receipt_id", ""),
+                                "date": r.get("date", ""),
+                                "merchant": r.get("merchant", ""),
+                                "total": r.get("total", 0),
+                                "currency": r.get("currency", "IDR"),
+                                "category": cat,
+                                "drive_url": r.get("drive_file_url", ""),
+                                "ocr_confidence": r.get("confidence", ""),
+                                "notes": r.get("ai_notes", "") or r.get("Caption", ""),
+                            }
+                        )
 
                     # Get session metadata from first record
                     first = session_receipts[0]
 
                     session_data = {
-                        'session_id': session_id,
-                        'entity': entity,
-                        'client': first.get('client', ''),
-                        'status': first.get('session_status', 'open'),
-                        'receipt_count': len(session_receipts),
-                        'total_amount': round(total_amount, 2),
-                        'currency': first.get('currency', 'IDR'),
-                        'category_breakdown': [
-                            {'category': cat, 'total': round(amt, 2)}
-                            for cat, amt in category_totals.items()
+                        "session_id": session_id,
+                        "entity": entity,
+                        "client": first.get("client", ""),
+                        "status": first.get("session_status", "open"),
+                        "receipt_count": len(session_receipts),
+                        "total_amount": round(total_amount, 2),
+                        "currency": first.get("currency", "IDR"),
+                        "category_breakdown": [
+                            {"category": cat, "total": round(amt, 2)} for cat, amt in category_totals.items()
                         ],
-                        'receipts': sorted(receipts_list, key=lambda x: x.get('date', ''), reverse=True),
-                        'drive_folder_url': first.get('session_drive_folder_url', ''),
-                        'drive_folder_id': first.get('session_drive_folder_id', ''),
-                        'payment_status': first.get('Payment Status', ''),
-                        'deposit_paid': first.get('Deposit Paid', ''),
-                        'guests': first.get('Guests', ''),
-                        'service_type': first.get('Service Type', ''),
-                        'event_type': first.get('Event Type', ''),
-                        'staff_model': first.get('Staff Model', ''),
-                        'ingredient_sourcing': first.get('Ingredient Sourcing', ''),
-                        'complexity_level': first.get('Complexity Level', ''),
-                        'recommended_event_price': first.get('recommended_event_price', ''),
-                        'recommended_per_person_price': first.get('recommended_per_person_price', ''),
-                        'margin_achieved_percent': first.get('margin_achieved_percent', '')
+                        "receipts": sorted(receipts_list, key=lambda x: x.get("date", ""), reverse=True),
+                        "drive_folder_url": first.get("session_drive_folder_url", ""),
+                        "drive_folder_id": first.get("session_drive_folder_id", ""),
+                        "payment_status": first.get("Payment Status", ""),
+                        "deposit_paid": first.get("Deposit Paid", ""),
+                        "guests": first.get("Guests", ""),
+                        "service_type": first.get("Service Type", ""),
+                        "event_type": first.get("Event Type", ""),
+                        "staff_model": first.get("Staff Model", ""),
+                        "ingredient_sourcing": first.get("Ingredient Sourcing", ""),
+                        "complexity_level": first.get("Complexity Level", ""),
+                        "recommended_event_price": first.get("recommended_event_price", ""),
+                        "recommended_per_person_price": first.get("recommended_per_person_price", ""),
+                        "margin_achieved_percent": first.get("margin_achieved_percent", ""),
                     }
 
                     break
@@ -333,12 +335,12 @@ async def create_session(session: SessionCreate):
     """
     try:
         # Validate entity
-        if session.entity not in ['personal', 'moonspoon', 'business']:
+        if session.entity not in ["personal", "moonspoon", "business"]:
             raise HTTPException(400, f"Invalid entity: {session.entity}")
 
         # Generate session ID
         # Format: MSK-EVT-DDMMYYYY-XXXX (matching existing format)
-        date_str = datetime.now().strftime('%d%m%Y')
+        date_str = datetime.now().strftime("%d%m%Y")
         unique_id = str(uuid.uuid4())[:4]
         session_id = f"MSK-EVT-{date_str}-{unique_id}"
 
@@ -349,16 +351,16 @@ async def create_session(session: SessionCreate):
 
         # For now, return the session_id to use when uploading receipts
         return {
-            'session_id': session_id,
-            'entity': session.entity,
-            'client': session.client,
-            'name': session.name,
-            'event_type': session.event_type,
-            'guests': session.guests,
-            'status': 'open',
-            'created_at': datetime.now().isoformat(),
-            'notes': session.notes,
-            'message': 'Session created! Use this session_id when uploading receipts.'
+            "session_id": session_id,
+            "entity": session.entity,
+            "client": session.client,
+            "name": session.name,
+            "event_type": session.event_type,
+            "guests": session.guests,
+            "status": "open",
+            "created_at": datetime.now().isoformat(),
+            "notes": session.notes,
+            "message": "Session created! Use this session_id when uploading receipts.",
         }
 
     except HTTPException:
@@ -379,27 +381,24 @@ async def close_session(session_id: str, close_data: SessionClose):
         import gspread
         from google.oauth2.service_account import Credentials
 
-        SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-        creds = Credentials.from_service_account_file(
-            settings.GOOGLE_SHEETS_CREDENTIALS_FILE,
-            scopes=SCOPES
-        )
+        SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+        creds = Credentials.from_service_account_file(settings.GOOGLE_SHEETS_CREDENTIALS_FILE, scopes=SCOPES)
         gc = gspread.authorize(creds)
 
         # Find which sheet contains this session
         updated_count = 0
 
-        for entity in ['personal', 'moonspoon', 'business']:
+        for entity in ["personal", "moonspoon", "business"]:
             sheet_ids = {
                 "personal": settings.PERSONAL_SHEET_ID,
                 "moonspoon": settings.MOONSPOON_SHEET_ID,
-                "business": settings.BUSINESS_SHEET_ID
+                "business": settings.BUSINESS_SHEET_ID,
             }
 
             tab_mapping = {
                 settings.PERSONAL_SHEET_ID: "Master Sheet",
                 settings.MOONSPOON_SHEET_ID: "Master Sheet",
-                settings.BUSINESS_SHEET_ID: "Business"
+                settings.BUSINESS_SHEET_ID: "Business",
             }
 
             sheet_id = sheet_ids[entity]
@@ -417,12 +416,12 @@ async def close_session(session_id: str, close_data: SessionClose):
 
                 # Find column indices
                 try:
-                    session_id_col = headers.index('session_id') + 1
-                    session_status_col = headers.index('session_status') + 1
+                    session_id_col = headers.index("session_id") + 1
+                    session_status_col = headers.index("session_status") + 1
 
                     # Optional columns
-                    payment_status_col = headers.index('Payment Status') + 1 if 'Payment Status' in headers else None
-                    deposit_col = headers.index('Deposit Paid') + 1 if 'Deposit Paid' in headers else None
+                    payment_status_col = headers.index("Payment Status") + 1 if "Payment Status" in headers else None
+                    deposit_col = headers.index("Deposit Paid") + 1 if "Deposit Paid" in headers else None
 
                 except ValueError as e:
                     print(f"Missing required columns in {entity}: {e}")
@@ -432,7 +431,7 @@ async def close_session(session_id: str, close_data: SessionClose):
                 for row_idx, row in enumerate(all_values[1:], start=2):  # Start at row 2 (skip header)
                     if len(row) >= session_id_col and row[session_id_col - 1] == session_id:
                         # Update status to closed
-                        sheet.update_cell(row_idx, session_status_col, 'closed')
+                        sheet.update_cell(row_idx, session_status_col, "closed")
 
                         # Update payment status if provided and column exists
                         if close_data.payment_status and payment_status_col:
@@ -455,13 +454,13 @@ async def close_session(session_id: str, close_data: SessionClose):
             raise HTTPException(404, f"Session not found: {session_id}")
 
         return {
-            'session_id': session_id,
-            'status': 'closed',
-            'receipts_updated': updated_count,
-            'final_price': close_data.final_price,
-            'payment_status': close_data.payment_status,
-            'deposit_amount': close_data.deposit_amount,
-            'notes': close_data.notes
+            "session_id": session_id,
+            "status": "closed",
+            "receipts_updated": updated_count,
+            "final_price": close_data.final_price,
+            "payment_status": close_data.payment_status,
+            "deposit_amount": close_data.deposit_amount,
+            "notes": close_data.notes,
         }
 
     except HTTPException:
@@ -485,24 +484,21 @@ async def get_session_stats(entity: Optional[str] = None):
         import gspread
         from google.oauth2.service_account import Credentials
 
-        SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-        creds = Credentials.from_service_account_file(
-            settings.GOOGLE_SHEETS_CREDENTIALS_FILE,
-            scopes=SCOPES
-        )
+        SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+        creds = Credentials.from_service_account_file(settings.GOOGLE_SHEETS_CREDENTIALS_FILE, scopes=SCOPES)
         gc = gspread.authorize(creds)
 
-        entities_to_query = [entity] if entity else ['personal', 'moonspoon', 'business']
+        entities_to_query = [entity] if entity else ["personal", "moonspoon", "business"]
 
         stats = {
-            'total_sessions': 0,
-            'open_sessions': 0,
-            'closed_sessions': 0,
-            'total_revenue': 0,
-            'open_revenue': 0,
-            'closed_revenue': 0,
-            'sessions_by_client': {},
-            'sessions_by_entity': {}
+            "total_sessions": 0,
+            "open_sessions": 0,
+            "closed_sessions": 0,
+            "total_revenue": 0,
+            "open_revenue": 0,
+            "closed_revenue": 0,
+            "sessions_by_client": {},
+            "sessions_by_entity": {},
         }
 
         all_sessions = {}
@@ -511,13 +507,13 @@ async def get_session_stats(entity: Optional[str] = None):
             sheet_ids = {
                 "personal": settings.PERSONAL_SHEET_ID,
                 "moonspoon": settings.MOONSPOON_SHEET_ID,
-                "business": settings.BUSINESS_SHEET_ID
+                "business": settings.BUSINESS_SHEET_ID,
             }
 
             tab_mapping = {
                 settings.PERSONAL_SHEET_ID: "Master Sheet",
                 settings.MOONSPOON_SHEET_ID: "Master Sheet",
-                settings.BUSINESS_SHEET_ID: "Business"
+                settings.BUSINESS_SHEET_ID: "Business",
             }
 
             sheet_id = sheet_ids[ent]
@@ -529,21 +525,21 @@ async def get_session_stats(entity: Optional[str] = None):
 
                 # Group by session
                 for record in records:
-                    sid = record.get('session_id', '').strip()
+                    sid = record.get("session_id", "").strip()
                     if not sid:
                         continue
 
                     if sid not in all_sessions:
                         all_sessions[sid] = {
-                            'entity': ent,
-                            'client': record.get('client', ''),
-                            'status': record.get('session_status', 'open').lower(),
-                            'total': 0
+                            "entity": ent,
+                            "client": record.get("client", ""),
+                            "status": record.get("session_status", "open").lower(),
+                            "total": 0,
                         }
 
                     try:
-                        amount = float(record.get('total', 0) or 0)
-                        all_sessions[sid]['total'] += amount
+                        amount = float(record.get("total", 0) or 0)
+                        all_sessions[sid]["total"] += amount
                     except:
                         pass
 
@@ -553,38 +549,38 @@ async def get_session_stats(entity: Optional[str] = None):
 
         # Calculate stats
         for sid, data in all_sessions.items():
-            stats['total_sessions'] += 1
+            stats["total_sessions"] += 1
 
-            if data['status'] == 'open':
-                stats['open_sessions'] += 1
-                stats['open_revenue'] += data['total']
+            if data["status"] == "open":
+                stats["open_sessions"] += 1
+                stats["open_revenue"] += data["total"]
             else:
-                stats['closed_sessions'] += 1
-                stats['closed_revenue'] += data['total']
+                stats["closed_sessions"] += 1
+                stats["closed_revenue"] += data["total"]
 
-            stats['total_revenue'] += data['total']
+            stats["total_revenue"] += data["total"]
 
             # By client
-            client = data['client']
-            if client not in stats['sessions_by_client']:
-                stats['sessions_by_client'][client] = {'count': 0, 'revenue': 0}
-            stats['sessions_by_client'][client]['count'] += 1
-            stats['sessions_by_client'][client]['revenue'] += data['total']
+            client = data["client"]
+            if client not in stats["sessions_by_client"]:
+                stats["sessions_by_client"][client] = {"count": 0, "revenue": 0}
+            stats["sessions_by_client"][client]["count"] += 1
+            stats["sessions_by_client"][client]["revenue"] += data["total"]
 
             # By entity
-            ent = data['entity']
-            if ent not in stats['sessions_by_entity']:
-                stats['sessions_by_entity'][ent] = {'count': 0, 'revenue': 0}
-            stats['sessions_by_entity'][ent]['count'] += 1
-            stats['sessions_by_entity'][ent]['revenue'] += data['total']
+            ent = data["entity"]
+            if ent not in stats["sessions_by_entity"]:
+                stats["sessions_by_entity"][ent] = {"count": 0, "revenue": 0}
+            stats["sessions_by_entity"][ent]["count"] += 1
+            stats["sessions_by_entity"][ent]["revenue"] += data["total"]
 
         # Round all values
-        stats['total_revenue'] = round(stats['total_revenue'], 2)
-        stats['open_revenue'] = round(stats['open_revenue'], 2)
-        stats['closed_revenue'] = round(stats['closed_revenue'], 2)
-        stats['average_session_value'] = round(
-            stats['total_revenue'] / stats['total_sessions'], 2
-        ) if stats['total_sessions'] > 0 else 0
+        stats["total_revenue"] = round(stats["total_revenue"], 2)
+        stats["open_revenue"] = round(stats["open_revenue"], 2)
+        stats["closed_revenue"] = round(stats["closed_revenue"], 2)
+        stats["average_session_value"] = (
+            round(stats["total_revenue"] / stats["total_sessions"], 2) if stats["total_sessions"] > 0 else 0
+        )
 
         return stats
 

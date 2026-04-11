@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Analyze pricing formulas in Google Sheets"""
+
 import paramiko
 import sys
 import io
 
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect('77.42.37.42', username='helm', password='MosesHappy182!')
+ssh.connect("77.42.37.42", username="helm", password="MosesHappy182!")
 
-print('🔍 Analyzing Pricing Formulas in Google Sheets...\n')
-print('='*70)
+print("🔍 Analyzing Pricing Formulas in Google Sheets...\n")
+print("=" * 70)
 
 # Python script to run on VPS to analyze sheet formulas
-analyze_script = '''
+analyze_script = """
 import sys
 sys.path.insert(0, '/var/www/expense-system/backend')
 
@@ -130,20 +131,22 @@ except Exception as e:
     print(f"Error checking formulas: {e}")
 
 print("\\n" + "="*70)
-'''
+"""
 
 # Run the analysis script on VPS
-stdin, stdout, stderr = ssh.exec_command(f'cd /var/www/expense-system/backend && venv/bin/python3 -c "{analyze_script}"')
+stdin, stdout, stderr = ssh.exec_command(
+    f'cd /var/www/expense-system/backend && venv/bin/python3 -c "{analyze_script}"'
+)
 output = stdout.read().decode()
 errors = stderr.read().decode()
 
 print(output)
 
-if errors and 'Traceback' in errors:
-    print('\n⚠️  ERRORS:')
+if errors and "Traceback" in errors:
+    print("\n⚠️  ERRORS:")
     print(errors)
 
 ssh.close()
 
-print('\n✅ Analysis Complete!')
+print("\n✅ Analysis Complete!")
 print()
