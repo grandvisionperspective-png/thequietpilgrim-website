@@ -4,12 +4,12 @@
 Pricing Engine - Automated Event Pricing Calculator
 Moon & Spoon Kitchen
 """
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, Dict, List
 from datetime import datetime
-import json
 
 app = FastAPI(title="Pricing Engine API")
 
@@ -31,28 +31,28 @@ SERVICE_TYPES = {
     "Full Service": {
         "transport_fee": 200000,  # IDR
         "labor_multiplier": 1.5,
-        "description": "On-site chef + full service team"
+        "description": "On-site chef + full service team",
     },
     "Drop-off Buffet": {
         "transport_fee": 150000,
         "labor_multiplier": 0.8,
-        "description": "Food delivered, client serves"
+        "description": "Food delivered, client serves",
     },
     "Setup Meal": {
         "transport_fee": 175000,
         "labor_multiplier": 1.0,
-        "description": "Setup and arrange, then depart"
+        "description": "Setup and arrange, then depart",
     },
     "Plated Service": {
         "transport_fee": 200000,
         "labor_multiplier": 1.8,
-        "description": "Individual plated service"
+        "description": "Individual plated service",
     },
     "Delivery Only": {
         "transport_fee": 100000,
         "labor_multiplier": 0.5,
-        "description": "Delivery only, no service"
-    }
+        "description": "Delivery only, no service",
+    },
 }
 
 # Event Type Characteristics
@@ -63,7 +63,7 @@ EVENT_TYPES = {
     "Retreat Lunch": {"base_complexity": 1.1, "typical_margin": 0.57},
     "Retreat Dinner": {"base_complexity": 1.2, "typical_margin": 0.58},
     "Boutique Event": {"base_complexity": 1.4, "typical_margin": 0.60},
-    "Corporate Event": {"base_complexity": 1.3, "typical_margin": 0.58}
+    "Corporate Event": {"base_complexity": 1.3, "typical_margin": 0.58},
 }
 
 # Staffing Models
@@ -71,30 +71,22 @@ STAFFING_MODELS = {
     "Chef Only": {
         "staff_count": 1,
         "hourly_rate": 150000,  # IDR per hour
-        "min_hours": 4
+        "min_hours": 4,
     },
     "Chef + 1 Assistant": {
         "staff_count": 2,
         "hourly_rate": 250000,  # Total for both
-        "min_hours": 4
+        "min_hours": 4,
     },
-    "Chef + 2 Assistants": {
-        "staff_count": 3,
-        "hourly_rate": 350000,
-        "min_hours": 5
-    },
-    "Full Service Team": {
-        "staff_count": 5,
-        "hourly_rate": 600000,
-        "min_hours": 6
-    }
+    "Chef + 2 Assistants": {"staff_count": 3, "hourly_rate": 350000, "min_hours": 5},
+    "Full Service Team": {"staff_count": 5, "hourly_rate": 600000, "min_hours": 6},
 }
 
 # Sourcing Multipliers
 SOURCING_MULTIPLIERS = {
-    "Wholesale": 1.0,      # Base (bought at wholesale)
-    "Retail": 1.15,        # 15% higher
-    "Mixed": 1.08          # 8% higher
+    "Wholesale": 1.0,  # Base (bought at wholesale)
+    "Retail": 1.15,  # 15% higher
+    "Mixed": 1.08,  # 8% higher
 }
 
 # Complexity Multipliers
@@ -102,23 +94,11 @@ COMPLEXITY_MULTIPLIERS = {
     "Simple": {
         "multiplier": 1.0,
         "overhead_rate": 0.10,  # 10% overhead
-        "contingency": 0.10     # 10% contingency
+        "contingency": 0.10,  # 10% contingency
     },
-    "Standard": {
-        "multiplier": 1.15,
-        "overhead_rate": 0.12,
-        "contingency": 0.12
-    },
-    "Complex": {
-        "multiplier": 1.30,
-        "overhead_rate": 0.15,
-        "contingency": 0.15
-    },
-    "Luxury": {
-        "multiplier": 1.50,
-        "overhead_rate": 0.18,
-        "contingency": 0.15
-    }
+    "Standard": {"multiplier": 1.15, "overhead_rate": 0.12, "contingency": 0.12},
+    "Complex": {"multiplier": 1.30, "overhead_rate": 0.15, "contingency": 0.15},
+    "Luxury": {"multiplier": 1.50, "overhead_rate": 0.18, "contingency": 0.15},
 }
 
 # Consumables per guest (plates, utensils, napkins, etc.)
@@ -127,6 +107,7 @@ CONSUMABLES_PER_GUEST = 15000  # IDR
 # ═══════════════════════════════════════════════════════════
 # MODELS
 # ═══════════════════════════════════════════════════════════
+
 
 class PricingRequest(BaseModel):
     # Required
@@ -143,6 +124,7 @@ class PricingRequest(BaseModel):
     prep_hours: Optional[float] = 3.0
     service_hours: Optional[float] = 4.0
     target_margin_percent: Optional[float] = 55.0  # Default 55%
+
 
 class PricingBreakdown(BaseModel):
     # Input costs
@@ -170,6 +152,7 @@ class PricingBreakdown(BaseModel):
     actual_margin_amount: float
     profitability_rating: str  # "Excellent", "Good", "Fair", "Poor"
 
+
 class PricingResponse(BaseModel):
     pricing_id: str
     breakdown: PricingBreakdown
@@ -178,9 +161,11 @@ class PricingResponse(BaseModel):
     warnings: List[str]
     comparable_events: Optional[List[Dict]] = None
 
+
 # ═══════════════════════════════════════════════════════════
 # PRICING ENGINE
 # ═══════════════════════════════════════════════════════════
+
 
 def calculate_pricing(request: PricingRequest) -> PricingResponse:
     """
@@ -281,7 +266,7 @@ def calculate_pricing(request: PricingRequest) -> PricingResponse:
         recommended_per_person_price=recommended_per_person_price,
         actual_margin_percent=actual_margin_percent,
         actual_margin_amount=actual_margin_amount,
-        profitability_rating=profitability_rating
+        profitability_rating=profitability_rating,
     )
 
     # Generate insights
@@ -291,13 +276,19 @@ def calculate_pricing(request: PricingRequest) -> PricingResponse:
     # Insight: Margin comparison
     typical_margin = event["typical_margin"] * 100
     if actual_margin_percent > typical_margin:
-        insights.append(f"✅ Margin ({actual_margin_percent:.1f}%) is above typical for {request.event_type} events ({typical_margin:.0f}%)")
+        insights.append(
+            f"✅ Margin ({actual_margin_percent:.1f}%) is above typical for {request.event_type} events ({typical_margin:.0f}%)"
+        )
     elif actual_margin_percent < typical_margin - 5:
-        warnings.append(f"⚠️ Margin ({actual_margin_percent:.1f}%) is below typical for {request.event_type} events ({typical_margin:.0f}%)")
+        warnings.append(
+            f"⚠️ Margin ({actual_margin_percent:.1f}%) is below typical for {request.event_type} events ({typical_margin:.0f}%)"
+        )
 
     # Insight: Per person pricing
     if recommended_per_person_price < 150000:
-        warnings.append(f"⚠️ Per person price (IDR {recommended_per_person_price:,.0f}) seems low - check if sustainable")
+        warnings.append(
+            f"⚠️ Per person price (IDR {recommended_per_person_price:,.0f}) seems low - check if sustainable"
+        )
     elif recommended_per_person_price > 500000:
         insights.append(f"💎 Premium pricing: IDR {recommended_per_person_price:,.0f} per person")
 
@@ -324,15 +315,17 @@ def calculate_pricing(request: PricingRequest) -> PricingResponse:
             "sourcing": request.sourcing,
             "complexity": request.complexity,
             "prep_hours": request.prep_hours,
-            "service_hours": request.service_hours
+            "service_hours": request.service_hours,
         },
         insights=insights,
-        warnings=warnings
+        warnings=warnings,
     )
+
 
 # ═══════════════════════════════════════════════════════════
 # API ENDPOINTS
 # ═══════════════════════════════════════════════════════════
+
 
 @app.post("/api/pricing/calculate", response_model=PricingResponse)
 async def calculate_event_pricing(request: PricingRequest):
@@ -349,6 +342,7 @@ async def calculate_event_pricing(request: PricingRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.get("/api/pricing/config")
 async def get_pricing_config():
     """
@@ -360,8 +354,9 @@ async def get_pricing_config():
         "staffing_models": STAFFING_MODELS,
         "sourcing_multipliers": SOURCING_MULTIPLIERS,
         "complexity_multipliers": COMPLEXITY_MULTIPLIERS,
-        "consumables_per_guest": CONSUMABLES_PER_GUEST
+        "consumables_per_guest": CONSUMABLES_PER_GUEST,
     }
+
 
 @app.get("/api/pricing/session/{session_id}")
 async def get_session_pricing(session_id: str):
@@ -372,13 +367,16 @@ async def get_session_pricing(session_id: str):
     return {
         "session_id": session_id,
         "status": "not_implemented",
-        "note": "Will pull COGS from session and auto-calculate"
+        "note": "Will pull COGS from session and auto-calculate",
     }
+
 
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "service": "pricing-engine"}
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8002)
