@@ -1,0 +1,20 @@
+[project]
+name = "thequietpilgrim-website"
+version = "0.0.0"
+description = "The Quiet Pilgrim public website (static + operations scripts)"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+# Rules left for manual triage in a follow-up pass.
+#   E402 — imports after sys.path.insert (common pattern in our scripts)
+#   E722 — bare except: (needs per-case judgment)
+ignore = ["E402", "E722"]
+
+[tool.ruff.lint.per-file-ignores]
+# F821 (undefined name) — dynamic imports / template stubs that trip static analysis.
+# Review manually before touching.
+"scripts/session_management_complete.py" = ["F821"]
+"scripts/ingredient_endpoints.py" = ["F821"]
