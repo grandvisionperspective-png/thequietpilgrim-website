@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 336 36" width="336" height="36">
+  <g stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" fill="none" transform="translate(0,0)"><path d="M 8 32 L 8 16 Q 18 5, 28 16 L 28 32"/><line x1="18" y1="32" x2="18" y2="22"/></g>
+  <text x="54" y="27.36" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-size="26" font-weight="300" letter-spacing="0.5" xml:space="preserve"><tspan fill="#FFFFFF" style="">The </tspan><tspan fill="#FFFFFF" style="font-style:italic">Quiet</tspan><tspan fill="#FFFFFF" style=""> Pilgrim</tspan></text>
+</svg>

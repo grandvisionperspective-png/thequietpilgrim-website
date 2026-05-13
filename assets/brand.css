@@ -214,6 +214,28 @@ section.wide .container { max-width: 1120px; }
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
 }
+/* 5-up grid (homepage) collapses cleanly to 3+2 then 2 then 1 */
+.services.five {
+  grid-template-columns: repeat(5, 1fr);
+}
+@media (max-width: 1180px) {
+  .services.five { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 820px) {
+  .services.five { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .services.five { grid-template-columns: 1fr; }
+}
+/* Photo-less typographic service card (used when a stock image would break brand) */
+.service-card.no-photo .card-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--tqp-stone) 0%, #DDE3DC 100%);
+  height: 220px;
+}
+.service-card.no-photo .card-img svg { width: 64px; height: 64px; opacity: 0.6; }
 .service-card {
   border: 1px solid var(--divider);
   border-radius: 8px;

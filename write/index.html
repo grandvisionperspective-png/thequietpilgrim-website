@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Write to The Quiet Pilgrim. A note is enough. Either of us reads email most mornings, before the day begins.">
+<link rel="canonical" href="https://thequietpilgrim.com/write/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thequietpilgrim.com/write/">
+<meta property="og:title" content="Write to us, The Quiet Pilgrim">
+<meta property="og:description" content="A note is enough. Either of us reads email most mornings.">
+<meta property="og:image" content="https://thequietpilgrim.com/assets/og/tqp-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="The Quiet Pilgrim">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Write to us, The Quiet Pilgrim">
+<meta name="twitter:description" content="A note is enough.">
+<meta name="twitter:image" content="https://thequietpilgrim.com/assets/og/tqp-og.png">
+
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="stylesheet" href="/assets/brand.css">
+
+<style>
+  /* Form-specific styles, extending brand.css */
+  .form { max-width: 560px; margin: 0 auto; padding: 0 32px 32px; }
+  .field { margin-bottom: 28px; }
+  .field label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .field input, .field textarea, .field select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--divider);
+    padding: 8px 0 12px;
+    font-family: var(--font-headline);
+    font-size: 18px;
+    color: var(--text);
+    transition: border-color 0.25s var(--ease);
+    appearance: none;
+    border-radius: 0;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 96px;
+    line-height: 1.6;
+    font-family: var(--font-headline);
+  }
+  .field .help {
+    font-family: var(--font-headline);
+    font-size: 13px;
+    color: var(--accent);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 540px) {
+    .row { grid-template-columns: 1fr; gap: 0; }
+  }
+  .quiet-note {
+    max-width: 540px;
+    margin: 56px auto 0;
+    padding: 32px;
+    border-top: 1px solid var(--divider);
+    text-align: center;
+  }
+  .quiet-note p {
+    font-family: var(--font-headline);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--accent);
+    line-height: 1.7;
+  }
+  .alt-contact {
+    max-width: 560px;
+    margin: 32px auto 0;
+    padding: 0 32px;
+    text-align: center;
+  }
+  .alt-contact .alt-label {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .alt-contact a {
+    font-family: var(--font-headline);
+    font-size: 22px;
+    color: var(--text);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    transition: color 0.25s var(--ease);
+  }
+  .alt-contact a:hover { color: var(--accent); }
+  .checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 28px;
+    margin-top: 4px;
+  }
+  .checkbox-row label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-headline);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 0;
+    cursor: pointer;
+  }
+  .checkbox-row label em { font-style: italic; color: var(--accent); }
+  .checkbox-row input { width: auto; appearance: auto; }
+</style>
+
+<title>Write to us, The Quiet Pilgrim</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="lock">
+    <svg viewBox="0 0 36 36" width="22" height="22" aria-hidden="true">
+      <g stroke="#7A8F76" stroke-width="1.6" stroke-linecap="round" fill="none">
+        <path d="M 8 32 L 8 16 Q 18 5, 28 16 L 28 32"/>
+        <line x1="18" y1="32" x2="18" y2="22"/>
+      </g>
+    </svg>
+    <span>The <em>Quiet</em> Pilgrim</span>
+  </a>
+  <ul>
+    <li><a href="/kitchen/">Kitchen</a></li>
+    <li><a href="/journeys/">Journeys</a></li>
+    <li><a href="/nanny/">Care</a></li>
+    <li><a href="/transport/">Transport</a></li>
+    <li><a href="/wellness/">Wellness</a></li>
+    <li><a href="/write/" class="active">Write</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="pre">WRITE TO US</div>
+  <h1>Tell us how you would like the <em>week</em> to feel.</h1>
+  <p class="sub">A note is enough. Either of us reads email most mornings, before the day begins.</p>
+</section>
+
+<form class="form" id="write-form" onsubmit="return composeEmail(event)">
+
+  <div class="field">
+    <label for="name">Your name</label>
+    <input id="name" name="name" type="text" required autocomplete="name">
+  </div>
+
+  <div class="field">
+    <label for="email">Where to reach you</label>
+    <input id="email" name="email" type="email" required autocomplete="email">
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="arrival">Arrival</label>
+      <input id="arrival" name="arrival" type="date">
+      <div class="help">approximate is fine</div>
+    </div>
+    <div class="field">
+      <label for="departure">Departure</label>
+      <input id="departure" name="departure" type="date">
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="guests">How many of you</label>
+    <input id="guests" name="guests" type="number" min="1" placeholder="2">
+    <div class="help">adults and children, together</div>
+  </div>
+
+  <div class="field">
+    <label>Which services interest you</label>
+    <div class="checkbox-row">
+      <label><input type="checkbox" name="services" value="kitchen"> Moon &amp; <em>Spoon</em> Kitchen</label>
+      <label><input type="checkbox" name="services" value="journeys"> Pilgrim <em>Journeys</em></label>
+      <label><input type="checkbox" name="services" value="care"> Pilgrim <em>Care</em></label>
+      <label><input type="checkbox" name="services" value="transport"> Pilgrim <em>Transport</em></label>
+      <label><input type="checkbox" name="services" value="wellness"> Pilgrim <em>Wellness</em></label>
+    </div>
+    <div class="help">tick any. tick all. or none, if you do not know yet.</div>
+  </div>
+
+  <div class="field">
+    <label for="imagining">What are you imagining</label>
+    <textarea id="imagining" name="imagining" placeholder="A slow week. A villa. Time in the kitchen with Fanny. A morning by the river. Whatever shape the days might take."></textarea>
+    <div class="help">no pressure to know the answer; we work it out together</div>
+  </div>
+
+  <div style="text-align:center">
+    <button type="submit" class="btn">Send your note</button>
+  </div>
+
+</form>
+
+<div class="quiet-note">
+  <p>We hold the days lightly. Either of us reads email most mornings.</p>
+</div>
+
+<div class="alt-contact">
+  <div class="alt-label">OR WRITE DIRECTLY TO</div>
+  <a href="mailto:hello@thequietpilgrim.com" id="direct-email">hello at thequietpilgrim dot com</a>
+</div>
+
+<footer>
+  <div class="footer-glyph">
+    <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
+      <g stroke="#7A8F76" stroke-width="1.8" stroke-linecap="round" fill="none">
+        <path d="M 8 32 L 8 16 Q 18 5, 28 16 L 28 32"/>
+        <line x1="18" y1="32" x2="18" y2="22"/>
+      </g>
+    </svg>
+  </div>
+  <div class="mark">made quietly in Ubud since 2023</div>
+  <div class="meta">THE QUIET PILGRIM &nbsp;·&nbsp; UBUD, BALI</div>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/kitchen/">Kitchen</a>
+    <a href="/journeys/">Journeys</a>
+    <a href="/nanny/">Care</a>
+    <a href="/transport/">Transport</a>
+    <a href="/wellness/">Wellness</a>
+    <a href="/about/">About</a>
+    <a href="/partners/">Partners</a>
+    <a href="/press/">Press</a>
+  </div>
+</footer>
+
+<script>
+  // Reveal the real email after JS runs (defeats simple scrapers without
+  // breaking the click flow Cloudflare's mailto-protection sometimes mangles).
+  (function () {
+    var el = document.getElementById('direct-email');
+    if (!el) return;
+    var addr = 'hello' + '@' + 'thequietpilgrim' + '.' + 'com';
+    el.textContent = addr;
+    el.setAttribute('href', 'mailto:' + addr + '?subject=A%20note%20from%20your%20site');
+  })();
+
+  // Compose a mailto: from the form fields. No backend required; opens the
+  // user's email client with subject + body pre-populated. They review and send.
+  function composeEmail(ev) {
+    ev.preventDefault();
+    var f = document.getElementById('write-form');
+    var name      = (f.name.value || '').trim();
+    var email     = (f.email.value || '').trim();
+    var arrival   = (f.arrival.value || '').trim();
+    var departure = (f.departure.value || '').trim();
+    var guests    = (f.guests.value || '').trim();
+    var imagining = (f.imagining.value || '').trim();
+    var services  = Array.prototype.slice.call(f.querySelectorAll('input[name="services"]:checked'))
+                       .map(function (el) { return el.value; });
+
+    var lines = [];
+    if (name)      lines.push('Hello, this is ' + name + '.');
+    if (email)     lines.push('You can reach me at ' + email + '.');
+    if (arrival || departure) {
+      lines.push('');
+      lines.push('Dates I am imagining: ' + (arrival || '?') + ' to ' + (departure || '?'));
+    }
+    if (guests)    lines.push('We would be ' + guests + ' of us.');
+    if (services.length) {
+      lines.push('');
+      lines.push('Services I am curious about: ' + services.join(', ') + '.');
+    }
+    if (imagining) {
+      lines.push('');
+      lines.push('What I am imagining:');
+      lines.push(imagining);
+    }
+    lines.push('');
+    lines.push('Looking forward to hearing back.');
+
+    var subject = 'A note from your site';
+    if (name) subject = 'A note from ' + name;
+
+    var addr = 'hello' + '@' + 'thequietpilgrim' + '.' + 'com';
+    var href = 'mailto:' + addr +
+               '?subject=' + encodeURIComponent(subject) +
+               '&body=' + encodeURIComponent(lines.join('\n'));
+    window.location.href = href;
+    return false;
+  }
+</script>
+
+</body>
+</html>
