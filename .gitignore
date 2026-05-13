@@ -136,7 +136,9 @@ receipts/
 !data/*logo*.png
 !**/tqp_logo.png
 !nanny/hero-kids-crafting.jpg
-!images/nanny-card.jpg
+!images/*.jpg
+!images/*.png
+!images/heroes/*.jpg
 
 # Exception: Brand OG images (deployed for social-share scraping)
 !assets/og/*.png
