@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="What a week with The Quiet Pilgrim costs. Honest numbers, itemized. PB1 and service shown. A worked example, and a few quiet notes.">
+<meta name="keywords" content="Ubud private chef pricing, Bali villa service pricing, transparent hospitality Bali, Moon and Spoon Kitchen prices, Pilgrim Care nanny rates">
+<link rel="canonical" href="https://thequietpilgrim.com/pricing/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thequietpilgrim.com/pricing/">
+<meta property="og:title" content="What a week costs, The Quiet Pilgrim">
+<meta property="og:description" content="Honest numbers, itemized. PB1 and service shown. A worked example.">
+<meta property="og:image" content="https://thequietpilgrim.com/assets/og/tqp-og.png">
+<meta property="og:site_name" content="The Quiet Pilgrim">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What a week costs, The Quiet Pilgrim">
+<meta name="twitter:image" content="https://thequietpilgrim.com/assets/og/tqp-og.png">
+
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="stylesheet" href="/assets/brand.css">
+
+<style>
+  .pricing-table {
+    max-width: 760px;
+    margin: 0 auto;
+    border-top: 1px solid var(--divider);
+  }
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--divider);
+    align-items: baseline;
+  }
+  .pricing-row .what {
+    font-family: var(--font-headline);
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.45;
+  }
+  .pricing-row .what .desc {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .pricing-row .price {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--accent-strong);
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .pricing-row .price small {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+    font-style: normal;
+  }
+
+  .week-shape {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .week-shape .day {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 24px;
+    padding: 18px 0;
+    border-top: 1px solid var(--divider);
+    align-items: baseline;
+  }
+  .week-shape .day:last-child { border-bottom: 1px solid var(--divider); }
+  .week-shape .when {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .week-shape .what {
+    font-family: var(--font-headline);
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.45;
+  }
+  .week-shape .what .note {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .week-shape .price {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text);
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .week-shape .totals {
+    grid-template-columns: 1fr auto;
+    border-top: 2px solid var(--text);
+    padding-top: 22px;
+    margin-top: 8px;
+  }
+  .week-shape .totals .label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0;
+  }
+  .week-shape .totals .amount {
+    font-family: var(--font-headline);
+    font-size: 22px;
+    color: var(--text);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .week-shape .totals .amount .conv {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .week-shape .day { grid-template-columns: 1fr; gap: 6px; }
+    .week-shape .when { margin-bottom: 2px; }
+    .week-shape .price { text-align: left; }
+  }
+
+  .always-list {
+    max-width: 640px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .always-list .item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .always-list .item .glyph {
+    font-family: var(--font-headline);
+    font-size: 16px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .always-list .item p {
+    font-family: var(--font-headline);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+</style>
+
+<title>What a week costs, The Quiet Pilgrim</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="lock">
+    <svg viewBox="0 0 36 36" width="22" height="22" aria-hidden="true">
+      <g stroke="#7A8F76" stroke-width="1.6" stroke-linecap="round" fill="none">
+        <path d="M 8 32 L 8 16 Q 18 5, 28 16 L 28 32"/>
+        <line x1="18" y1="32" x2="18" y2="22"/>
+      </g>
+    </svg>
+    <span>The <em>Quiet</em> Pilgrim</span>
+  </a>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
+    <li><a href="/kitchen/">Kitchen</a></li>
+    <li><a href="/journeys/">Journeys</a></li>
+    <li><a href="/care/">Care</a></li>
+    <li><a href="/transport/">Transport</a></li>
+    <li><a href="/wellness/">Wellness</a></li>
+    <li><a href="/write/">Write</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section class="hero">
+  <div class="pre">AN OPEN HAND</div>
+  <h1>What a week with us <em>costs</em>.</h1>
+  <p class="sub">Honest numbers. Itemized. PB1 and service charge shown. No hidden line, no surprise at the end.</p>
+</section>
+
+<section class="tight">
+  <div class="container">
+    <div class="center" style="margin-bottom:36px">
+      <div class="label">HOW A WEEK SHAPES</div>
+      <h2 class="h2">A couple plus two kids, <em>five days</em>.</h2>
+      <p class="body-lg spaced" style="margin-left:auto;margin-right:auto;max-width:560px;">
+        One way a week with us has shaped, recently. Yours will move around. We use this as a starting point, not a menu.
+      </p>
+    </div>
+
+    <div class="week-shape">
+      <div class="day">
+        <div class="when">DAY 1</div>
+        <div class="what">Arrival night dinner, in-villa
+          <span class="note">A gentle first meal. Fanny in your kitchen.</span>
+        </div>
+        <div class="price">Rp 2,000,000</div>
+      </div>
+      <div class="day">
+        <div class="when">DAY 2</div>
+        <div class="what">Slow morning breakfast, family beach afternoon
+          <span class="note">Breakfast for four, transport, half-day care for the kids.</span>
+        </div>
+        <div class="price">Rp 3,200,000</div>
+      </div>
+      <div class="day">
+        <div class="when">DAY 3</div>
+        <div class="what">Two wellness treatments, shared table dinner
+          <span class="note">A sound bath each for the adults. Dinner for four at the long table.</span>
+        </div>
+        <div class="price">Rp 2,800,000</div>
+      </div>
+      <div class="day">
+        <div class="when">DAY 4</div>
+        <div class="what">Pilgrim Journey, temple day with guide
+          <span class="note">Tirta Empul, Gunung Kawi, Goa Gajah. Lunch on the road.</span>
+        </div>
+        <div class="price">Rp 3,000,000</div>
+      </div>
+      <div class="day">
+        <div class="when">DAY 5</div>
+        <div class="what">Departure breakfast, transport to airport
+          <span class="note">A simple, well-paced final meal. Driver at the door.</span>
+        </div>
+        <div class="price">Rp 1,800,000</div>
+      </div>
+      <div class="day totals" style="grid-template-columns:1fr auto">
+        <div class="label">SUBTOTAL</div>
+        <div class="amount">Rp 12,800,000
+          <span class="conv">approximately USD 845</span>
+        </div>
+      </div>
+      <div class="day" style="border-top:0">
+        <div class="when">PB1 (11%)</div>
+        <div class="what">Bali hospitality tax, statutory.</div>
+        <div class="price">Rp 1,408,000</div>
+      </div>
+      <div class="day" style="border-top:0">
+        <div class="when">SERVICE (5%)</div>
+        <div class="what">Optional. Splits across the team that ran your week.</div>
+        <div class="price">Rp 640,000</div>
+      </div>
+      <div class="day totals" style="grid-template-columns:1fr auto">
+        <div class="label">FINAL INVOICE</div>
+        <div class="amount">Rp 14,848,000
+          <span class="conv">approximately USD 980 for two adults plus two kids, five days</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-lg" style="text-align:center;margin:48px auto 0;max-width:560px;font-size:15px;font-style:italic;">
+      The villa stay is yours, not ours. We price the services that fill it.
+    </p>
+  </div>
+</section>
+
+<section class="wide">
+  <div class="container">
+    <div class="center" style="margin-bottom:40px">
+      <div class="label">STARTING POINTS</div>
+      <h2 class="h2">A few honest <em>numbers</em>, by service.</h2>
+      <p class="body-lg spaced" style="margin-left:auto;margin-right:auto;max-width:560px;">
+        Where the line starts. Most weeks land above this. The shape decides the rest.
+      </p>
+    </div>
+
+    <div class="pricing-table">
+      <div class="pricing-row" style="border-top:1px solid var(--text);padding-top:24px;">
+        <div class="what">Moon &amp; <em style="color:var(--accent-strong)">Spoon</em> Kitchen
+          <span class="desc">Private chef and in-villa dining</span>
+        </div>
+        <div class="price">from Rp 250,000<small>PER GUEST, BREAKFAST</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">Floating breakfast for two
+          <span class="desc">Poolside or floating. Seasonal fruit, fresh juice, eggs.</span>
+        </div>
+        <div class="price">from Rp 600,000<small>FOR TWO</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">In-villa dinner
+          <span class="desc">Shared table, Balinese home, arrival night. Fanny cooks.</span>
+        </div>
+        <div class="price">from Rp 500,000<small>PER GUEST</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">Romantic candlelit dinner
+          <span class="desc">A multi-course tasting menu, paced.</span>
+        </div>
+        <div class="price">from Rp 1,100,000<small>PER GUEST</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">Pilgrim <em style="color:var(--accent-strong)">Journeys</em>
+          <span class="desc">Day trips: temples, Kintamani, rice terraces.</span>
+        </div>
+        <div class="price">from Rp 400,000<small>PER GUEST</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">Five-day curated journey
+          <span class="desc">The road as part of the holiday. Daily rate, all-in.</span>
+        </div>
+        <div class="price">from Rp 750,000<small>PER GUEST, PER DAY</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">Pilgrim <em style="color:var(--accent-strong)">Care</em>
+          <span class="desc">Hourly nanny, four-hour minimum.</span>
+        </div>
+        <div class="price">from Rp 200,000<small>PER HOUR</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">Full-day care
+          <span class="desc">Eight hours. Balinese, English-speaking, known to us.</span>
+        </div>
+        <div class="price">from Rp 1,200,000<small>PER DAY</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">Pilgrim <em style="color:var(--accent-strong)">Transport</em>
+          <span class="desc">Half-day routes, airport, day trips.</span>
+        </div>
+        <div class="price">from Rp 350,000<small>PER ROUTE</small></div>
+      </div>
+      <div class="pricing-row">
+        <div class="what">Pilgrim <em style="color:var(--accent-strong)">Wellness</em>
+          <span class="desc">Sound bath, breath, massage, ceremony. 60 to 90 minutes.</span>
+        </div>
+        <div class="price">from Rp 350,000<small>60 MIN</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="container">
+    <div class="center" style="margin-bottom:32px">
+      <div class="label" style="color:var(--tqp-sand)">ALWAYS IN THE INVOICE</div>
+      <h2 class="h2" style="color:var(--tqp-mist)">What we <em style="color:var(--tqp-sand)">show</em>, always.</h2>
+    </div>
+    <div class="always-list">
+      <div class="item">
+        <span class="glyph" style="color:var(--tqp-sand)">&middot;</span>
+        <p style="color:var(--tqp-mist)">PB1 11% (Bali hospitality tax) included on every quoted price.</p>
+      </div>
+      <div class="item">
+        <span class="glyph" style="color:var(--tqp-sand)">&middot;</span>
+        <p style="color:var(--tqp-mist)">Service charge 5%, listed separately, optional. Splits across the team.</p>
+      </div>
+      <div class="item">
+        <span class="glyph" style="color:var(--tqp-sand)">&middot;</span>
+        <p style="color:var(--tqp-mist)">IDR and USD on every line, at the rate of the day, so you can plan.</p>
+      </div>
+      <div class="item">
+        <span class="glyph" style="color:var(--tqp-sand)">&middot;</span>
+        <p style="color:var(--tqp-mist)">One invoice, the day after departure. No mid-stay billing, no menu charges hidden in the next plate.</p>
+      </div>
+      <div class="item">
+        <span class="glyph" style="color:var(--tqp-sand)">&middot;</span>
+        <p style="color:var(--tqp-mist)">Cancellation, change of plan, child gets sick: tell us, we move the day. No fee while we can still adjust.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="container center">
+    <div class="label">A NOTE</div>
+    <h2 class="h2">We price the <em>shape</em>, not the seat.</h2>
+    <p class="body-lg spaced" style="margin-left:auto;margin-right:auto;max-width:560px;">
+      Numbers above are starting points. Most weeks shape differently, and we write the quote back to you with everything itemized before any commitment is asked for. Tell us what you are imagining; we will send you a real number for it.
+    </p>
+    <p class="spaced" style="margin-top:36px"><a class="btn" href="/write/">Write to us</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-glyph">
+    <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
+      <g stroke="#7A8F76" stroke-width="1.8" stroke-linecap="round" fill="none">
+        <path d="M 8 32 L 8 16 Q 18 5, 28 16 L 28 32"/>
+        <line x1="18" y1="32" x2="18" y2="22"/>
+      </g>
+    </svg>
+  </div>
+  <div class="mark">made quietly in Ubud since 2023</div>
+  <div class="meta">THE QUIET PILGRIM &nbsp;&middot;&nbsp; UBUD, BALI</div>
+  <div class="footer-links">
+    <a href="/kitchen/">Kitchen</a>
+    <a href="/journeys/">Journeys</a>
+    <a href="/care/">Care</a>
+    <a href="/transport/">Transport</a>
+    <a href="/wellness/">Wellness</a>
+    <a href="/about/">About</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/partners/">Partners</a>
+    <a href="/press/">Press</a>
+    <a href="/write/">Write</a>
+  </div>
+</footer>
+
+<script src="/assets/nav.js" defer></script>
+</body>
+</html>
