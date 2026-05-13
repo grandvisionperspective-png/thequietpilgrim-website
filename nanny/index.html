@@ -37,7 +37,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/">Kitchen</a></li>
     <li><a href="/journeys/">Journeys</a></li>
     <li><a href="/nanny/" class="active">Care</a></li>
@@ -47,6 +48,7 @@
   </ul>
 </nav>
 
+<main>
 <section class="hero">
   <div class="pre">A QUIET PILGRIM SERVICE</div>
   <h1>Pilgrim <em>Care</em>.</h1>
@@ -75,7 +77,7 @@
       <div class="exp-row">
         <div class="when">AFTERNOON</div>
         <div class="what">
-          <h4>An afternoon with the children</h4>
+          <h3>An afternoon with the children</h3>
           <p>Three to four hours, in the villa, while you go for a long lunch or a sound bath. They will be drawing, playing in the pool, or quiet in the shade.</p>
         </div>
       </div>
@@ -83,7 +85,7 @@
       <div class="exp-row">
         <div class="when">DINNER</div>
         <div class="what">
-          <h4>An evening with the children</h4>
+          <h3>An evening with the children</h3>
           <p>From bath time through bedtime. Dinner is cooked. You eat at the long table, in another room. The villa stays calm.</p>
         </div>
       </div>
@@ -91,7 +93,7 @@
       <div class="exp-row">
         <div class="when">FULL DAY</div>
         <div class="what">
-          <h4>A full day of family support</h4>
+          <h3>A full day of family support</h3>
           <p>Morning to evening. The nanny is part of the rhythm. Beach trips, markets, naps. We work with what the day asks for.</p>
         </div>
       </div>
@@ -99,7 +101,7 @@
       <div class="exp-row">
         <div class="when">THROUGHOUT</div>
         <div class="what">
-          <h4>The whole week, gently</h4>
+          <h3>The whole week, gently</h3>
           <p>A trusted face from day one. Mornings start with someone the children already know. Mostly background, on hand when needed.</p>
         </div>
       </div>
@@ -158,6 +160,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="footer-glyph">
     <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
@@ -182,5 +186,6 @@
   </div>
 </footer>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>

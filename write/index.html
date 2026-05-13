@@ -33,7 +33,7 @@
     font-size: 11px;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent-strong);
     margin-bottom: 10px;
   }
   .field input, .field textarea, .field select {
@@ -62,7 +62,7 @@
   .field .help {
     font-family: var(--font-headline);
     font-size: 13px;
-    color: var(--accent);
+    color: var(--accent-strong);
     margin-top: 8px;
     font-style: italic;
   }
@@ -81,7 +81,7 @@
     font-family: var(--font-headline);
     font-style: italic;
     font-size: 15px;
-    color: var(--accent);
+    color: var(--accent-strong);
     line-height: 1.7;
   }
   .alt-contact {
@@ -94,7 +94,7 @@
     font-size: 11px;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent-strong);
     margin-bottom: 12px;
   }
   .alt-contact a {
@@ -125,7 +125,7 @@
     margin-bottom: 0;
     cursor: pointer;
   }
-  .checkbox-row label em { font-style: italic; color: var(--accent); }
+  .checkbox-row label em { font-style: italic; color: var(--accent-strong); }
   .checkbox-row input { width: auto; appearance: auto; }
 </style>
 
@@ -143,7 +143,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/">Kitchen</a></li>
     <li><a href="/journeys/">Journeys</a></li>
     <li><a href="/nanny/">Care</a></li>
@@ -153,6 +154,7 @@
   </ul>
 </nav>
 
+<main>
 <section class="hero">
   <div class="pre">WRITE TO US</div>
   <h1>Tell us how you would like the <em>week</em> to feel.</h1>
@@ -221,6 +223,8 @@
   <div class="alt-label">OR WRITE DIRECTLY TO</div>
   <a href="mailto:hello@thequietpilgrim.com" id="direct-email">hello at thequietpilgrim dot com</a>
 </div>
+
+</main>
 
 <footer>
   <div class="footer-glyph">
@@ -303,5 +307,6 @@
   }
 </script>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>

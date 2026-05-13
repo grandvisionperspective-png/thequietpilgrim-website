@@ -43,7 +43,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/">Kitchen</a></li>
     <li><a href="/journeys/">Journeys</a></li>
     <li><a href="/nanny/">Care</a></li>
@@ -53,6 +54,7 @@
   </ul>
 </nav>
 
+<main>
 <!-- Hero -->
 <section class="hero">
   <div class="pre">UBUD, BALI</div>
@@ -146,28 +148,28 @@
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">01 A NOTE</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">You write to us</h4>
+          <h3 style="color:var(--tqp-mist)">You write to us</h3>
           <p style="color:rgba(250,250,250,0.7)">A few lines is enough. Either of us reads email most mornings, before the day begins.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">02 A SHAPE</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">We draft the week, gently</h4>
+          <h3 style="color:var(--tqp-mist)">We draft the week, gently</h3>
           <p style="color:rgba(250,250,250,0.7)">Nothing fixed. A rhythm, a few invitations. You move it around.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">03 THE WEEK</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">We are on the ground</h4>
+          <h3 style="color:var(--tqp-mist)">We are on the ground</h3>
           <p style="color:rgba(250,250,250,0.7)">Fanny in the kitchen, Barrie on the road. Whichever service you booked, a real pair of hands.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12);border-bottom-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">04 ONE NOTE BACK</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">A single, transparent invoice</h4>
+          <h3 style="color:var(--tqp-mist)">A single, transparent invoice</h3>
           <p style="color:rgba(250,250,250,0.7)">Sent the day after departure. Line items, PB1 included, IDR or USD, whichever suits.</p>
         </div>
       </div>
@@ -188,6 +190,8 @@
 </section>
 
 <!-- Footer -->
+</main>
+
 <footer>
   <div class="footer-glyph">
     <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
@@ -212,5 +216,6 @@
   </div>
 </footer>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>

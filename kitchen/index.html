@@ -37,7 +37,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/" class="active">Kitchen</a></li>
     <li><a href="/journeys/">Journeys</a></li>
     <li><a href="/nanny/">Care</a></li>
@@ -47,6 +48,7 @@
   </ul>
 </nav>
 
+<main>
 <section class="hero">
   <div class="pre">A QUIET PILGRIM SERVICE</div>
   <h1>Moon &amp; <em>Spoon</em> Kitchen.</h1>
@@ -75,7 +77,7 @@
       <div class="exp-row">
         <div class="when">FLOATING</div>
         <div class="what">
-          <h4>Floating Breakfast</h4>
+          <h3>Floating Breakfast</h3>
           <p>A tray brought to your pool while the air is still cool. Sliced papaya. Coconut whose flesh you eat with a spoon. Black coffee, the kopi the staff drink themselves.</p>
         </div>
       </div>
@@ -83,7 +85,7 @@
       <div class="exp-row">
         <div class="when">SLOW</div>
         <div class="what">
-          <h4>Slow Morning Breakfast</h4>
+          <h3>Slow Morning Breakfast</h3>
           <p>For the morning you want to disappear into the kitchen for an hour. Nasi goreng with the egg still soft on top. Toast and butter for the children.</p>
         </div>
       </div>
@@ -91,7 +93,7 @@
       <div class="exp-row">
         <div class="when">APERITIVO</div>
         <div class="what">
-          <h4>Sunset Aperitivo</h4>
+          <h3>Sunset Aperitivo</h3>
           <p>Two hours before dinner, in the warm light. Olives that travelled here in someone's suitcase. A glass of something light. Conversation.</p>
         </div>
       </div>
@@ -99,7 +101,7 @@
       <div class="exp-row">
         <div class="when">ARRIVAL</div>
         <div class="what">
-          <h4>Arrival Night Dinner</h4>
+          <h3>Arrival Night Dinner</h3>
           <p>Plated, three courses, the first night you are here. After the journey, before the week.</p>
         </div>
       </div>
@@ -107,7 +109,7 @@
       <div class="exp-row">
         <div class="when">SHARED</div>
         <div class="what">
-          <h4>Shared Table Dinner</h4>
+          <h3>Shared Table Dinner</h3>
           <p>A long table. Candle stubs after the second hour. One menu, one table, everyone fed at once.</p>
         </div>
       </div>
@@ -115,7 +117,7 @@
       <div class="exp-row">
         <div class="when">CANDLELIT</div>
         <div class="what">
-          <h4>Romantic Candlelit Dinner</h4>
+          <h3>Romantic Candlelit Dinner</h3>
           <p>For two. The villa empty around you. Five courses, paced.</p>
         </div>
       </div>
@@ -123,7 +125,7 @@
       <div class="exp-row">
         <div class="when">DEPARTURE</div>
         <div class="what">
-          <h4>Departure Brunch</h4>
+          <h3>Departure Brunch</h3>
           <p>A farewell that does not rush. Sun is high by the time you finish.</p>
         </div>
       </div>
@@ -182,6 +184,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="footer-glyph">
     <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
@@ -206,5 +210,6 @@
   </div>
 </footer>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>

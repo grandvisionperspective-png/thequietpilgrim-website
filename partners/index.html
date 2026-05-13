@@ -34,7 +34,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/">Kitchen</a></li>
     <li><a href="/journeys/">Journeys</a></li>
     <li><a href="/nanny/">Care</a></li>
@@ -44,6 +45,7 @@
   </ul>
 </nav>
 
+<main>
 <section class="hero">
   <div class="pre">FOR VILLA OWNERS &amp; CONCIERGES</div>
   <h1>A single <em>hospitality</em> partner for the villas of Ubud.</h1>
@@ -73,7 +75,7 @@
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">SIGNATURE</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">A kitchen guests remember</h4>
+          <h3 style="color:var(--tqp-mist)">A kitchen guests remember</h3>
           <p style="color:rgba(250,250,250,0.7)">Fanny in the villa kitchen, menus that change with the harvest. Floating breakfasts, candlelit dinners, slow morning meals. The story your returning guests tell their friends.</p>
         </div>
       </div>
@@ -81,7 +83,7 @@
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">HUMAN</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">A real person on every booking</h4>
+          <h3 style="color:var(--tqp-mist)">A real person on every booking</h3>
           <p style="color:rgba(250,250,250,0.7)">Fanny or Barrie answers. No agency middleware. Concierge speaks to whoever will be on the ground.</p>
         </div>
       </div>
@@ -89,7 +91,7 @@
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">VETTED</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Hand-picked drivers, nannies, practitioners</h4>
+          <h3 style="color:var(--tqp-mist)">Hand-picked drivers, nannies, practitioners</h3>
           <p style="color:rgba(250,250,250,0.7)">Every person who enters your villa under our name has worked with our own family. References on file. First-aid certified where it matters.</p>
         </div>
       </div>
@@ -97,7 +99,7 @@
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">TRANSPARENT</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Pricing tax-correct, no surprises</h4>
+          <h3 style="color:var(--tqp-mist)">Pricing tax-correct, no surprises</h3>
           <p style="color:rgba(250,250,250,0.7)">PB1 11% included in quoted prices. Service 5% optional. Itemized, IDR and USD on every invoice.</p>
         </div>
       </div>
@@ -105,7 +107,7 @@
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12);border-bottom-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">JOINED-UP</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Cross-service in a single thread</h4>
+          <h3 style="color:var(--tqp-mist)">Cross-service in a single thread</h3>
           <p style="color:rgba(250,250,250,0.7)">Dinner Tuesday. Yoga Wednesday morning. Driver Wednesday afternoon. Care Wednesday evening. One conversation, one invoice, one team.</p>
         </div>
       </div>
@@ -125,7 +127,7 @@
       <div class="exp-row">
         <div class="when">SPLIT</div>
         <div class="what">
-          <h4>15% to the villa, on every booking we get through your guests</h4>
+          <h3>15% to the villa, on every booking we get through your guests</h3>
           <p>Tracked per booking, paid monthly, transparent reconciliation quarterly. Higher splits available for exclusive arrangements.</p>
         </div>
       </div>
@@ -133,7 +135,7 @@
       <div class="exp-row">
         <div class="when">BILLING</div>
         <div class="what">
-          <h4>Two flows, your choice</h4>
+          <h3>Two flows, your choice</h3>
           <p>Either: guest pays the villa, villa pays us. Or: guest pays us direct, we remit your share monthly. Whichever is simpler for your accounting.</p>
         </div>
       </div>
@@ -141,7 +143,7 @@
       <div class="exp-row">
         <div class="when">EXIT</div>
         <div class="what">
-          <h4>30-day notice, either way</h4>
+          <h3>30-day notice, either way</h3>
           <p>No lock-in. No exclusivity unless you ask for it. You stop when it stops working.</p>
         </div>
       </div>
@@ -149,7 +151,7 @@
       <div class="exp-row">
         <div class="when">REPORTING</div>
         <div class="what">
-          <h4>Monthly summary, quarterly reconciliation</h4>
+          <h3>Monthly summary, quarterly reconciliation</h3>
           <p>Bookings by service, totals, your share, guest feedback if shared. Plain-language email, not a portal you have to log in to.</p>
         </div>
       </div>
@@ -182,6 +184,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="footer-glyph">
     <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
@@ -206,5 +210,6 @@
   </div>
 </footer>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>

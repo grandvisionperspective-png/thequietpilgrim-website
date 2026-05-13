@@ -37,7 +37,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/">Kitchen</a></li>
     <li><a href="/journeys/" class="active">Journeys</a></li>
     <li><a href="/nanny/">Care</a></li>
@@ -47,6 +48,7 @@
   </ul>
 </nav>
 
+<main>
 <section class="hero">
   <div class="pre">A QUIET PILGRIM SERVICE</div>
   <h1>Pilgrim <em>Journeys</em>.</h1>
@@ -74,35 +76,35 @@
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">DAY ONE</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Arrival, easing in</h4>
+          <h3 style="color:var(--tqp-mist)">Arrival, easing in</h3>
           <p style="color:rgba(250,250,250,0.7)">Driver meets you at Denpasar. Slow road to the villa. Arrival night dinner, plated, Moon &amp; Spoon Kitchen.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">DAY TWO</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">A slow morning</h4>
+          <h3 style="color:var(--tqp-mist)">A slow morning</h3>
           <p style="color:rgba(250,250,250,0.7)">Floating breakfast on the pool. Open afternoon. Balinese home dinner, what we cook for ourselves on a Tuesday.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">DAY THREE</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Sukawati morning, sound bath afternoon</h4>
+          <h3 style="color:var(--tqp-mist)">Sukawati morning, sound bath afternoon</h3>
           <p style="color:rgba(250,250,250,0.7)">Walk Sukawati market with Fanny. Sound bath, ninety minutes, at the open-air bale. Light wellness lunch, early to bed.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">DAY FOUR</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Cycling through the paddies</h4>
+          <h3 style="color:var(--tqp-mist)">Cycling through the paddies</h3>
           <p style="color:rgba(250,250,250,0.7)">Bicycles meet at the villa gate at six. Cycle Tegallalang to Pakerisan. Coffee at a warung. Mediterranean Table dinner, long table, candle stubs.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12);border-bottom-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">DAY FIVE</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Farewell, slowly</h4>
+          <h3 style="color:var(--tqp-mist)">Farewell, slowly</h3>
           <p style="color:rgba(250,250,250,0.7)">Departure brunch. Sun is high by the time you finish. Driver to the airport.</p>
         </div>
       </div>
@@ -152,6 +154,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="footer-glyph">
     <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
@@ -176,5 +180,6 @@
   </div>
 </footer>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>

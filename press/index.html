@@ -22,7 +22,7 @@
 
 <style>
   .fact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px 48px; max-width: 880px; margin: 0 auto; }
-  .fact-grid > div .lbl { font-family: var(--font-body); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .fact-grid > div .lbl { font-family: var(--font-body); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent-strong); margin-bottom: 8px; }
   .fact-grid > div .val { font-family: var(--font-headline); font-size: 17px; color: var(--text); line-height: 1.5; }
   .fact-grid > div .val em { font-style: italic; color: var(--accent); }
   .asset-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; max-width: 880px; margin: 0 auto; }
@@ -33,11 +33,11 @@
   .asset-card .preview svg { width: 60px; height: auto; }
   .asset-card .preview img { max-width: 80%; max-height: 60px; }
   .asset-card .name { font-family: var(--font-headline); font-size: 14px; color: var(--text); margin-bottom: 4px; }
-  .asset-card .meta { font-family: var(--font-body); font-size: 10px; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; }
+  .asset-card .meta { font-family: var(--font-body); font-size: 10px; letter-spacing: 1.5px; color: var(--accent-strong); text-transform: uppercase; }
   .asset-card a { display: block; }
   .quote-block { max-width: 720px; margin: 0 auto; padding: 0 32px; }
   .quote-block blockquote { font-family: var(--font-headline); font-size: 22px; font-style: italic; line-height: 1.55; color: var(--text); margin: 32px 0 12px; padding-left: 24px; border-left: 2px solid var(--accent); }
-  .quote-block cite { font-family: var(--font-body); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-style: normal; }
+  .quote-block cite { font-family: var(--font-body); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-strong); font-style: normal; }
 </style>
 
 <title>Press kit, The Quiet Pilgrim</title>
@@ -54,7 +54,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/">Kitchen</a></li>
     <li><a href="/journeys/">Journeys</a></li>
     <li><a href="/nanny/">Care</a></li>
@@ -64,6 +65,7 @@
   </ul>
 </nav>
 
+<main>
 <section class="hero">
   <div class="pre">PRESS &amp; MEDIA</div>
   <h1>A hospitality umbrella in <em>Ubud</em>, run by Fanny and Barrie.</h1>
@@ -199,6 +201,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="footer-glyph">
     <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
@@ -223,5 +227,6 @@
   </div>
 </footer>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>

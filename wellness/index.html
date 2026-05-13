@@ -37,7 +37,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/">Kitchen</a></li>
     <li><a href="/journeys/">Journeys</a></li>
     <li><a href="/nanny/">Care</a></li>
@@ -47,6 +48,7 @@
   </ul>
 </nav>
 
+<main>
 <section class="hero">
   <div class="pre">A QUIET PILGRIM SERVICE</div>
   <h1>Pilgrim <em>Wellness</em>.</h1>
@@ -76,7 +78,7 @@
       <div class="exp-row">
         <div class="when">SOUND</div>
         <div class="what">
-          <h4>Sound bath</h4>
+          <h3>Sound bath</h3>
           <p>Ninety minutes. Singing bowls, gong, voice. You lie still. The room is dim. Most people fall under and come back changed.</p>
         </div>
       </div>
@@ -84,7 +86,7 @@
       <div class="exp-row">
         <div class="when">BREATH</div>
         <div class="what">
-          <h4>Breathwork session</h4>
+          <h3>Breathwork session</h3>
           <p>An hour. Guided breathing patterns that drop you into a different state. Active, then quiet. Best on an empty stomach.</p>
         </div>
       </div>
@@ -92,7 +94,7 @@
       <div class="exp-row">
         <div class="when">MOVEMENT</div>
         <div class="what">
-          <h4>Private yoga, at the villa</h4>
+          <h3>Private yoga, at the villa</h3>
           <p>One to one. Our teachers tailor the practice to what your body needs that morning. Strong, restorative, or somewhere between.</p>
         </div>
       </div>
@@ -100,7 +102,7 @@
       <div class="exp-row">
         <div class="when">CEREMONY</div>
         <div class="what">
-          <h4>A Balinese blessing</h4>
+          <h3>A Balinese blessing</h3>
           <p>For arrivals, departures, anniversaries, or simply because. A small ceremony at the family temple with the local priest. Flowers, water, intention.</p>
         </div>
       </div>
@@ -108,7 +110,7 @@
       <div class="exp-row">
         <div class="when">QUIET</div>
         <div class="what">
-          <h4>Silent morning practice</h4>
+          <h3>Silent morning practice</h3>
           <p>No teacher, no sound. Just space held for an hour, with a cushion, a candle, and tea afterwards.</p>
         </div>
       </div>
@@ -166,6 +168,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="footer-glyph">
     <svg viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
@@ -190,5 +194,6 @@
   </div>
 </footer>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>

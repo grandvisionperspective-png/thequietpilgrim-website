@@ -53,6 +53,12 @@
   --accent-warm: var(--tqp-sand);
   --divider: var(--tqp-stone);
   --muted: #5a6863;
+  /* WCAG AA roles: stock sage fails 4.5:1 on Mist at small/light type,
+     so we use a deeper-sage variant for small accent caps (kickers,
+     card-tags, labels, lockup italic) and a slate-darker tone for nav
+     link text. Both stay in the documented palette family. */
+  --nav-text: #4A5862;
+  --accent-strong: #5A7456;
 
   /* Type */
   --font-headline: "Fraunces", Georgia, "Times New Roman", serif;
@@ -72,7 +78,8 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
+body { overflow-x: clip; }
 body {
   font-family: var(--font-body);
   color: var(--text);
@@ -106,7 +113,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 1px;
   color: var(--text);
 }
-.nav .lock em { font-style: italic; color: var(--accent); }
+.nav .lock em { font-style: italic; color: var(--accent-strong); }
 .nav ul {
   list-style: none;
   display: flex;
@@ -115,13 +122,95 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 2.5px;
   text-transform: uppercase;
 }
-.nav ul a { color: var(--accent); transition: color 0.25s var(--ease); }
+.nav ul a { color: var(--nav-text); transition: color 0.25s var(--ease); }
 .nav ul a:hover { color: var(--text); }
 .nav ul a.active { color: var(--text); }
 
+/* Hamburger (hidden on desktop, shown on phone in the @media block below) */
+.nav .hamburger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: var(--nav-text);
+}
+.nav .hamburger:focus-visible {
+  outline: 2px solid var(--nav-text);
+  outline-offset: 2px;
+}
+.nav .hamburger span,
+.nav .hamburger span::before,
+.nav .hamburger span::after {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
+}
+.nav .hamburger span { position: relative; }
+.nav .hamburger span::before,
+.nav .hamburger span::after { content: ""; position: absolute; left: 0; }
+.nav .hamburger span::before { top: -7px; }
+.nav .hamburger span::after  { top:  7px; }
+.nav.open .hamburger span             { background: transparent; }
+.nav.open .hamburger span::before     { transform: translateY(7px) rotate(45deg); }
+.nav.open .hamburger span::after      { transform: translateY(-7px) rotate(-45deg); }
+
 @media (max-width: 720px) {
-  .nav { padding: 20px 24px; }
-  .nav ul { gap: 18px; font-size: 10px; }
+  .nav { padding: 18px 22px; }
+  .nav .hamburger { display: inline-flex; }
+
+  /* Slide-in panel for the nav links on phone */
+  .nav ul {
+    position: fixed;
+    top: 64px;
+    right: 0;
+    bottom: 0;
+    width: min(78vw, 320px);
+    background: var(--bg);
+    border-left: 1px solid var(--divider);
+    flex-direction: column;
+    gap: 0;
+    padding: 24px 28px;
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    transform: translateX(100%);
+    transition: transform 0.32s var(--ease);
+    box-shadow: -20px 0 40px rgba(31, 42, 38, 0.08);
+  }
+  .nav ul li { width: 100%; }
+  .nav ul a {
+    display: block;
+    padding: 16px 0;
+    min-height: 44px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .nav ul li:last-child a { border-bottom: 0; }
+  .nav.open ul { transform: translateX(0); }
+
+  /* Scrim behind the panel */
+  .nav.open::before {
+    content: "";
+    position: fixed;
+    inset: 64px 0 0 0;
+    background: rgba(31, 42, 38, 0.32);
+    z-index: -1;
+  }
+
+  /* Bump small editorial text on phone so it stays legible */
+  .card-tag,
+  .label,
+  .hero .pre,
+  .pre { font-size: 12px !important; }
+}
+
+@media (max-width: 720px) {
+  body.nav-open { overflow: hidden; }
 }
 
 /* ============ HERO ============ */
@@ -135,7 +224,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 11px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
   margin-bottom: 24px;
 }
 .hero h1 {
@@ -172,7 +261,7 @@ section.wide .container { max-width: 1120px; }
   font-size: 11px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
   margin-bottom: 18px;
 }
 
@@ -261,7 +350,7 @@ section.wide .container { max-width: 1120px; }
   font-size: 10px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
   margin-bottom: 8px;
 }
 .service-card h3 {
@@ -293,7 +382,7 @@ section.wide .container { max-width: 1120px; }
   font-size: 11px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
   padding-top: 6px;
 }
 .exp-row .what h4 {
@@ -328,7 +417,7 @@ section.wide .container { max-width: 1120px; }
 .btn:hover { background: var(--accent); }
 .btn-quiet {
   background: transparent;
-  color: var(--accent);
+  color: var(--accent-strong);
   border: 1px solid var(--accent);
 }
 .btn-quiet:hover { background: var(--accent); color: var(--tqp-mist); }
@@ -347,7 +436,7 @@ footer .mark {
   font-family: var(--font-headline);
   font-style: italic;
   font-size: 14px;
-  color: var(--accent);
+  color: var(--accent-strong);
   margin-bottom: 6px;
 }
 footer .meta {
@@ -355,7 +444,7 @@ footer .meta {
   font-size: 11px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
   margin-top: 14px;
 }
 footer .footer-links {
@@ -366,12 +455,12 @@ footer .footer-links {
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 footer .footer-links a:hover { color: var(--text); }
 
 /* ============ UTILITIES ============ */
 .center { text-align: center; }
 .spaced { margin-top: 32px; }
-.muted { color: var(--accent); }
+.muted { color: var(--accent-strong); }
 .italic { font-style: italic; }

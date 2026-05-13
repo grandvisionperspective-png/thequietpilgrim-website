@@ -34,7 +34,8 @@
     </svg>
     <span>The <em>Quiet</em> Pilgrim</span>
   </a>
-  <ul>
+  <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><span aria-hidden="true"></span></button>
+  <ul id="primary-nav">
     <li><a href="/kitchen/">Kitchen</a></li>
     <li><a href="/journeys/">Journeys</a></li>
     <li><a href="/nanny/">Care</a></li>
@@ -44,6 +45,7 @@
   </ul>
 </nav>
 
+<main>
 <section class="hero">
   <div class="pre">ABOUT</div>
   <h1>Two people, five <em>services</em>, one village.</h1>
@@ -73,7 +75,7 @@
       <div class="exp-row">
         <div class="when">FANNY</div>
         <div class="what">
-          <h4>Chef, Moon &amp; Spoon Kitchen</h4>
+          <h3>Chef, Moon &amp; Spoon Kitchen</h3>
           <p>Trained in Indonesian and European technique. Has cooked through villa kitchens in Ubud for years. Reads the morning before she reads the menu. Replies to email before the kitchen wakes up.</p>
         </div>
       </div>
@@ -81,7 +83,7 @@
       <div class="exp-row">
         <div class="when">BARRIE</div>
         <div class="what">
-          <h4>Pilgrim Journeys, Care, Transport, Wellness</h4>
+          <h3>Pilgrim Journeys, Care, Transport, Wellness</h3>
           <p>Writes the itineraries. Holds the calendar. Knows which driver is on, which nanny is right for which children, which sound healer is in town this week. The road, the route, the rest.</p>
         </div>
       </div>
@@ -89,7 +91,7 @@
       <div class="exp-row">
         <div class="when">TEAM</div>
         <div class="what">
-          <h4>Hand-picked, on call</h4>
+          <h3>Hand-picked, on call</h3>
           <p>Drivers, nannies, wellness practitioners, occasional second-chefs. Every one of them known to us for years. References on file. None of them subcontracted from an agency.</p>
         </div>
       </div>
@@ -106,28 +108,28 @@
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">ONE</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Invited, not sold</h4>
+          <h3 style="color:var(--tqp-mist)">Invited, not sold</h3>
           <p style="color:rgba(250,250,250,0.7)">Our copy reads like an invitation from a friend who lives here, not a pitch.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">TWO</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Quietly excellent</h4>
+          <h3 style="color:var(--tqp-mist)">Quietly excellent</h3>
           <p style="color:rgba(250,250,250,0.7)">The standard is high. We do not announce that it is high.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">THREE</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Of Ubud</h4>
+          <h3 style="color:var(--tqp-mist)">Of Ubud</h3>
           <p style="color:rgba(250,250,250,0.7)">Place-specific. Indonesian ingredients, Balinese rhythm, Ubud's particular kind of green.</p>
         </div>
       </div>
       <div class="exp-row" style="border-top-color:rgba(250,250,250,0.12);border-bottom-color:rgba(250,250,250,0.12)">
         <div class="when" style="color:var(--tqp-sand)">FOUR</div>
         <div class="what">
-          <h4 style="color:var(--tqp-mist)">Curated by hand</h4>
+          <h3 style="color:var(--tqp-mist)">Curated by hand</h3>
           <p style="color:rgba(250,250,250,0.7)">No chain, no script. A real pair of hands behind every service.</p>
         </div>
       </div>
@@ -146,6 +148,8 @@
     <p class="spaced" style="margin-top:36px"><a class="btn" href="/write/">Write to us</a></p>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="footer-glyph">
@@ -171,5 +175,6 @@
   </div>
 </footer>
 
+<script src="/assets/nav.js" defer></script>
 </body>
 </html>
