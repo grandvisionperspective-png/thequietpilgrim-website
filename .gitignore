@@ -138,6 +138,10 @@ receipts/
 !nanny/hero-kids-crafting.jpg
 !images/nanny-card.jpg
 
+# Exception: Brand OG images (deployed for social-share scraping)
+!assets/og/*.png
+!assets/favicon.svg
+
 # ========================================
 # SPECIFIC TO THIS PROJECT
 # ========================================
