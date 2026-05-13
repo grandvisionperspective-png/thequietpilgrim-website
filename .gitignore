@@ -142,6 +142,10 @@ receipts/
 !assets/og/*.png
 !assets/favicon.svg
 
+# Exception: Press kit assets (downloadable brand files)
+!press/assets/*.png
+!press/assets/*.svg
+
 # ========================================
 # SPECIFIC TO THIS PROJECT
 # ========================================
