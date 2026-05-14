@@ -812,6 +812,28 @@ footer .footer-links a:hover { color: var(--text); }
   .process-list { grid-template-columns: 1fr; gap: 28px; }
 }
 
+/* ============ TEAM LOGIN (discreet kitchen ops entry) ============ */
+.team-login {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 32px 56px;
+  text-align: center;
+}
+.team-login a {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--divider);
+  padding-bottom: 3px;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.team-login a:hover {
+  color: var(--accent-strong);
+  border-bottom-color: var(--accent-strong);
+}
+
 /* ============ UTILITIES ============ */
 .center { text-align: center; }
 .spaced { margin-top: 32px; }

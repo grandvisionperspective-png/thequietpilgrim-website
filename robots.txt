@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /dashboard/
+Disallow: /sessions/
 
 Sitemap: https://thequietpilgrim.com/sitemap.xml
