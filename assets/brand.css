@@ -698,6 +698,55 @@ footer .footer-links a:hover { color: var(--text); }
   line-height: 1.6;
 }
 
+/* ============ CHEF PORTRAIT (kitchen page) ============ */
+.chef-portrait {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: 56px;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.chef-photo {
+  position: relative;
+}
+.chef-photo img {
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  box-shadow: 0 30px 60px -14px rgba(31, 42, 38, 0.18);
+}
+.chef-photo .caption {
+  font-family: var(--font-headline);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 12px;
+  text-align: center;
+  line-height: 1.5;
+}
+.chef-body .label { margin-bottom: 14px; }
+.chef-body h2 { margin-bottom: 20px; }
+.chef-body p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.chef-body p:last-child { margin-bottom: 0; }
+.chef-body p em {
+  font-family: var(--font-headline);
+  font-style: italic;
+  color: var(--accent);
+}
+@media (max-width: 720px) {
+  .chef-portrait { grid-template-columns: 1fr; gap: 32px; max-width: 540px; }
+  .chef-body { text-align: center; }
+}
+
 /* ============ FOOD STRIP (kitchen page, 3-up clips) ============ */
 .food-strip {
   display: grid;
