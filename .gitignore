@@ -139,6 +139,9 @@ receipts/
 !images/*.jpg
 !images/*.png
 !images/heroes/*.jpg
+!images/heroes/**/*.jpg
+!images/heroes/**/*.mp4
+!images/heroes/**/*.mp3
 
 # Exception: Brand OG images (deployed for social-share scraping)
 !assets/og/*.png
