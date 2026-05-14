@@ -250,7 +250,147 @@ a { color: inherit; text-decoration: none; }
   .photo-band img[data-aspect="portrait"] { max-height: 64vh; }
 }
 
-/* ============ HERO ============ */
+/* ============ HERO CINEMA (full-bleed, video) ============
+   Aman / Six Senses register. Full-viewport video, slow autoplay loop,
+   muted, with a soft bottom gradient veil for legibility. Title sits
+   inside the image at lower-left in cream Fraunces. Reduced-motion users
+   get the still poster instead of the video. Optional ambient pill on
+   home only. */
+.hero-cinema {
+  position: relative;
+  width: 100%;
+  height: 88vh;
+  min-height: 540px;
+  max-height: 900px;
+  overflow: hidden;
+  background: var(--tqp-forest);
+  isolation: isolate;
+}
+.hero-cinema video,
+.hero-cinema img.poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-cinema .veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(31, 42, 38, 0.55) 0%,
+    rgba(31, 42, 38, 0.30) 25%,
+    rgba(31, 42, 38, 0.10) 50%,
+    rgba(31, 42, 38, 0) 70%
+  );
+  pointer-events: none;
+}
+.hero-cinema .copy {
+  position: absolute;
+  left: 5vw;
+  bottom: 8vh;
+  right: 5vw;
+  max-width: 760px;
+  z-index: 2;
+}
+.hero-cinema .pre {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--tqp-mist);
+  opacity: 0.88;
+  margin-bottom: 22px;
+}
+.hero-cinema h1 {
+  font-family: var(--font-headline);
+  font-size: clamp(36px, 5.5vw, 64px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--tqp-mist);
+  letter-spacing: 0.2px;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+.hero-cinema h1 em {
+  font-style: italic;
+  color: var(--tqp-sand);
+}
+.hero-cinema .sub {
+  font-family: var(--font-headline);
+  font-size: clamp(16px, 1.6vw, 19px);
+  font-style: italic;
+  color: rgba(250, 250, 250, 0.85);
+  margin-top: 22px;
+  line-height: 1.55;
+  max-width: 560px;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 720px) {
+  .hero-cinema { height: 75vh; min-height: 480px; }
+  .hero-cinema .copy { left: 22px; right: 22px; bottom: 8vh; max-width: none; }
+  .hero-cinema h1 { font-size: clamp(28px, 8vw, 40px); }
+  .hero-cinema .sub { font-size: 15px; margin-top: 18px; }
+  .hero-cinema .pre { font-size: 10px; margin-bottom: 16px; }
+}
+
+/* Reduced motion: replace video with still poster */
+.hero-cinema img.poster { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-cinema video { display: none; }
+  .hero-cinema img.poster { display: block; }
+}
+
+/* ============ AMBIENT PILL (home only) ============ */
+.ambient-pill {
+  position: absolute;
+  right: 5vw;
+  bottom: 8vh;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(31, 42, 38, 0.45);
+  color: var(--tqp-mist);
+  border: 1px solid rgba(250, 250, 250, 0.28);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.ambient-pill:hover {
+  background: rgba(31, 42, 38, 0.65);
+  border-color: rgba(250, 250, 250, 0.5);
+}
+.ambient-pill:focus-visible {
+  outline: 2px solid var(--tqp-sand);
+  outline-offset: 3px;
+}
+.ambient-pill .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tqp-sage);
+  display: inline-block;
+  transition: background 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.ambient-pill[aria-pressed="true"] .dot {
+  background: var(--tqp-sand);
+  box-shadow: 0 0 10px rgba(197, 182, 147, 0.75);
+}
+@media (max-width: 720px) {
+  .ambient-pill { right: 18px; bottom: 22px; padding: 8px 14px; font-size: 10px; }
+}
+
+/* ============ HERO (centered text, internal pages) ============ */
 .hero {
   max-width: 880px;
   margin: 0 auto;

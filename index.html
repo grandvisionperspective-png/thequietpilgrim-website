@@ -56,15 +56,23 @@
 
 <main>
 
-<section class="photo-band" aria-hidden="true">
-  <img src="/images/heroes/home-hero.jpg" alt="A Bali rice terrace with a small wooden hut, soft morning light" data-aspect="landscape" loading="eager" fetchpriority="high">
-</section>
-
-<!-- Hero -->
-<section class="hero">
-  <div class="pre">UBUD, BALI</div>
-  <h1>The pilgrim arrives in Bali knowing only this: <em>that they came to be still.</em></h1>
-  <p class="sub">Kitchen, journeys, care, transport, wellness. Across Bali, since 2023. An invitation, not a sale.</p>
+<section class="hero-cinema" aria-label="The Quiet Pilgrim, home">
+  <video autoplay muted loop playsinline preload="metadata"
+         poster="/images/heroes/videos/home.jpg"
+         aria-hidden="true">
+    <source src="/images/heroes/videos/home.mp4" type="video/mp4">
+  </video>
+  <img class="poster" src="/images/heroes/videos/home.jpg" alt="A rice terrace in Tegalalang, Bali, at quiet light">
+  <div class="veil" aria-hidden="true"></div>
+  <div class="copy">
+    <div class="pre">UBUD, BALI</div>
+    <h1>The pilgrim arrives in Bali knowing only this: <em>that they came to be still.</em></h1>
+    <p class="sub">Kitchen, journeys, care, transport, wellness. Across Bali, since 2023. An invitation, not a sale.</p>
+  </div>
+  <button class="ambient-pill" type="button" aria-pressed="false" data-ambient="/images/heroes/audio/ambient.mp3" aria-label="Toggle ambient sound">
+    <span class="dot" aria-hidden="true"></span>
+    <span class="label">Play ambient</span>
+  </button>
 </section>
 
 <!-- Philosophy / story -->

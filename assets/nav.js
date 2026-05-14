@@ -27,3 +27,53 @@
     if (window.innerWidth > 720 && nav.classList.contains('open')) setOpen(false);
   });
 })();
+
+// Ambient pill: lazy-create an <audio> element on first click, fade in/out.
+(function () {
+  var pill = document.querySelector('.ambient-pill');
+  if (!pill) return;
+  var src = pill.getAttribute('data-ambient');
+  if (!src) return;
+  var labelEl = pill.querySelector('.label');
+  var audio = null;
+  var fadeTimer = null;
+
+  function fadeTo(target, ms) {
+    if (!audio) return;
+    if (fadeTimer) clearInterval(fadeTimer);
+    var step = 50;
+    var diff = target - audio.volume;
+    var steps = Math.max(1, Math.round(ms / step));
+    var inc = diff / steps;
+    fadeTimer = setInterval(function () {
+      var next = audio.volume + inc;
+      if ((inc > 0 && next >= target) || (inc < 0 && next <= target)) {
+        audio.volume = target;
+        clearInterval(fadeTimer);
+        fadeTimer = null;
+        if (target === 0) audio.pause();
+      } else {
+        audio.volume = next;
+      }
+    }, step);
+  }
+
+  pill.addEventListener('click', function () {
+    var on = pill.getAttribute('aria-pressed') === 'true';
+    if (!audio) {
+      audio = new Audio(src);
+      audio.loop = true;
+      audio.volume = 0;
+    }
+    if (on) {
+      pill.setAttribute('aria-pressed', 'false');
+      if (labelEl) labelEl.textContent = 'Play ambient';
+      fadeTo(0, 600);
+    } else {
+      pill.setAttribute('aria-pressed', 'true');
+      if (labelEl) labelEl.textContent = 'Pause ambient';
+      audio.play().catch(function () {});
+      fadeTo(0.35, 1200);
+    }
+  });
+})();
