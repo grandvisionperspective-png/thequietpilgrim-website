@@ -221,7 +221,7 @@
 
 <div class="alt-contact">
   <div class="alt-label">OR WRITE DIRECTLY TO</div>
-  <a href="mailto:hello@thequietpilgrim.com" id="direct-email">hello at thequietpilgrim dot com</a>
+  <a href="mailto:connect@thequietpilgrim.com" id="direct-email">connect at thequietpilgrim dot com</a>
 </div>
 
 </main>
@@ -257,7 +257,7 @@
   (function () {
     var el = document.getElementById('direct-email');
     if (!el) return;
-    var addr = 'hello' + '@' + 'thequietpilgrim' + '.' + 'com';
+    var addr = 'connect' + '@' + 'thequietpilgrim' + '.' + 'com';
     el.textContent = addr;
     el.setAttribute('href', 'mailto:' + addr + '?subject=A%20note%20from%20your%20site');
   })();
@@ -299,7 +299,7 @@
     var subject = 'A note from your site';
     if (name) subject = 'A note from ' + name;
 
-    var addr = 'hello' + '@' + 'thequietpilgrim' + '.' + 'com';
+    var addr = 'connect' + '@' + 'thequietpilgrim' + '.' + 'com';
     var href = 'mailto:' + addr +
                '?subject=' + encodeURIComponent(subject) +
                '&body=' + encodeURIComponent(lines.join('\n'));
