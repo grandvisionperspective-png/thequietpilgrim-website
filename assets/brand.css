@@ -755,7 +755,7 @@ footer .footer-links a:hover { color: var(--text); }
   margin: 0 auto;
   max-width: 1180px;
 }
-.food-strip video {
+.food-strip video, .food-strip img {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
@@ -773,7 +773,7 @@ footer .footer-links a:hover { color: var(--text); }
 }
 @media (max-width: 720px) {
   .food-strip { grid-template-columns: 1fr; gap: 8px; max-width: 540px; }
-  .food-strip video { aspect-ratio: 16 / 9; }
+  .food-strip video, .food-strip img { aspect-ratio: 16 / 9; }
 }
 
 /* ============ PROCESS LIST (4-step ribbon, dark register) ============ */
