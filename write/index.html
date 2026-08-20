@@ -162,7 +162,8 @@
   <p class="sub">A note is enough. Our operations team reads email most mornings, before the day begins.</p>
 </section>
 
-<form class="form" id="write-form" onsubmit="return composeEmail(event)">
+<form class="form" id="write-form" onsubmit="return submitNote(event)">
+  <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 
   <div class="field">
     <label for="name">Your name</label>
@@ -216,6 +217,14 @@
 
 </form>
 
+<div id="form-done" style="display:none;text-align:center;padding:24px 0">
+  <p style="font-family:Georgia,serif;font-size:20px;margin:0 0 8px">Your note has reached us.</p>
+  <p style="max-width:52ch;margin:0 auto;opacity:0.75">We read every message, and we will write back within a day. Until then, nothing to do but look forward to it.</p>
+</div>
+<div id="form-error" style="display:none;text-align:center;padding:12px 0;opacity:0.8">
+  <p style="margin:0">Something did not go through on our side. You can write to us directly at the address below and we will pick it up.</p>
+</div>
+
 <div class="quiet-note">
   <p>We hold the days lightly. Our operations team reads email most mornings.</p>
 </div>
@@ -263,48 +272,41 @@
     el.setAttribute('href', 'mailto:' + addr + '?subject=A%20note%20from%20your%20site');
   })();
 
-  // Compose a mailto: from the form fields. No backend required; opens the
-  // user's email client with subject + body pre-populated. They review and send.
-  function composeEmail(ev) {
+  // Post the note to the capture endpoint: stores the lead, notifies the team,
+  // and sends a reply-window confirmation. Falls back to the direct email on error.
+  var WORKER_URL = 'https://tqp-lead.barrie-helm.workers.dev/lead';
+  function submitNote(ev) {
     ev.preventDefault();
     var f = document.getElementById('write-form');
-    var name      = (f.name.value || '').trim();
-    var email     = (f.email.value || '').trim();
-    var arrival   = (f.arrival.value || '').trim();
-    var departure = (f.departure.value || '').trim();
-    var guests    = (f.guests.value || '').trim();
-    var imagining = (f.imagining.value || '').trim();
-    var services  = Array.prototype.slice.call(f.querySelectorAll('input[name="services"]:checked'))
-                       .map(function (el) { return el.value; });
-
-    var lines = [];
-    if (name)      lines.push('Hello, this is ' + name + '.');
-    if (email)     lines.push('You can reach me at ' + email + '.');
-    if (arrival || departure) {
-      lines.push('');
-      lines.push('Dates I am imagining: ' + (arrival || '?') + ' to ' + (departure || '?'));
-    }
-    if (guests)    lines.push('We would be ' + guests + ' of us.');
-    if (services.length) {
-      lines.push('');
-      lines.push('Services I am curious about: ' + services.join(', ') + '.');
-    }
-    if (imagining) {
-      lines.push('');
-      lines.push('What I am imagining:');
-      lines.push(imagining);
-    }
-    lines.push('');
-    lines.push('Looking forward to hearing back.');
-
-    var subject = 'A note from your site';
-    if (name) subject = 'A note from ' + name;
-
-    var addr = 'connect' + '@' + 'thequietpilgrim' + '.' + 'com';
-    var href = 'mailto:' + addr +
-               '?subject=' + encodeURIComponent(subject) +
-               '&body=' + encodeURIComponent(lines.join('\n'));
-    window.location.href = href;
+    var btn = f.querySelector('button[type="submit"]');
+    var name  = (f.name.value || '').trim();
+    var email = (f.email.value || '').trim();
+    if (!name || email.indexOf('@') === -1) { return false; }
+    var services = Array.prototype.slice.call(f.querySelectorAll('input[name="services"]:checked')).map(function (el) { return el.value; });
+    var payload = {
+      name: name, email: email,
+      arrival: (f.arrival.value || '').trim(),
+      departure: (f.departure.value || '').trim(),
+      guests: (f.guests.value || '').trim(),
+      services: services,
+      imagining: (f.imagining.value || '').trim(),
+      company: (f.company && f.company.value) || '',
+      source: 'write', page: location.pathname
+    };
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending your note'; }
+    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return r.ok && d && d.ok; }); })
+      .then(function (ok) {
+        if (!ok) throw new Error('failed');
+        f.style.display = 'none';
+        var done = document.getElementById('form-done');
+        if (done) { done.style.display = 'block'; if (done.scrollIntoView) done.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      })
+      .catch(function () {
+        if (btn) { btn.disabled = false; btn.textContent = 'Send your note'; }
+        var err = document.getElementById('form-error');
+        if (err) err.style.display = 'block';
+      });
     return false;
   }
 </script>
