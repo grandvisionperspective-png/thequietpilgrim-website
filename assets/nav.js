@@ -77,3 +77,30 @@
     }
   });
 })();
+
+
+// Join the table: waitlist capture. Any form.join-table posts to the worker.
+(function () {
+  var WAITLIST_URL = "https://tqp-lead.barrie-helm.workers.dev/waitlist";
+  var forms = document.querySelectorAll("form.join-table");
+  Array.prototype.forEach.call(forms, function (f) {
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var emailEl = f.querySelector('input[type="email"]');
+      var email = ((emailEl && emailEl.value) || "").trim();
+      if (!email || email.indexOf("@") === -1) return;
+      var btn = f.querySelector("button");
+      var hp = f.querySelector('input[name="company"]');
+      if (btn) { btn.disabled = true; btn.textContent = "One moment"; }
+      fetch(WAITLIST_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, company: (hp && hp.value) || "", source: f.getAttribute("data-source") || "waitlist", page: location.pathname })
+      }).then(function (r) { return r.ok; }).then(function (ok) {
+        var row = f.querySelector(".jt-row"), line = f.querySelector(".jt-line"), done = f.querySelector(".jt-done");
+        if (ok) { if (row) row.style.display = "none"; if (line) line.style.display = "none"; if (done) done.hidden = false; }
+        else if (btn) { btn.disabled = false; btn.textContent = "Join"; }
+      }).catch(function () { if (btn) { btn.disabled = false; btn.textContent = "Join"; } });
+    });
+  });
+})();

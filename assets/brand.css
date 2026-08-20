@@ -839,3 +839,16 @@ footer .footer-links a:hover { color: var(--text); }
 .spaced { margin-top: 32px; }
 .muted { color: var(--accent-strong); }
 .italic { font-style: italic; }
+
+
+/* ============ WAITLIST (Join the table) ============ */
+.join-table { max-width: 460px; margin: 0 auto; }
+.join-table .jt-label { font-family: var(--font-body); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent-strong); margin-bottom: 10px; }
+.join-table .jt-line { font-family: var(--font-body); font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 16px; }
+.join-table .jt-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.join-table input[type="email"] { flex: 1 1 220px; min-width: 0; padding: 12px 14px; font-family: var(--font-body); font-size: 14px; color: var(--text); background: transparent; border: 1px solid var(--divider); }
+.join-table input[type="email"]:focus { outline: none; border-color: var(--accent); }
+.join-table button { padding: 12px 22px; background: var(--tqp-deep-slate); color: var(--tqp-mist); font-family: var(--font-body); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.25s var(--ease); }
+.join-table button:hover { background: var(--accent); }
+.join-table .jt-done { font-family: var(--font-headline); font-style: italic; font-size: 15px; color: var(--accent-strong); }
+footer .join-table { margin: 0 auto 44px; }
