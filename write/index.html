@@ -320,6 +320,21 @@
       });
     return false;
   }
+
+  // Pre-tick the service a guest arrived from (?service=kitchen or ?services=kitchen,wellness),
+  // so the interest signal carried by the link is not dropped on the way to the note.
+  (function preTickService() {
+    try {
+      var qs = new URLSearchParams(location.search);
+      var want = (qs.get('service') || qs.get('services') || '').toLowerCase()
+        .split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+      if (!want.length) return;
+      var boxes = document.querySelectorAll('#write-form input[name="services"]');
+      Array.prototype.forEach.call(boxes, function (b) {
+        if (want.indexOf((b.value || '').toLowerCase()) !== -1) b.checked = true;
+      });
+    } catch (e) {}
+  })();
 </script>
 
 <script src="/assets/nav.js?v=2026-05-14e" defer></script>
