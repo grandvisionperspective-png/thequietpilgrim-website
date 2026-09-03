@@ -498,6 +498,16 @@ section.wide .container { max-width: 1120px; }
 @media (max-width: 520px) {
   .services.five { grid-template-columns: 1fr; }
 }
+/* 6-up grid (homepage) sits as 3+3, then 2 then 1 */
+.services.six {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) {
+  .services.six { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .services.six { grid-template-columns: 1fr; }
+}
 /* Photo-less typographic service card (used when a stock image would break brand) */
 .service-card.no-photo .card-img {
   display: flex;
