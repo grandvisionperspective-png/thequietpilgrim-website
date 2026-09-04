@@ -317,6 +317,7 @@
       .then(function (ok) {
         if (!ok) throw new Error('failed');
         f.style.display = 'none';
+        try { document.dispatchEvent(new CustomEvent('tqp:note_sent', { detail: { services: services.join(',') } })); } catch (e) {}
         var done = document.getElementById('form-done');
         if (done) { done.style.display = 'block'; if (done.scrollIntoView) done.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
       })
@@ -345,5 +346,6 @@
 </script>
 
 <script src="/assets/nav.js?v=2026-05-14e" defer></script>
+<script src="/assets/analytics.js?v=2026-09-04" defer></script>
 </body>
 </html>

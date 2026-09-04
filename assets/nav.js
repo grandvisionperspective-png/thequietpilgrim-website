@@ -98,7 +98,8 @@
         body: JSON.stringify({ email: email, company: (hp && hp.value) || "", source: f.getAttribute("data-source") || "waitlist", page: location.pathname })
       }).then(function (r) { return r.ok; }).then(function (ok) {
         var row = f.querySelector(".jt-row"), line = f.querySelector(".jt-line"), done = f.querySelector(".jt-done");
-        if (ok) { if (row) row.style.display = "none"; if (line) line.style.display = "none"; if (done) done.hidden = false; }
+        if (ok) { try { document.dispatchEvent(new CustomEvent("tqp:joined", { detail: { source: f.getAttribute("data-source") || "waitlist" } })); } catch (e) {}
+          if (row) row.style.display = "none"; if (line) line.style.display = "none"; if (done) done.hidden = false; }
         else if (btn) { btn.disabled = false; btn.textContent = "Join"; }
       }).catch(function () { if (btn) { btn.disabled = false; btn.textContent = "Join"; } });
     });

@@ -141,6 +141,10 @@ receipts/
 !images/heroes/*.jpg
 !images/heroes/**/*.jpg
 !images/adventures/*.jpg
+!images/journeys/*.jpg
+!images/wellness/*.jpg
+!images/transport/*.jpg
+!p-*/images/**/*.jpg
 !images/heroes/**/*.mp4
 !images/heroes/**/*.mp3
 
