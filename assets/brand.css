@@ -957,3 +957,8 @@ footer .join-table { margin: 0 auto 44px; }
 .car .fit { font-family: var(--font-body); font-size: 13px; line-height: 1.7; color: var(--muted); margin: 0; }
 @media (max-width: 900px) { .cars { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px) { .cars { grid-template-columns: 1fr; } }
+
+/* 4-up grid (journeys bands) sits as 4, then 2, then 1 */
+.services.four { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1000px) { .services.four { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .services.four { grid-template-columns: 1fr; } }
