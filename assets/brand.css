@@ -962,3 +962,7 @@ footer .join-table { margin: 0 auto 44px; }
 .services.four { grid-template-columns: repeat(4, 1fr); }
 @media (max-width: 1000px) { .services.four { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .services.four { grid-template-columns: 1fr; } }
+@media (max-width: 720px) {
+  /* the ambient pill sits under the nav on phones, clear of the call to action */
+  .ambient-pill { top: 82px; bottom: auto; right: 18px; }
+}
