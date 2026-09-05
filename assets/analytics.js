@@ -3,7 +3,7 @@
    that matter: a WhatsApp tap, an email tap, a note sent, a join. */
 (function () {
   var GA4_ID = "G-EXSDG14TDN";        /* e.g. "G-XXXXXXXXXX" */
-  var META_PIXEL_ID = ""; /* e.g. "1234567890" */
+  var META_PIXEL_ID = "1305413524857280"; /* e.g. "1234567890" */
 
   if (GA4_ID) {
     var s = document.createElement("script");
