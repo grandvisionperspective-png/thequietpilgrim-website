@@ -2,7 +2,7 @@
    Fill the two ids below and every page reports page views plus the moments
    that matter: a WhatsApp tap, an email tap, a note sent, a join. */
 (function () {
-  var GA4_ID = "";        /* e.g. "G-XXXXXXXXXX" */
+  var GA4_ID = "G-EXSDG14TDN";        /* e.g. "G-XXXXXXXXXX" */
   var META_PIXEL_ID = ""; /* e.g. "1234567890" */
 
   if (GA4_ID) {
